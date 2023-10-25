@@ -13,7 +13,7 @@ if(isset($_SESSION['uid']))
   <title><?= $_SESSION['site']?> | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="icon" type="image/x-icon" href="dist/img/<?= $_SESSION['fav']?>">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->

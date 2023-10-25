@@ -8,5 +8,5 @@
 	$_SESSION['prefix']=$row99['prefix'];
 	$_SESSION['suffix']=$row99['suffix'];
 	$_SESSION['logo']=$row99['logo']; 
-
+	$_SESSION['fav']=$row99['fav']; 
 ?>
