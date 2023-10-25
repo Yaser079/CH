@@ -28,9 +28,39 @@
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-clock"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
+          <i class='fas'>&#xf1da;</i>
+          
         </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="logs">
+        <?php
+                 include 'DBcon.php';
+                $sql2="  (select *,users.name as name from logs inner join users on users.ID=logs.uid order by logs.ID desc limit 5);";
+                $result=mysqli_query($conn,$sql2);
+                if(mysqli_num_rows($result) > 0 )
+                {
+                     
+                    while($row = mysqli_fetch_array($result))
+                    {
+                        echo '<a href="#" class="dropdown-item">
+                        <!-- Message Start -->
+                        <div class="media">
+                           
+                          <div class="media-body">
+                            <h3 class="dropdown-item-title"><b> '.$row['name'].' </b></h3>
+                            <p class="text-sm">'.$row['action'].'</p>
+                            <small class="text-sm text-muted"><i class="far fa-clock mr-1"></i>'.$row['created_at'].'</small>
+                          </div>
+                        </div>
+                        <!-- Message End -->
+                      </a>
+                      <div class="dropdown-divider"></div>';
+                    }
+                }
+                mysqli_close($conn);
+            ?>
+          
+          <a href="#" class="dropdown-item dropdown-footer">See All Logs</a>
+        </div>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right " style="left: inherit; right: 0px;">
             <div class="dropdown-divider"></div>
             <?php
