@@ -408,7 +408,6 @@
                                             
                                                 echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
                                                 $i++;
-                                            }
                                         }
                                         mysqli_close($conn);
                                     ?>
@@ -443,7 +442,6 @@
                                             
                                                 echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['short_name'].'</option>';
                                                 $i++;
-                                            }
                                         }
                                         mysqli_close($conn);
                                     ?>
@@ -466,7 +464,6 @@
                                             
                                                 echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
                                                 $i++;
-                                            }
                                         }
                                         mysqli_close($conn);
                                     ?> 
@@ -488,7 +485,6 @@
                                             {
                                                 echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
                                                 $i++;
-                                            }
                                         }
                                         mysqli_close($conn);
                                     ?>
