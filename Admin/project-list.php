@@ -402,12 +402,12 @@
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            
+                                            $i=1;
                                             while($row = mysqli_fetch_array($result))
                                             {
                                             
-                                                echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
-                                            }
+                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
+                                                $i++;
                                         }
                                         mysqli_close($conn);
                                     ?>
@@ -436,12 +436,12 @@
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            
+                                            $i=1;
                                             while($row = mysqli_fetch_array($result))
                                             {
                                             
-                                                echo '<option value="'.$row['ID'].'">'.$row['short_name'].'</option>';
-                                            }
+                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['short_name'].'</option>';
+                                                $i++;
                                         }
                                         mysqli_close($conn);
                                     ?>
@@ -458,12 +458,12 @@
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            
+                                            $i=1;
                                             while($row = mysqli_fetch_array($result))
                                             {
                                             
-                                                echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
-                                            }
+                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
+                                                $i++;
                                         }
                                         mysqli_close($conn);
                                     ?> 
@@ -480,12 +480,11 @@
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            
+                                            $i=1;
                                             while($row = mysqli_fetch_array($result))
                                             {
-                                            
-                                                echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
-                                            }
+                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
+                                                $i++;
                                         }
                                         mysqli_close($conn);
                                     ?>
