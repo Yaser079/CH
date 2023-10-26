@@ -374,9 +374,10 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Project Manager</label>
                             <select class="form-control select2" id="manager" style="width: 100%;" >
+                            <option>Select Manager</option>
                                 <?php
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from staff";
+                                        $sql2="select * from staff;";
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
@@ -396,18 +397,20 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Project Country</label>
                             <select class="form-control select2" id="country" style="width: 100%;" >
+                            <option>Select Country</option>
                                 <?php
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from country";
+                                        $sql2="select * from country;";
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            $i=1;
+                                            
                                             while($row = mysqli_fetch_array($result))
                                             {
                                             
-                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
-                                                $i++;
+                                                echo '<option value="'.$row['ID'].'" >'.$row['name'].'</option>';
+                                               
+                                            }
                                         }
                                         mysqli_close($conn);
                                     ?>
@@ -430,18 +433,20 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Project Stage</label>
                             <select class="form-control select2" id="stage" style="width: 100%;" >
+                            <option>Select Stage</option>
                                 <?php
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from project_phase";
+                                        $sql2="select * from project_phase;";
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            $i=1;
+                                         
                                             while($row = mysqli_fetch_array($result))
                                             {
                                             
-                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['short_name'].'</option>';
-                                                $i++;
+                                                echo '<option value="'.$row['ID'].'" >'.$row['short_name'].'</option>';
+                                                
+                                            }
                                         }
                                         mysqli_close($conn);
                                     ?>
@@ -452,18 +457,20 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Project Status</label>
                             <select class="form-control select2" id="status" style="width: 100%;" >
+                            <option>Select Status</option>
                                 <?php
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from project_status";
+                                        $sql2="select * from project_status;";
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            $i=1;
+                                            
                                             while($row = mysqli_fetch_array($result))
                                             {
                                             
-                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
-                                                $i++;
+                                                echo '<option value="'.$row['ID'].'" >'.$row['name'].'</option>';
+                                               
+                                            }
                                         }
                                         mysqli_close($conn);
                                     ?> 
@@ -474,17 +481,19 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Office</label>
                             <select class="form-control select2" id="office" style="width: 100%;" >
+                            <option>Select Office</option>
                                 <?php
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from office";
+                                        $sql2="select * from office;";
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
-                                            $i=1;
+                                             
                                             while($row = mysqli_fetch_array($result))
                                             {
-                                                echo '<option value="'.$row['ID'].'" '.$i==1?'selected':''.'>'.$row['name'].'</option>';
-                                                $i++;
+                                                echo '<option value="'.$row['ID'].'" >'.$row['name'].'</option>';
+                                              
+                                            }
                                         }
                                         mysqli_close($conn);
                                     ?>
