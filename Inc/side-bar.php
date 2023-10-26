@@ -26,7 +26,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item ">
-            <a href="index.php" class="nav-link">
+            <a href="index.php" class="nav-link <?= $_SESSION['nav']=='dashboard'? 'active': '';?>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -34,7 +34,7 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a href="index.php" class="nav-link">
+            <a href="project-list.php" class="nav-link <?= $_SESSION['nav']=='project-list'? 'active': '';?>">
               <i class="nav-icon fas fa-list"></i>
               <p>
                 Project List
@@ -49,20 +49,37 @@
               </p>
             </a>
           </li>
+          <li class="nav-header">SOFTWARE MANAGEMENT</li>
+          <li class="nav-item ">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa">&#xf085;</i>
+              <p>
+                Software Management
+              </p>
+            </a>
+          </li>
           <?php
             if($_SESSION['admin']==1)
             {
               ?>
               <li class="nav-header">USERS</li>
               <li class="nav-item">
-                  <a href="users.php" class="nav-link">
+                  <a href="users.php" class="nav-link <?= $_SESSION['nav']=='users'? 'active': '';?>">
                     <i class="nav-icon far fa-user"></i>
                     <p>Users</p>
                   </a>
               </li>
+              <li class="nav-item ">
+                <a href="logs.php" class="nav-link <?= $_SESSION['nav']=='logs'? 'active': '';?>">
+                  <i class="nav-icon fas fa-list"></i>
+                  <p>
+                    Logs
+                  </p>
+                </a>
+              </li>
               <li class="nav-header">SITE</li>
               <li class="nav-item">
-                <a href="site.php" class="nav-link">
+                <a href="site.php" class="nav-link <?= $_SESSION['nav']=='site'? 'active': '';?>">
                   <i class="nav-icon fa">&#xf085;</i>
                   <p>Setting</p>
                 </a>

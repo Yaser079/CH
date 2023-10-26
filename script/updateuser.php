@@ -9,7 +9,7 @@ $sql="update  users set
     password='".$data->Password."',
     name='".$data->Name."', 
     phone='".$data->Phone."',
-    country='".$data->Country."'
+    office='".$data->Country."'
     where ID='".$data->ID."' ;";
     if (mysqli_query($conn,$sql))
     {

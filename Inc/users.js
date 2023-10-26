@@ -9,6 +9,7 @@ function userslist()
                 "responsive": false, "lengthChange": true, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
               }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+               
         }
     };
     xmlhttp.open("GET","../script/userslist.php",true);

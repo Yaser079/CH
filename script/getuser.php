@@ -33,19 +33,19 @@ mysqli_close($conn);
     </div>
     <div class="col-md-4">
         <div class="form-group">
-        <label>Country</label>
+        <label>office</label>
         <select class="form-control select2" id="country2" style="width: 100%;" required>
             
             <?php
                 include '../Inc/DBcon.php';
-                $sql2="select * from country";
+                $sql2="select * from office";
                 $result=mysqli_query($conn,$sql2);
                 if(mysqli_num_rows($result) > 0 )
                 {
                     
                     while($row = mysqli_fetch_array($result))
                     {
-                        if($row2['country']==$row['ID'])
+                        if($row2['office']==$row['ID'])
                         {
                             echo '<option value="'.$row['ID'].'" selected>'.$row['name'].'</option>';
                         }

@@ -28,8 +28,10 @@ if(isset($_SESSION['uid']))
    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+     <!-- pace-progress -->
+     <link rel="stylesheet" href="plugins/pace-progress/themes/black/pace-theme-flat-top.css">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page pace-primary">
 <div class="login-box">
   <div class="login-logo">
     <a href="#"><b><?= $_SESSION['prefix']?></b><?= $_SESSION['suffix']?></a>
@@ -100,5 +102,7 @@ if(isset($_SESSION['uid']))
 <script src="dist/js/adminlte.min.js"></script>
 <!-- Login Script -->
 <script src="Inc/login-script.js"></script>
+  <!-- pace-progress -->
+  <script src="plugins/pace-progress/pace.min.js"></script>
 </body>
 </html>
