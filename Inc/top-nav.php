@@ -27,7 +27,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" onclick="activty()">
           <i class='fas'>&#xf1da;</i>
           
         </a>

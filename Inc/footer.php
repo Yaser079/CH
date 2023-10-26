@@ -58,8 +58,13 @@
  <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="../plugins/toastr/toastr.min.js"></script>
+  <!-- pace-progress -->
+  <script src="../plugins/pace-progress/pace.min.js"></script>
 <script>
     $(function () {
+      
+    $('[data-toggle="tooltip"]').tooltip()
+ 
      //Initialize Select2 Elements
      $('.select2').select2();
       

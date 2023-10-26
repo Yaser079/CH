@@ -26,3 +26,4 @@
     }
     mysqli_close($conn);
 ?>
+<a href="#" class="dropdown-item dropdown-footer">See All Logs</a>

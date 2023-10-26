@@ -1,4 +1,4 @@
-<?php session_start(); include '../script/islogin.php';?>
+<?php session_start(); include '../script/islogin.php'; $_SESSION['nav']='dashboard';?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +7,7 @@
   <?php include '../Inc/head.php';?>
 
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini pace-primary">
 <!-- Site wrapper -->
 <div class="wrapper">
   

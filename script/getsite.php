@@ -9,4 +9,5 @@
 	$_SESSION['suffix']=$row99['suffix'];
 	$_SESSION['logo']=$row99['logo']; 
 	$_SESSION['fav']=$row99['fav']; 
+	mysqli_close($conn);
 ?>

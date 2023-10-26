@@ -12,6 +12,7 @@ $sql="select * from users where email='".$data->username."' AND password='".$dat
         $_SESSION['uid']=$row['ID'];
         $_SESSION['name']=$row['name'];
         $_SESSION['admin']=$row['users'];
+        $_SESSION['nav']='dashboard';
         $action=$row['name']." Logged in.";
         create_log($row['ID'],$action);
     	echo "1";

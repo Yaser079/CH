@@ -12,7 +12,7 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>Country</th>
+                  <th>Office</th>
                   <th>Status</th>
                   <th>Super Admin</th>
                   <th>Action</th>
@@ -21,7 +21,7 @@
                 <tbody>
                 <?php
                     include '../Inc/DBcon.php';
-                    $sql2="select users.ID as ID,users.name as name,users.email as email, users.phone as phone,  users.status as status, users.users as users, country.name as country from users inner join country on country.ID = users.country";
+                    $sql2="select users.ID as ID,users.name as name,users.email as email, users.phone as phone,  users.status as status, users.users as users, office.name as office from users inner join office on office.ID = users.office";
                     $result=mysqli_query($conn,$sql2);
                     if(mysqli_num_rows($result) > 0 )
                     {
@@ -34,7 +34,7 @@
                                     <td>'.$row['name'].'</td>
                                     <td>'.$row['email'].'</td>
                                     <td>'.$row['phone'].'</td>
-                                    <td>'.$row['country'].'</td>
+                                    <td>'.$row['office'].'</td>
                                     <td> 
                                          
                                         <div class="custom-control custom-switch">
@@ -52,8 +52,8 @@
                                         
                                     </td>
                                     <td>
-                                    <a href="javascript:void(0)" onclick="getUser('.$row['ID'].')" data-toggle="modal" data-target="#modal-lg"> <i class="nav-icon fas fa-edit text-secondary"></i></a> &nbsp;
-                                    <a href="javascript:void(0)" onclick="deleteUser('.$row['ID'].')"><i class="nav-icon fas fa-trash text-danger"></i> </a> 
+                                    <a href="javascript:void(0)"  onclick="getUser('.$row['ID'].')" data-toggle="modal" data-target="#modal-lg"> <i class="nav-icon fas fa-edit text-secondary"></i></a> &nbsp;
+                                    <a href="javascript:void(0)"  onclick="deleteUser('.$row['ID'].')"><i class="nav-icon fas fa-trash text-danger"></i> </a> 
                                     </td>
                                 </tr>';
                         }

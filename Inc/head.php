@@ -36,4 +36,13 @@
      <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
-    
+   <!-- pace-progress -->
+   <link rel="stylesheet" href="../plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+    <style>
+      td {
+         padding: 5px !important;
+      }
+      th{
+         padding: 15px 10px !important;
+      }
+    </style>
