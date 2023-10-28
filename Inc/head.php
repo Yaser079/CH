@@ -45,4 +45,9 @@
       th{
          padding: 15px 10px !important;
       }
+      .rotated {
+        writing-mode: tb-rl;
+        transform: rotate(-180deg);
+    }
     </style>
+  

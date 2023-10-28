@@ -7,15 +7,9 @@
   <?php include '../Inc/head.php';
      
   ?>
-<style>
 
-.rotated {
-        writing-mode: tb-rl;
-        transform: rotate(-180deg);
-    }
- </style>
 </head>
-<body class="hold-transition sidebar-mini pace-primary">
+<body class="hold-transition sidebar-mini pace-white accent-primary">
 <!-- Site wrapper -->
 <div class="wrapper">
   
@@ -126,7 +120,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                        <label>Project manager</label>
+                        <label>Project Manager</label>
                         <select class="form-control form-control-sm select2" id="fmanager" style="width: 100%;" >
                                 <option value="all">All</option>
                         </select>

@@ -7,7 +7,7 @@
   <?php include '../Inc/head.php';?>
 
 </head>
-<body class="hold-transition sidebar-mini pace-primary">
+<body class="hold-transition sidebar-mini pace-white accent-primary">
 <!-- Site wrapper -->
 <div class="wrapper">
   
