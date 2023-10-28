@@ -31,7 +31,7 @@ if(isset($_SESSION['uid']))
      <!-- pace-progress -->
      <link rel="stylesheet" href="plugins/pace-progress/themes/black/pace-theme-flat-top.css">
 </head>
-<body class="hold-transition login-page pace-primary">
+<body class="hold-transition login-page  pace-primary accent-primary">
 <div class="login-box">
   <div class="login-logo">
     <a href="#"><b><?= $_SESSION['prefix']?></b><?= $_SESSION['suffix']?></a>
@@ -41,7 +41,7 @@ if(isset($_SESSION['uid']))
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="#" method="post" onsubmit=" return login()" >
+      <form action="javascript:void(0)" method="post" onsubmit=" return login()" >
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email" id="email" required>
           <div class="input-group-append">
