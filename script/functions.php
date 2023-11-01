@@ -30,6 +30,16 @@ function getCountry($id)
     return $row2;
     mysqli_close($conn);
 }
+/// Office Functions
+function getOffice($id)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from office where ID='".$id."'";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
 
 /// phase details
 
