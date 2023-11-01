@@ -51,13 +51,22 @@
           </li>
           <li class="nav-header">SOFTWARE MANAGEMENT</li>
           <li class="nav-item ">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa">&#xf085;</i>
+            <a href="location.php" class="nav-link <?= $_SESSION['nav']=='location'? 'active': '';?>">
+              <i class="nav-icon fas">&#xf5a0;</i>
               <p>
-                Software Management
+                Country & Office
               </p>
             </a>
           </li>
+          <li class="nav-item ">
+            <a href="phase.php" class="nav-link <?= $_SESSION['nav']=='phase'? 'active': '';?>">
+              <i class="nav-icon fa">&#xf085;</i>
+              <p>
+                Phase & Status
+              </p>
+            </a>
+          </li>
+           
           <?php
             if($_SESSION['admin']==1)
             {

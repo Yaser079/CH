@@ -193,16 +193,16 @@
                                 $res2=$resource>0?'<td></td>':'';
                                 $budgthour=getbudgetHours($row['ID']);
                                 echo '<tr>
-                                            <td   style="vertical-align: middle;"> </td>
-                                            <td  >
-                                                <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-secondary"></i></a> &nbsp;
+                                            <td   style="vertical-align: middle;" class="bg-green"> </td>
+                                            <td  class="bg-green">
+                                                <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-white"></i></a> &nbsp;
                                             </td>
-                                            <td >'.$row['code'].'</td>
-                                            <td >'.$row['name'].'</td>
-                                            <td >'.$country['tag'].'</td>
-                                            <td >'.($hours-$budgthour).' </td>
-                                            <td >'.$budgthour.'</td>
-                                            <td class="font-weight-bold"> '.$resource.' </td>
+                                            <td class="bg-green">'.$row['code'].'</td>
+                                            <td class="bg-green">'.$row['name'].'</td>
+                                            <td class="bg-green">'.$country['tag'].'</td>
+                                            <td class="bg-green">'.($hours-$budgthour).' </td>
+                                            <td class="bg-green">'.$budgthour.'</td>
+                                            <td class="font-weight-bold" class="bg-green"> '.$resource.' </td>
                                             ';
                                                 $weeks=getWeeks(date('Y'));
                                                 foreach($weeks as $week)
@@ -233,14 +233,14 @@
                                                     $res=getManager($row2['staff_id']);
                                                     echo '<tr>
                                                     <td ></td>
-                                                    <td class="bg-green"></td>
-                                                    <td class="bg-green">'.$row['code'].' </td>
-                                                    <td class="bg-green"><small>Resource</small> </td>
+                                                    <td ></td>
+                                                    <td >'.$row['code'].' </td>
+                                                    <td ><small>Resource</small> </td>
                                                     
-                                                    <td class="bg-green"> </td>
-                                                    <td class="bg-green"> </td>
-                                                    <td class="bg-green"> </td>
-                                                    <td class="bg-green"> '.$res['nick_name'].' </td>';
+                                                    <td > </td>
+                                                    <td > </td>
+                                                    <td > </td>
+                                                    <td > '.$res['nick_name'].' </td>';
                                                     $weeks=getWeeks(date('Y'));
                                                     foreach($weeks as $week)
                                                     {
