@@ -94,6 +94,36 @@ function getProject($id)
     return $row2;
     mysqli_close($conn);
 }
+///Role
+function getRole($id)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from role where ID='".$id."'";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
+///Job
+function getJob($id)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from job where ID='".$id."'";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
+///Skill
+function getSkill($id)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from skill where ID='".$id."'";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
 /// project Status
 function getStatus($id)
 { 
@@ -223,6 +253,23 @@ function getWeekFullStage($id)
     {
         return '';
     }
+    mysqli_close($conn);
+}
+function getOfficeStaff($id)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff where office='".$id."' ";
+    $result2=mysqli_query($conn,$sql2);
+    return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
+function getStaffSkills($id)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff_skill where ID='".$id."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
     mysqli_close($conn);
 }
 ?>

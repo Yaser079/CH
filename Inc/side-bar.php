@@ -49,6 +49,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item ">
+            <a href="resource.php" class="nav-link <?= $_SESSION['nav']=='resource'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+                Resource List
+              </p>
+            </a>
+          </li>
           <li class="nav-header">SOFTWARE MANAGEMENT</li>
           <li class="nav-item ">
             <a href="location.php" class="nav-link <?= $_SESSION['nav']=='location'? 'active': '';?>">
@@ -66,7 +74,22 @@
               </p>
             </a>
           </li>
-           
+          <li class="nav-item ">
+            <a href="role.php" class="nav-link <?= $_SESSION['nav']=='role'? 'active': '';?>">
+              <i class="nav-icon fa">&#xf4fe;</i>
+              <p>
+                Role & Job Title
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="skill.php" class="nav-link <?= $_SESSION['nav']=='skill'? 'active': '';?>">
+              <i class="nav-icon fa">&#xf7d9;</i>
+              <p>
+                Skills
+              </p>
+            </a>
+          </li>  
           <?php
             if($_SESSION['admin']==1)
             {
