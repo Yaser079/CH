@@ -1,3 +1,16 @@
+function LoadStaffCount()
+{
+     
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('staff-count').innerHTML=this.responseText;
+            
+        }
+    };
+    xmlhttp.open("GET","../script/staffcount.php",true);
+    xmlhttp.send();
+}
 function LoadStaff()
 {
      
@@ -9,6 +22,7 @@ function LoadStaff()
                 "responsive": false, "lengthChange": true, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
               }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+              
         }
     };
     xmlhttp.open("GET","../script/stafflist.php",true);
@@ -73,6 +87,7 @@ function SaveStaff()
                               activty();
                               $("#close-staff").click()
                               LoadStaff();
+                              LoadStaffCount();
                          }
                          else
                          {
@@ -107,7 +122,8 @@ function deleteStaff(id)
                     toastr["success"]("Staff Removed.");
                     
                    activty();
-                   LoadSkill();
+                   LoadStaff();
+                   LoadStaffCount();
                 }
                 else
                 {
@@ -155,6 +171,7 @@ function DeleteSkill(id)
                 document.getElementById('skills-list').innerHTML=this.responseText;
                 toastr["success"]("Skill Removed.");
                 LoadStaff();
+                LoadStaffCount();
             }
         };
         xmlhttp.open("GET","../script/delstaffskill.php?id="+id,true);
@@ -173,11 +190,46 @@ function AddSkill(sid)
         xmlhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('skills-list').innerHTML=this.responseText;
-                toastr["success"]("Skill Addedd.");
+                toastr["success"]("Skill Added.");
                 LoadStaff(); 
+                LoadStaffCount();
             }
         };
         xmlhttp.open("GET","../script/newstaffskill.php?id="+sid+"&skill="+skill,true);
         xmlhttp.send();
     }
+}
+function AddJob(sid)
+{
+    var job=document.getElementById("job").value;
+    if(job=="")
+    {
+        toastr["error"]("Please select job.");
+    }
+    else
+    {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('jobs-list').innerHTML=this.responseText;
+                toastr["success"]("Job Title Added.");
+                LoadStaff(); 
+            }
+        };
+        xmlhttp.open("GET","../script/newstaffjob.php?id="+sid+"&job="+job,true);
+        xmlhttp.send();
+    }
+}
+function DeleteJobs(id)
+{
+    var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('jobs-list').innerHTML=this.responseText;
+                toastr["success"]("Job Removed.");
+                LoadStaff();
+            }
+        };
+        xmlhttp.open("GET","../script/delstaffjob.php?id="+id,true);
+        xmlhttp.send();
 }

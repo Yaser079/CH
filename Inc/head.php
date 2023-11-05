@@ -49,5 +49,17 @@
         writing-mode: tb-rl;
         transform: rotate(-180deg);
     }
+    .week:hover{
+        cursor: pointer;
+        background-color: #F8E095;
+    }
+    .week{
+        background-color: #FFF9C9;
+    }
+    .stage:hover{
+        cursor: pointer;
+        background-color: #F8E095;
+    }
+     
     </style>
   

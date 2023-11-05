@@ -33,7 +33,19 @@
                                             <td>'.$row['nick_name'].'</td>
                                             <td>'.$office['code'].'</td>
                                             <td>'.$role['name'].'</td>
-                                            <td> </td>
+                                            <td>';
+                                            $sql2="select * from staff_job where staff_id='".$row['ID']."'";
+                                            $result2=mysqli_query($conn,$sql2);
+                                            if(mysqli_num_rows($result2) > 0 )
+                                            {
+                                                while($row2 = mysqli_fetch_array($result2))
+                                                {       
+                                                    $job=getJob($row2['job_id']);
+                                                    echo '<span class="badge badge-secondary fs-1">'.$job['name'].' 
+                                                            </span>&nbsp;';    
+                                                }
+                                            }
+                                            echo ' </td>
                                             <td>';
                                             $sql2="select * from staff_skill where staff_id='".$row['ID']."'";
                                             $result2=mysqli_query($conn,$sql2);

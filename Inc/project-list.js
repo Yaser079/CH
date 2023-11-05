@@ -328,3 +328,27 @@ function ClearFilter()
     xmlhttp.open("GET","../script/clearfilter.php",true);
     xmlhttp.send();
 }
+function CalculateAVG()
+{
+  var value=0;
+  var staff=0;
+  $("#avg-calculator input").each(function(){
+    var input = $(this);
+    if(input.val()!="")
+    {
+      staff=staff+Number(input.val());
+      value+=input.attr('rate')*input.val();
+    }
+    });
+     var avg=value/staff;
+     $('#avgrate').val(avg.toFixed(2));
+}
+function ClearAVG()
+{
+  $("#avg-calculator input").each(function(){
+    var input = $(this);
+    input.val('');
+
+    });
+    $('#avgrate').val('');
+}

@@ -51,9 +51,17 @@
           </li>
           <li class="nav-item ">
             <a href="resource.php" class="nav-link <?= $_SESSION['nav']=='resource'? 'active': '';?>"> 
-              <i class="nav-icon fas fa-user-friends"></i>
+              <i class="nav-icon fas fa-users-cog"></i>
               <p>
                 Resource List
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="holiday.php" class="nav-link <?= $_SESSION['nav']=='holiday'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+               Staff Anual Leave
               </p>
             </a>
           </li>
@@ -87,6 +95,14 @@
               <i class="nav-icon fa">&#xf7d9;</i>
               <p>
                 Skills
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="admin-holiday.php" class="nav-link <?= $_SESSION['nav']=='admin-holiday'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+                Admin Holiday
               </p>
             </a>
           </li>  

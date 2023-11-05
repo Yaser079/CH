@@ -63,7 +63,7 @@
 <script>
     $(function () {
       
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-tooltip="tooltip"]').tooltip()
  
      //Initialize Select2 Elements
      $('.select2').select2();

@@ -272,4 +272,95 @@ function getStaffSkills($id)
     return $row2;
     mysqli_close($conn);
 }
+function getCountSkillStaff($id)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff_skill where skill_id='".$id."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
+function getStaffJob($id)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff_job where ID='".$id."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
+function getOfficeHoliday($office,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from office_holidays where office_id='".$office."'  AND week='".$week."' ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2;
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getTotalOfficeHoliday($office)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select SUM(hours) AS hours from office_holidays where office_id='".$office."' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return '';
+    }
+    mysqli_close($conn);
+}
+function getOfficeHolidays($id)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from office_holidays where ID='".$id."' ";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    
+    mysqli_close($conn);
+}
+function getStaffHoliday($staff,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff_holiday where staff_id='".$staff."'  AND week='".$week."' ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2;
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getTotalStaffHoliday($staff)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select SUM(hours) AS hours from staff_holiday where staff_id='".$staff."' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return '';
+    }
+    mysqli_close($conn);
+}
 ?>
