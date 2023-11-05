@@ -124,7 +124,7 @@ if($_GET['id']>0)
         <div class="col-md-3" >
             <button class="btn btn-primary btn-block" style="margin-top: 32px;" onclick="AddSkill(<?=$type;?>)">Add</button>
         </div>
-        <div class="col-md-12" >
+        <div class="col-md-12 border p-2" >
             <h4 id="skills-list">
                 <?php
                     include '../Inc/DBcon.php';
@@ -137,6 +137,54 @@ if($_GET['id']>0)
                             $skil=getSkill($row['skill_id']);
                             echo '<span class="badge badge-info fs-1">'.$skil['name'].' &nbsp; 
                                     <a href="javascript:void(0)" onclick="DeleteSkill('.$row['ID'].')">
+                                            <i class="nav-icon fas fa-trash text-white"></i>
+                                    </a>
+                                 </span>&nbsp;';    
+                        }
+                    }
+                    mysqli_close($conn);
+                ?>
+            </h4>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <label>Job Title</label>
+                <select class="form-control  select2" id="job" style="width: 100%;">
+                        <option value="">Select Job</option>
+                            <?php
+                                include '../Inc/DBcon.php';
+                                $sql2="select * from job where status='1'";
+                                $result=mysqli_query($conn,$sql2);
+                                if(mysqli_num_rows($result) > 0 )
+                                {
+                                    while($row = mysqli_fetch_array($result))
+                                    {
+                                        echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';     
+                                    }
+                                }
+                                mysqli_close($conn);
+                            ?>
+
+                </select>
+            </div>       
+        </div>
+        <div class="col-md-3" >
+            <button class="btn btn-primary btn-block" style="margin-top: 32px;" onclick="AddJob(<?=$type;?>)">Add</button>
+        </div>
+         
+        <div class="col-md-12 border p-2" >
+            <h4 id="jobs-list">
+                <?php
+                    include '../Inc/DBcon.php';
+                    $sql2="select * from staff_job where staff_id='".$type."'";
+                    $result=mysqli_query($conn,$sql2);
+                    if(mysqli_num_rows($result) > 0 )
+                    {
+                        while($row = mysqli_fetch_array($result))
+                        {       
+                            $job=getJob($row['job_id']);
+                            echo '<span class="badge badge-info fs-1">'.$job['name'].' &nbsp; 
+                                    <a href="javascript:void(0)" onclick="DeleteJobs('.$row['ID'].')">
                                             <i class="nav-icon fas fa-trash text-white"></i>
                                     </a>
                                  </span>&nbsp;';    

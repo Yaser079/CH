@@ -5,20 +5,7 @@
  
   <title><?= $_SESSION['site']?> | Project Resourcing</title>
   <?php include '../Inc/head.php';?>
-  <style> 
-    .week:hover{
-        cursor: pointer;
-        background-color: #F8E095;
-    }
-    .week{
-        background-color: #FFF9C9;
-    }
-    .stage:hover{
-        cursor: pointer;
-        background-color: #F8E095;
-    }
-     
-  </style>
+ 
 
 </head>
 <body class="hold-transition sidebar-mini pace-white accent-primary">

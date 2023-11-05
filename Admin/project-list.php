@@ -212,7 +212,11 @@
         <?php include '../script/functions.php'; ?>
             <div class="card secondary" style="min-height:100%;">
             <div class="card-header">
-              <h3 class="card-title ">Projects List</h3>
+                <div class="d-flex justify-content-between">
+                <h3 class="card-title d-flex align-self-center ">Projects List</h3>
+                <button class="btn btn-primary mt-2 mb-2" data-toggle="modal" data-target="#modal-avg">AVG Rate Calculator</button>
+                </div>
+              
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -528,7 +532,61 @@
       </div>
   </div>
   <!-- /.content-wrapper -->
-
+  <div class="modal fade show" id="modal-avg">
+        <div class="modal-dialog   modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">AVG Rate Calculator</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body pace-primary" >
+            <form id='avg-calculator' action='javascript:void(0)'>
+                <div class="row">
+                    <?php
+                        include '../Inc/DBcon.php';
+                        $sql2="select * from office;";
+                        $result=mysqli_query($conn,$sql2);
+                        if(mysqli_num_rows($result) > 0 )
+                        {
+                                
+                            while($row = mysqli_fetch_array($result))
+                            {
+                                
+                                echo '<div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">'.$row['code'].' Hour Rate : '.$row['hour_rate'].'</label>
+                                            <input type="number" class="form-control form-control-sm" rate="'.$row['hour_rate'].'" id="'.$row['ID'].'rate" placeholder="Enter Staff no" >
+                                        </div>
+                                    </div>';
+                            }
+                        }
+                        mysqli_close($conn);
+                    ?>
+                </div>
+            </form>
+                <div class="row">
+                        <div class="col-md-12 border-top"> 
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">AVG Rate</label>
+                                <input type="text" class="form-control form-control-sm"  id="avgrate" placeholder="0.00" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6"><button class="btn btn-primary btn-block" onclick="CalculateAVG()">Calculate AVG</button></div>
+                        <div class="col-md-6"><button class="btn btn-danger btn-block" onclick="ClearAVG()">Clear</button></div>
+                        
+                </div>
+            </div>
+            <div class="modal-footer justify-content-end">
+              <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>                                  
   <?php include '../Inc/footer.php';?>
   <script src="../Inc/project-list.js"></script>
 </body>

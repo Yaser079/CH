@@ -38,33 +38,62 @@
     <!-- Main content -->
     <section class="content">
     <h5 class="mb-2">Staff Count per Office</h5>
-        <div class="row">
-            <?php
-            include '../script/functions.php';
-            include '../Inc/DBcon.php';
-            $sql2="select * from office;";
-            $result=mysqli_query($conn,$sql2);
-            if(mysqli_num_rows($result) > 0 )
-            {
-                $i=1;
-                while($row = mysqli_fetch_array($result))
+       <div id="staff-count">
+          <div class="row">
+                <?php
+                include '../script/functions.php';
+                include '../Inc/DBcon.php';
+                $sql2="select * from office;";
+                $result=mysqli_query($conn,$sql2);
+                if(mysqli_num_rows($result) > 0 )
                 {
-                    $numbers=getOfficeStaff($row['ID']);
-                    echo '<div class="col-6 col-lg-2 ">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">'.$row['code'].'</span>
-                            <span class="info-box-number">'.$numbers.'</span>
+                    $i=1;
+                    while($row = mysqli_fetch_array($result))
+                    {
+                        $numbers=getOfficeStaff($row['ID']);
+                        echo '<div class="col-6 col-lg-2 ">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">'.$row['code'].'</span>
+                                <span class="info-box-number">'.$numbers.'</span>
+                            </div>
                         </div>
-                    </div>
-                </div>';
+                    </div>';
+                    }
                 }
-            }
-            ?>
-           
-            
-        </div>
+                ?>
+              
+                
+            </div>
+            <h5 class="mb-2">Staff Count per Skill</h5>
+            <div class="row">
+                <?php
+                  
+                    include '../Inc/DBcon.php';
+                    $sql2="select * from skill;";
+                    $result=mysqli_query($conn,$sql2);
+                    if(mysqli_num_rows($result) > 0 )
+                    {
+                        $i=1;
+                        while($row = mysqli_fetch_array($result))
+                        {
+                            $numbers=getCountSkillStaff($row['ID']);
+                            echo '<div class="col-6 col-lg-2 ">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-secondary"><i class="fab fa-dev"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">'.$row['name'].'</span>
+                                    <span class="info-box-number">'.$numbers.'</span>
+                                </div>
+                            </div>
+                        </div>';
+                        }
+                    }
+                    ?>
+              </div>
+       </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-primary">
@@ -109,7 +138,19 @@
                                             <td>'.$row['nick_name'].'</td>
                                             <td>'.$office['code'].'</td>
                                             <td>'.$role['name'].'</td>
-                                            <td> </td>
+                                            <td>';
+                                            $sql2="select * from staff_job where staff_id='".$row['ID']."'";
+                                            $result2=mysqli_query($conn,$sql2);
+                                            if(mysqli_num_rows($result2) > 0 )
+                                            {
+                                                while($row2 = mysqli_fetch_array($result2))
+                                                {       
+                                                    $job=getJob($row2['job_id']);
+                                                    echo '<span class="badge badge-secondary fs-1">'.$job['name'].' 
+                                                            </span>&nbsp;';    
+                                                }
+                                            }
+                                            echo ' </td>
                                             <td>';
                                             $sql2="select * from staff_skill where staff_id='".$row['ID']."'";
                                             $result2=mysqli_query($conn,$sql2);
