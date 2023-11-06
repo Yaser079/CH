@@ -77,6 +77,10 @@
                         {
                           $filter.="AND status='".$_SESSION['fstatus']."' ";
                         }
+                        if( isset($_SESSION['fmanager']) && $_SESSION['fmanager']!='all')
+                        {
+                          $filter.="AND manager_id='".$_SESSION['fmanager']."' ";
+                        }
                         if( isset($_SESSION['fstage']) && $_SESSION['fstage']!='all')
                         {
                           $filter.="AND stage='".$_SESSION['fstage']."' ";

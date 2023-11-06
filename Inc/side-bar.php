@@ -50,10 +50,26 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a href="resource.php" class="nav-link <?= $_SESSION['nav']=='resource'? 'active': '';?>"> 
-              <i class="nav-icon fas fa-users-cog"></i>
+            <a href="weekly-resource.php" class="nav-link <?= $_SESSION['nav']=='weekly'? 'active': '';?>"> 
+              <i class="nav-icon far fa-calendar-alt"></i>
               <p>
-                Resource List
+               Weekly Resource v1
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="weekly-resource2.php" class="nav-link <?= $_SESSION['nav']=='weekly2'? 'active': '';?>"> 
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>
+               Weekly Resource v2
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="resource-workload.php" class="nav-link <?= $_SESSION['nav']=='workload'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-user-clock"></i>
+              <p>
+              Resource Workload
               </p>
             </a>
           </li>
@@ -65,6 +81,15 @@
               </p>
             </a>
           </li>
+          <li class="nav-item ">
+            <a href="resource.php" class="nav-link <?= $_SESSION['nav']=='resource'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-users-cog"></i>
+              <p>
+                Resource List
+              </p>
+            </a>
+          </li>
+          
           <li class="nav-header">SOFTWARE MANAGEMENT</li>
           <li class="nav-item ">
             <a href="location.php" class="nav-link <?= $_SESSION['nav']=='location'? 'active': '';?>">

@@ -12,6 +12,7 @@ if(getResourceWeek($data->Pid,$data->Sid,$data->Week)!="")
     $sql="update resource_weeks set hours='".$data->Hours."' where pid='".$data->Pid."' AND  staff_id='".$data->Sid."' AND week='".$data->Week."' ;";
 }
 else{
+    
     $sql="insert into resource_weeks ( pid,staff_id,hours,week) VALUES
  ('".$data->Pid."','".$data->Sid."','".$data->Hours."','".$data->Week."'); ";
 }

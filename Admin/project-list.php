@@ -121,8 +121,36 @@
                     <div class="col-md-2">
                         <div class="form-group">
                         <label>Project Manager</label>
-                        <select class="form-control form-control-sm select2" id="fmanager" style="width: 100%;" >
+                        <select class="form-control form-control-sm select2" id="fmanager" style="width: 100%;" onchange="SetFilter(this.id,this.value)">
                                 <option value="all">All</option>
+                                <?php
+                                        include '../Inc/DBcon.php';
+                                        $sql2="select * from staff where status='1' AND role_id='1'";
+                                        $result=mysqli_query($conn,$sql2);
+                                        if(mysqli_num_rows($result) > 0 )
+                                        {
+                                            
+                                            while($row = mysqli_fetch_array($result))
+                                            {
+                                                if(isset($_SESSION['fmanager']))
+                                                {
+                                                        if($_SESSION['fmanager']==$row['ID'])
+                                                        {
+                                                            echo '<option value="'.$row['ID'].'" selected>'.$row['name'].'</option>';
+                                                        }
+                                                        else
+                                                        {
+                                                            echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                                        }
+                                                }else
+                                                {
+                                                    echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                                }
+                                                
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                    ?>
                         </select>
                         </div>
                     </div>

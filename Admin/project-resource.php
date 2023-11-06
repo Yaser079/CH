@@ -58,9 +58,9 @@
                                                 
                                                 while($row = mysqli_fetch_array($result))
                                                 {
-                                                    if(isset($_SESSION['foffice']))
+                                                    if(isset($_SESSION['roffice']))
                                                     {
-                                                            if($_SESSION['foffice']==$row['ID'])
+                                                            if($_SESSION['roffice']==$row['ID'])
                                                             {
                                                                 echo '<option value="'.$row['ID'].'" selected>'.$row['name'].'</option>';
                                                             }
@@ -95,9 +95,9 @@
                                                 
                                                 while($row = mysqli_fetch_array($result))
                                                 {
-                                                    if(isset($_SESSION['fregion']))
+                                                    if(isset($_SESSION['rregion']))
                                                     {
-                                                            if($_SESSION['fregion']==$row['ID'])
+                                                            if($_SESSION['rregion']==$row['ID'])
                                                             {
                                                                 echo '<option value="'.$row['ID'].'" selected>'.$row['name'].'-'.$row['tag'].'</option>';
                                                             }
@@ -120,8 +120,36 @@
                         <div class="col-md-2">
                             <div class="form-group">
                             <label>Project Manager</label>
-                            <select class="form-control form-control-sm select2" id="rmanager" style="width: 100%;" >
+                            <select class="form-control form-control-sm select2" id="rmanager" style="width: 100%;" onchange="SetRFilter(this.id,this.value)">
                                     <option value="all">All</option>
+                                    <?php
+                                        include '../Inc/DBcon.php';
+                                        $sql2="select * from staff where status='1' AND role_id='1'";
+                                        $result=mysqli_query($conn,$sql2);
+                                        if(mysqli_num_rows($result) > 0 )
+                                        {
+                                            
+                                            while($row = mysqli_fetch_array($result))
+                                            {
+                                                if(isset($_SESSION['rmanager']))
+                                                {
+                                                        if($_SESSION['rmanager']==$row['ID'])
+                                                        {
+                                                            echo '<option value="'.$row['ID'].'" selected>'.$row['name'].'</option>';
+                                                        }
+                                                        else
+                                                        {
+                                                            echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                                        }
+                                                }else
+                                                {
+                                                    echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                                }
+                                                
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                    ?>
                             </select>
                             </div>
                         </div>
@@ -150,6 +178,7 @@
                     <th>Name</th>
                     <th class="rotated">Country</th>
                     <th class="rotated">Remaining<br>Hours</th>
+                    <th class="rotated">Hours to Minus</th>
                     <th class="rotated">Budget<br>Hours</th>
                     <th class="rotated">Resource</th>
                     <?php 
@@ -179,16 +208,18 @@
                                 $res=$resource>0?'rowspan="'.($resource+1).'':'';
                                 $res2=$resource>0?'<td></td>':'';
                                 $budgthour=getbudgetHours($row['ID']);
+                                $remaining=$hours-($budgthour+(int)$row['minus_hours']);
                                 echo '<tr>
                                             <td   style="vertical-align: middle;" class="bg-green"> </td>
                                             <td  class="bg-green">
                                                 <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-white"></i></a> &nbsp;
                                             </td>
-                                            <td class="bg-green">'.$row['code'].'</td>
-                                            <td class="bg-green">'.$row['name'].'</td>
-                                            <td class="bg-green">'.$country['tag'].'</td>
-                                            <td class="bg-green">'.($hours-$budgthour).' </td>
-                                            <td class="bg-green">'.$budgthour.'</td>
+                                            <td class="bg-green font-weight-bold">'.$row['code'].'</td>
+                                            <td class="bg-green font-weight-bold">'.$row['name'].'</td>
+                                            <td class="bg-green font-weight-bold">'.$country['tag'].'</td>
+                                            <td class="bg-green font-weight-bold">'.$remaining.' </td>
+                                            <td class="week  font-weight-bold" onclick="MinusHours('.$row['ID'].')" data-toggle="modal" data-target="#minus-model">'.$row['minus_hours'].'</td>
+                                            <td class="bg-green font-weight-bold">'.$budgthour.'</td>
                                             <td class="font-weight-bold" class="bg-green"> '.$resource.' </td>
                                             ';
                                                 $weeks=getWeeks(date('Y'));
@@ -218,15 +249,16 @@
                                                 while($row2 = mysqli_fetch_array($result2))
                                                 {
                                                     $res=getManager($row2['staff_id']);
+                                                    $staffHours=getStaffHours($row['ID'],$row2['staff_id']);
                                                     echo '<tr>
                                                     <td ></td>
                                                     <td ></td>
                                                     <td >'.$row['code'].' </td>
                                                     <td ><small>Resource</small> </td>
-                                                    
                                                     <td > </td>
                                                     <td > </td>
                                                     <td > </td>
+                                                    <td >'.$staffHours.'</td>
                                                     <td > '.$res['nick_name'].' </td>';
                                                     $weeks=getWeeks(date('Y'));
                                                     foreach($weeks as $week)
@@ -298,18 +330,8 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Enter Hours</label>
-                            <input type="number" class="form-control" id="hours" placeholder="Enter hours" >
-                            <input type="hidden" id="project" value="">
-                            <input type="hidden" id="staff" value="">
-                            <input type="hidden" id="week" value="">
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body" id="hour-form">
+               
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" id="close-hours" data-dismiss="modal">Close</button>
@@ -325,7 +347,7 @@
         <div class="modal-dialog modal-sm modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">project Stage</h4>
+              <h4 class="modal-title">Project Stage</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -342,7 +364,28 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-      <!-- /.modal -->                     
+      <!-- /.modal --> 
+      <div class="modal fade" id="minus-model">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Hours to Minus</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="minus-form">
+                
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" id="close-minus" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="UpdateMinus()">Update</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>                    
   <?php include '../Inc/footer.php';?>
   <script src="../Inc/project-resource.js"></script>
  

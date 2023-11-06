@@ -1,3 +1,4 @@
+<?php session_start(); include 'functions.php'; ?>
 <div class="card">
     <div class="card-header">
     <h3 class="card-title">Project Resourcing for All Weeks</h3>
@@ -14,10 +15,11 @@
         <th>Name</th>
         <th class="rotated">Country</th>
         <th class="rotated">Remaining<br>Hours</th>
+        <th class="rotated">Hours to Minus</th>
         <th class="rotated">Budget<br>Hours</th>
         <th class="rotated">Resource</th>
         <?php 
-        include '../script/functions.php';
+        
         $weeks=getWeeks(date('Y'));
             foreach($weeks as $week)
             {
@@ -29,8 +31,27 @@
         <tbody>
         <?php
             include '../Inc/DBcon.php';
+            $filter="";
+            if(isset($_SESSION['Rfilter']))
+            {
             
-            $sql2="select * from projects";
+                if( isset($_SESSION['roffice']) && $_SESSION['roffice']!='all')
+                {
+                    $filter.=" AND office_id='".$_SESSION['roffice']."' ";
+                }
+                if( isset($_SESSION['rregion']) && $_SESSION['rregion']!='all')
+                {
+                    $filter.="AND country_id='".$_SESSION['rregion']."' ";
+                }
+                
+                if( isset($_SESSION['rmanager']) && $_SESSION['rmanager']!='all')
+                {
+                    $filter.="AND manager_id='".$_SESSION['rmanager']."' ";
+                }
+            
+            }
+        $sql2="select * from projects where 1=1 ".$filter." ;";
+             
             $result=mysqli_query($conn,$sql2);
             if(mysqli_num_rows($result) > 0 )
             {
@@ -43,18 +64,20 @@
                     $res=$resource>0?'rowspan="'.($resource+1).'':'';
                     $res2=$resource>0?'<td></td>':'';
                     $budgthour=getbudgetHours($row['ID']);
+                    $remaining=$hours-($budgthour+(int)$row['minus_hours']);
                     echo '<tr>
-                                <td   style="vertical-align: middle;" class="bg-green"> </td>
-                                <td  class="bg-green">
-                                    <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-white"></i></a> &nbsp;
-                                </td>
-                                <td class="bg-green">'.$row['code'].'</td>
-                                <td class="bg-green">'.$row['name'].'</td>
-                                <td class="bg-green">'.$country['tag'].'</td>
-                                <td class="bg-green">'.($hours-$budgthour).' </td>
-                                <td class="bg-green">'.$budgthour.'</td>
-                                <td class="font-weight-bold" bg-green> '.$resource.' </td>
-                                ';
+                    <td   style="vertical-align: middle;" class="bg-green"> </td>
+                    <td  class="bg-green">
+                        <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-white"></i></a> &nbsp;
+                    </td>
+                    <td class="bg-green font-weight-bold">'.$row['code'].'</td>
+                    <td class="bg-green font-weight-bold">'.$row['name'].'</td>
+                    <td class="bg-green font-weight-bold">'.$country['tag'].'</td>
+                    <td class="bg-green font-weight-bold">'.$remaining.' </td>
+                    <td class="week  font-weight-bold" onclick="MinusHours('.$row['ID'].')" data-toggle="modal" data-target="#minus-model">'.$row['minus_hours'].'</td>
+                    <td class="bg-green font-weight-bold">'.$budgthour.'</td>
+                    <td class="font-weight-bold" class="bg-green"> '.$resource.' </td>
+                    ';
                                     $weeks=getWeeks(date('Y'));
                                     foreach($weeks as $week)
                                     {
@@ -80,15 +103,16 @@
                                     while($row2 = mysqli_fetch_array($result2))
                                     {
                                         $res=getManager($row2['staff_id']);
+                                        $staffHours=getStaffHours($row['ID'],$row2['staff_id']);
                                         echo '<tr>
                                         <td ></td>
                                         <td ></td>
                                         <td  >'.$row['code'].' </td>
                                         <td  ><small>Resource</small> </td>
-                                        
                                         <td  > </td>
                                         <td  > </td>
                                         <td  > </td>
+                                        <td >'.$staffHours.'</td>
                                         <td  > '.$res['nick_name'].' </td>';
                                         $weeks=getWeeks(date('Y'));
                                         foreach($weeks as $week)
