@@ -5,7 +5,7 @@ function projectslist()
       if (this.readyState == 4 && this.status == 200) {
             document.getElementById('project-list').innerHTML=this.responseText;
             $("#example1").DataTable({
-                "responsive": false, "lengthChange": true, "autoWidth": false,
+                "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
               }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             
@@ -33,6 +33,7 @@ function NewProject()
     var stage=document.getElementById("stage").value;
     var status=document.getElementById("status").value;
     var office=document.getElementById("office").value;
+    var deadline=document.getElementById("deadline").value;
 	 if(code=="" )
      {
         $('#code').focus();
@@ -85,7 +86,7 @@ function NewProject()
      else
      
     {
-        var data = {  Code:code,Name:name,Pm:manager,Country:country,Profit:profit,Rate:rate,Stage:stage,Status:status,Office:office };
+        var data = {  Code:code,Name:name,Pm:manager,Country:country,Profit:profit,Rate:rate,Stage:stage,Status:status,Office:office,Deadline:deadline };
      
 		var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() 
@@ -174,6 +175,7 @@ function UpdateProject()
     var status=document.getElementById("status1").value;
     var office=document.getElementById("office1").value;
     var id=document.getElementById("id").value;
+    var deadline=document.getElementById("deadline2").value;
 	 if(code=="" )
      {
         $('#code').focus();
@@ -226,7 +228,7 @@ function UpdateProject()
      else
      
     {
-        var data = {ID:id,  Code:code,Name:name,Pm:manager,Country:country,Profit:profit,Rate:rate,Stage:stage,Status:status,Office:office };
+        var data = {ID:id,  Code:code,Name:name,Pm:manager,Country:country,Profit:profit,Rate:rate,Stage:stage,Status:status,Office:office,Deadline:deadline };
      
 		var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() 

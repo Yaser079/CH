@@ -5,7 +5,10 @@ function HolidayList()
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          document.getElementById('staff-holiday-list').innerHTML=this.responseText;
-            
+         $(".staff-holiday").DataTable({
+            "responsive": false, "lengthChange": true, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+          }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         }
     };
     xmlhttp.open("GET","../script/staffholidaylist.php",true);

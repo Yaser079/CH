@@ -19,6 +19,14 @@ function countResource($pid)
     return mysqli_num_rows($result2);
     mysqli_close($conn);
 }
+function getduplicateResource($pid,$sid)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from project_resource where pid='".$pid."' AND staff_id='".$sid."' ;";
+    $result2=mysqli_query($conn,$sql2);
+    return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
 
 /// Country Functions
 function getCountry($id)
@@ -206,6 +214,30 @@ function getbudgetHours($pid)
     }
     mysqli_close($conn);
 }
+function getStaffHours($pid,$sid)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select SUM(hours) AS hours from resource_weeks where pid='".$pid."' AND staff_id='".$sid."' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return '';
+    }
+    mysqli_close($conn);
+}
+function getStaffProjectsCount($sid)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_weeks where staff_id='".$sid."' AND hours>'0' group by pid ; ";
+    $result2=mysqli_query($conn,$sql2);
+    return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
 /// get project resource date
 function getResourceStageWeek($pid,$week)
 {
@@ -363,4 +395,213 @@ function getTotalStaffHoliday($staff)
     }
     mysqli_close($conn);
 }
+function getStaffWeeklyHoliday($staff,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff_holiday where staff_id='".$staff."' AND week='".$week."' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getOfficeWeeklyHoliday($office,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from office_holidays where office_id='".$office."' AND week='".$week."' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getStaffWeeklyWork($staff,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_weeks where staff_id='".$staff."' AND week='".$week."' and hours>'0' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getProjectResource($id)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_weeks where ID='".$id."' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    
+        $row2 = mysqli_fetch_array($result2);
+        return $row2;
+    mysqli_close($conn);
+}
+function getCurrentWeekProjectsOfStaff($sid,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_weeks where week='".$week."' AND staff_id='".$sid."' And hours>'0'";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_num_rows($result2);
+     return $row2;
+    mysqli_close($conn);
+}
+function getCurrentWeekHoursOfStaff($sid,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select SUM(hours) AS hours from resource_weeks where week='".$week."' AND staff_id='".$sid."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2['hours'];
+    mysqli_close($conn);
+}
+function getCurrentWeekLeavesOfStaff($sid,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from other_leave where week='".$week."' AND staff_id='".$sid."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2;
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getBaliResourceProject($pid)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from project_resource where pid='".$pid."' AND staff_id in ( select ID from staff where office='4'); ";
+    $result2=mysqli_query($conn,$sql2);
+     return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
+function getProjectReview($id)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from project_review where ID='".$id."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
+function getProjectLatestReview($pid)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from projects_update where pid='".$pid."' order by ID DESC; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2;
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getBaliProjects($pmid)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from projects where manager_id='".$pmid."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+            $i=0;
+        while($row2 = mysqli_fetch_array($result2))
+        {
+            $sql2="select * from project_resource where pid='".$row2['ID']."' AND staff_id in ( select ID from staff where office='4'); ";
+            $result3=mysqli_query($conn,$sql2);
+            if(mysqli_num_rows($result3))
+            {
+                $i=$i+1;
+            }
+        }
+       
+    }
+   
+     return $i;
+    mysqli_close($conn);
+}
+function getBaliProjectsByStage($sid,$manager)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from projects where stage='".$sid."' AND ".$manager."; ";
+    $result2=mysqli_query($conn,$sql2);
+    $i=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+            
+        while($row2 = mysqli_fetch_array($result2))
+        {
+            $sql2="select * from project_resource where pid='".$row2['ID']."' AND staff_id in ( select ID from staff where office='4'); ";
+            $result3=mysqli_query($conn,$sql2);
+            if(mysqli_num_rows($result3))
+            {
+                $i=$i+1;
+            }
+        }
+       
+    }
+     return $i;
+    mysqli_close($conn);
+}
+function getProjectsByCountry($cid,$manger)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from projects where country_id='".$cid."' AND ".$manger." ";
+    $result2=mysqli_query($conn,$sql2);
+    $pro=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+           
+        while($row2 = mysqli_fetch_array($result2))
+        {
+             if(getBaliResourceProject($row2['ID']))
+             {
+                $pro++;
+             }
+        }
+       
+    }
+    return $pro;
+    mysqli_close($conn);
+}
+function getLiveProjects($office)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from projects where status='1' AND ".$office."; ";
+    $result2=mysqli_query($conn,$sql2);
+     return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
+function getResources($office)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff where status='1' AND ".$office."; ";
+    $result2=mysqli_query($conn,$sql2);
+     return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
+ 
 ?>

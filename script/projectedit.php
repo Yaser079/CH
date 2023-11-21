@@ -38,7 +38,7 @@
                                 <label for="exampleInputEmail1">Project Manager</label>
                                 <select class="form-control select2" id="manager1" style="width: 100%;" >
                                     <?php
-                                            include '../Inc/DBcon.php';
+                                           include '../Inc/DBcon.php';
                                             $sql2="select * from staff";
                                             $result=mysqli_query($conn,$sql2);
                                             if(mysqli_num_rows($result) > 0 )
@@ -107,7 +107,7 @@
                                 <label for="exampleInputEmail1">Project Stage</label>
                                 <select class="form-control select2" id="stage1" style="width: 100%;" >
                                     <?php
-                                            include '../Inc/DBcon.php';
+                                           include '../Inc/DBcon.php';
                                             $sql2="select * from project_phase";
                                             $result=mysqli_query($conn,$sql2);
                                             if(mysqli_num_rows($result) > 0 )
@@ -162,7 +162,7 @@
                                 <label for="exampleInputEmail1">Office</label>
                                 <select class="form-control select2" id="office1" style="width: 100%;" >
                                     <?php
-                                            include '../Inc/DBcon.php';
+                                           include '../Inc/DBcon.php';
                                             $sql2="select * from office";
                                             $result=mysqli_query($conn,$sql2);
                                             if(mysqli_num_rows($result) > 0 )
@@ -185,6 +185,29 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Deadline</label>
+                            <select class="form-control select2" id="deadline2" style="width: 100%;" >
+                            <option>Select Deadline</option>
+                                <?php
+                                        $weeks=getWeeks(date('Y'));
+                                        foreach($weeks as $week)
+                                        {   if($project['deadline']==$week)
+                                            {
+                                                echo '<option value="'.$week.'" selected>'.$week.'</option>';
+                                            }
+                                            else
+                                            {
+                                                echo '<option value="'.$week.'" >'.$week.'</option>';
+                                            }
+                                         
+                                        }
+                                        
+                                    ?>
+                            </select>
+                        </div>
+                    </div>
                     </div>
                     <button type="button" class="btn btn-primary float-right" onclick="UpdateProject()">Update Project</button>
                 </div>

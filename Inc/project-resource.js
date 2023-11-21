@@ -5,7 +5,7 @@ function projectResourcingList()
       if (this.readyState == 4 && this.status == 200) {
             document.getElementById('resourcing-list').innerHTML=this.responseText;
             $("#example1").DataTable({
-                "responsive": false, "lengthChange": true, "autoWidth": false,
+                "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
               }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             
@@ -16,14 +16,20 @@ function projectResourcingList()
 }
 function ShowM(id,staff,pid)
 {
-     document.getElementById('week').value=id;
-     document.getElementById('staff').value=staff;
-     document.getElementById('project').value=pid;
+     
+    var pro=id.split("_");
+     var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         document.getElementById('hour-form').innerHTML=this.responseText;
+         document.getElementById('week').value=pro[2];
+         document.getElementById('staff').value=staff;
+         document.getElementById('project').value=pid;
+        }
+    };
+    xmlhttp.open("GET","../script/hourform.php?id="+pid+"&week="+pro[2]+"&staff="+staff,true);
+    xmlhttp.send();
 
-}
-function StageSelect(str)
-{
-    
 }
 function StageForm(str)
 {
@@ -87,7 +93,7 @@ function UpdateHourse()
     var pid=document.getElementById("project").value
     var sid=document.getElementById("staff").value
     var week=document.getElementById("week").value
-    var week2=week.split("_");
+
     if(hours=="")
     {
         $("#hours").focus();
@@ -96,7 +102,7 @@ function UpdateHourse()
     }
      else
      {
-        var data = {Pid:pid,Sid:sid,Week:week2[2],Hours:hours};
+        var data = {Pid:pid,Sid:sid,Week:week,Hours:hours};
      
 		var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() 
@@ -105,11 +111,11 @@ function UpdateHourse()
                 {     
 					     if(this.responseText==1)
                          {
-                            toastr["success"](week2[2]+" Hours updated.");
+                            toastr["success"](week+" Hours updated.");
                             $("#hours").removeClass("is-invalid");
                             $("#hours").val("");  
                               activty();
-                              document.getElementById(week).innerHTML=hours;
+                              document.getElementById(pid+"_"+sid+"_"+week).innerHTML=hours;
                               $("#close-hours").click()
                               projectResourcingList();
                          }
@@ -163,6 +169,10 @@ function AddResource()
                               projectResourcingList();
                             
                          }
+                         else if(this.responseText==2)
+                         {
+                            toastr["error"]("This resource already working on this project.");
+                         } 
                          else
                          {
                             toastr["error"]("Failed to add resource.");
@@ -233,4 +243,103 @@ function ClearStage(id)
             };
             xmlhttp.open("GET","../script/removestage.php?id="+id,true);
             xmlhttp.send();
+}
+function ClearHour(id)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        if(this.responseText==1)
+        {
+            toastr["success"]("Hours Removed.");
+           activty();
+           projectResourcingList();
+           $("#close-hours").click()
+        }
+        else
+        {
+          
+           toastr["error"]("Failed to remove hour.");
+        }
+        }
+    };
+    xmlhttp.open("GET","../script/removehours.php?id="+id,true);
+    xmlhttp.send();
+}
+function SetRFilter(id,value)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        projectResourcingList();
+        }
+    };
+    xmlhttp.open("GET","../script/setRfilter.php?value="+value+"&id="+id,true);
+    xmlhttp.send();
+}
+function ClearRFilter()
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        $('#roffice').val("all").trigger('change.select2');
+        $('#rregion').val("all").trigger('change.select2');
+        $('#rmanager').val("all").trigger('change.select2');
+  
+      
+        projectResourcingList();
+        }
+    };
+    xmlhttp.open("GET","../script/clearRfilter.php",true);
+    xmlhttp.send();
+}
+function MinusHours(id)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         document.getElementById('minus-form').innerHTML=this.responseText;
+         
+        }
+    };
+    xmlhttp.open("GET","../script/minushours.php?id="+id,true);
+    xmlhttp.send();
+}
+function UpdateMinus()
+{
+    var hours=document.getElementById("mhours").value;
+    var pid=document.getElementById("mtype").value;
+
+    if(hours=="")
+    {
+        toastr["error"]("Please enter hours to minus.");
+    }
+     else
+     {
+        var data = {Pid:pid,  Hours:hours};
+     
+		var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {     
+					     if(this.responseText==1)
+                         {
+                            toastr["success"](" Hours for minus added to project.");
+                             
+                              activty();
+                              projectResourcingList();
+                              $("#close-minus").click();
+                         }
+                         else
+                         {
+                            toastr["error"]("Failed to add hours.");
+                         }
+                }
+            };
+ 
+            xmlhttp.open("POST","../script/addminushours.php",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+			xmlhttp.send(JSON.stringify(data));
+     }
 }

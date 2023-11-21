@@ -7,7 +7,7 @@
   <?php include '../Inc/head.php';?>
 
 </head>
-<body class="hold-transition sidebar-mini pace-white accent-primary">
+<body class="<?= $_SESSION['body'];?>">
 <!-- Site wrapper -->
 <div class="wrapper">
   
@@ -57,7 +57,7 @@
                                       $weeks=getWeeks(date('Y'));
                                           foreach($weeks as $week)
                                           {
-                                              echo '<th class="rotated"> '.$week.' </th>';
+                                              echo '<th class="rotated" data-orderable="false"> '.$week.' </th>';
                                           }
                                       ?>
                                 </tr>

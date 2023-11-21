@@ -6,7 +6,7 @@ include '../Inc/DBcon.php';
 include 'log.php';
 $sql="update projects  set 
  code='".$data->Code."', name='".mysqli_real_escape_string($conn,$data->Name)."', manager_id='".$data->Pm."', country_id='".$data->Country."', profit='".$data->Profit."',
-  avg_rate='".$data->Rate."', stage='".$data->Stage."', status='".$data->Status."', office_id='".$data->Office."' where ID='".$data->ID."' ;  ";
+  avg_rate='".$data->Rate."', stage='".$data->Stage."', status='".$data->Status."', office_id='".$data->Office."',deadline='".$data->Deadline."' where ID='".$data->ID."' ;  ";
     if (mysqli_query($conn,$sql))
     {
         

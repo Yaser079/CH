@@ -7,7 +7,14 @@ include 'log.php';
 include 'functions.php';
 $project=getProject($data->Pid);
 $staff=getManager($data->Res);
-$sql="insert into project_resource ( pid,staff_id) VALUES
+$already=getduplicateResource($data->Pid,$data->Res);
+if($already>0)
+{
+    echo "2";
+}
+else
+{
+    $sql="insert into project_resource ( pid,staff_id) VALUES
  ('".$data->Pid."','".$data->Res."'); ";
     if (mysqli_query($conn,$sql))
     {
@@ -21,6 +28,8 @@ $sql="insert into project_resource ( pid,staff_id) VALUES
         echo "0";
         
     }
+}
+
     
 	mysqli_close($conn);
 ?>

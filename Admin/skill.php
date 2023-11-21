@@ -7,7 +7,7 @@
   <?php include '../Inc/head.php';?>
 
 </head>
-<body class="hold-transition sidebar-mini pace-white accent-primary">
+<body class="<?= $_SESSION['body'];?>">
 <!-- Site wrapper -->
 <div class="wrapper">
   
