@@ -15,7 +15,7 @@ td {
       .narrow{width: 20px !important;}
 </style>
 </head>
-<body class="hold-transition sidebar-mini pace-white accent-primary">
+<body class="<?= $_SESSION['body'];?>">
 <!-- Site wrapper -->
 <div class="wrapper">
   

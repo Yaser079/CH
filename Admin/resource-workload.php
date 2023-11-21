@@ -11,7 +11,7 @@
       .name{ cursor: pointer;}
 </style>
 </head>
-<body class="hold-transition sidebar-mini pace-white accent-primary">
+<body class="<?= $_SESSION['body'];?>">
 <!-- Site wrapper -->
 <div class="wrapper">
   
@@ -41,7 +41,7 @@
 
     <!-- Main content -->
     <section class="content">
-    <div class="card card-primary">
+      <div class="card card-primary">
             <div class="card-header">
                 <div class="d-flex justfiy-content-start">
                     <h3 class="card-title mr-4 d-flex align-self-center ">Resource Workload</h3>
@@ -82,7 +82,7 @@
                                 $weeks=getWeeks(date('Y'));
                                     foreach($weeks as $week)
                                     {
-                                        echo '<th class="rotated"> '.$week.' </th>';
+                                        echo '<th class="rotated" data-orderable="false"> '.$week.' </th>';
                                     }
                                 ?>   
                             </tr>
@@ -151,7 +151,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+      </div>
        
 
     </section>

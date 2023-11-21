@@ -5,7 +5,7 @@ function projectResourcingList()
       if (this.readyState == 4 && this.status == 200) {
             document.getElementById('resourcing-list').innerHTML=this.responseText;
             $("#example1").DataTable({
-                "responsive": false, "lengthChange": true, "autoWidth": false,
+                "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
               }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             

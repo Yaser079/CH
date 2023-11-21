@@ -8,9 +8,10 @@
  
 
 </head>
-<body class="hold-transition sidebar-mini pace-white accent-primary">
+<body class="<?= $_SESSION['body'];?>">
 <!-- Site wrapper -->
 <div class="wrapper">
+
   
   <!-- /.navbar -->
   <?php include '../Inc/top-nav.php';?>
@@ -38,6 +39,7 @@
   
     <!-- Main content -->
     <section class="content">
+      
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title ">Filters</h3>
@@ -173,20 +175,20 @@
                     <thead>
                     <tr>
                     <th> </th>
-                    <th>Action</th>
+                    <th data-orderable="false">Action</th>
                     <th>Code</th>
-                    <th>Name</th>
-                    <th class="rotated">Country</th>
-                    <th class="rotated">Remaining<br>Hours</th>
-                    <th class="rotated">Hours to Minus</th>
-                    <th class="rotated">Budget<br>Hours</th>
-                    <th class="rotated">Resource</th>
+                    <th data-orderable="false">Name</th>
+                    <th class="rotated" data-orderable="false">Country</th>
+                    <th class="rotated" data-orderable="false">Remaining<br>Hours</th>
+                    <th class="rotated" data-orderable="false">Hours to Minus</th>
+                    <th class="rotated" data-orderable="false">Budget<br>Hours</th>
+                    <th class="rotated" data-orderable="false">Resource</th>
                     <?php 
                     include '../script/functions.php';
                     $weeks=getWeeks(date('Y'));
                         foreach($weeks as $week)
                         {
-                            echo '<th class="rotated"> '.$week.' </th>';
+                            echo '<th class="rotated" data-orderable="false"> '.$week.' </th>';
                         }
                     ?>
                     </tr>

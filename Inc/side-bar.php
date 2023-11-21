@@ -9,7 +9,7 @@
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar "  >
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
@@ -21,7 +21,7 @@
       </div>
 
       <!-- Sidebar Menu -->
-      <nav class="mt-2">
+      <nav class="mt-2" >
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -49,7 +49,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item d-none">
             <a href="weekly-resource.php" class="nav-link <?= $_SESSION['nav']=='weekly'? 'active': '';?>"> 
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>
@@ -61,7 +61,7 @@
             <a href="weekly-resource2.php" class="nav-link <?= $_SESSION['nav']=='weekly2'? 'active': '';?>"> 
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>
-               Weekly Resource v2
+               Weekly Resource
               </p>
             </a>
           </li>
@@ -86,6 +86,22 @@
               <i class="nav-icon fas fa-users-cog"></i>
               <p>
                 Resource List
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="support-dashboard.php" class="nav-link <?= $_SESSION['nav']=='support'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-project-diagram"></i>
+              <p>
+                Support Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="support-admin.php" class="nav-link <?= $_SESSION['nav']=='support-admin'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-user-tie"></i>
+              <p>
+                Support Admin
               </p>
             </a>
           </li>

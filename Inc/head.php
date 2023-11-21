@@ -39,11 +39,15 @@
    <!-- pace-progress -->
    <link rel="stylesheet" href="../plugins/pace-progress/themes/black/pace-theme-flat-top.css">
     <style>
+        html {
+            scroll-behavior: smooth;
+            }
+
       td {
-         padding: 5px !important;
+         padding: 3px !important;
       }
       th{
-         padding: 15px 10px !important;
+         padding: 10px 3px !important;
       }
       .rotated {
         writing-mode: tb-rl;
@@ -60,6 +64,33 @@
         cursor: pointer;
         background-color: #F8E095;
     }
+   
+        /* width */
+     ::-webkit-scrollbar {
+            width: 12px;
+	background-color: #F5F5F5;
+
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D9D9D9;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #D9D9D9;
+    }
+ 
      
     </style>
   

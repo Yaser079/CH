@@ -1,5 +1,5 @@
 <?php 
-$name="";
+$hours="";
 
 $type=0;
 if($_GET['id']>0)
@@ -10,6 +10,7 @@ if($_GET['id']>0)
     if(mysqli_num_rows($result) > 0 )
     {
         $row = mysqli_fetch_array($result);
+        $hours=$row['hours'];
         $type=$row['ID'];
     }
 	
@@ -20,7 +21,7 @@ if($_GET['id']>0)
     <div class="col-md-12">
         <div class="form-group">
             <label for="exampleInputEmail1">Enter Hours</label>
-            <input type="number" class="form-control" id="hours" placeholder="Enter hours" >
+            <input type="number" class="form-control" id="hours" placeholder="Enter hours" value="<?=$hours;?>" >
             <input type="hidden" id="project" value="">
             <input type="hidden" id="staff" value="">
             <input type="hidden" id="week" value="">

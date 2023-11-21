@@ -10,7 +10,7 @@
                 $weeks=getWeeks(date('Y'));
                     foreach($weeks as $week)
                     {
-                        echo '<th class="rotated"> '.$week.' </th>';
+                        echo '<th class="rotated" data-orderable="false"> '.$week.' </th>';
                     }
                 ?>
         </tr>

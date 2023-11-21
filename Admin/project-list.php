@@ -9,7 +9,7 @@
   ?>
 
 </head>
-<body class="hold-transition sidebar-mini pace-white accent-primary">
+<body class="<?= $_SESSION['body'];?>">
 <!-- Site wrapper -->
 <div class="wrapper">
   
@@ -254,7 +254,7 @@
               
                 <thead>
                 <tr>
-                  <th colspan="9"></th>
+                  <th colspan="12"></th>
                   
                   <?php
                     include '../Inc/DBcon.php';
@@ -275,14 +275,18 @@
               </tr>
                 <tr>
                   <th >ID</th>
-                  <th >Action</th>
-                  <th>Project Number</th>
+                  <th  data-orderable="false">Action</th>
+                  <th >Project Number</th>
                   <th >Project Name</th>
                   <th>PM</th>
+                  <th class=" ">Status</th>
                   <th class="rotated">Country</th>
                   <th class="rotated">Hours</th>
                   <th class="rotated">%Profit</th>
                   <th class="rotated">AVG Rate</th>
+                  
+                  <th class="rotated">Current Stage</th>
+                  <th class="rotated">Deadline</th>
                   <?php
                     include '../Inc/DBcon.php';
                     $sql2="select * from project_phase";
@@ -292,8 +296,8 @@
                         
                         while($row = mysqli_fetch_array($result))
                         {
-                            echo ' <th  class="rotated"> Hours</th>';
-                            echo ' <th  class="rotated">Budget</th>';
+                            echo ' <th  class="rotated"  data-orderable="false"> Hours</th>';
+                            echo ' <th  class="rotated"  data-orderable="false">Budget</th>';
                              
                         }
                     }
@@ -315,6 +319,8 @@
                             $country=getCountry($row2['country_id']);
                             $hours=gethours($row2['ID']);
                             $status=getStatus($row2['status']);
+                            $stage1=getStage($row2['stage']);
+                             
                             echo'<tr style="background-color:'.$status['color'].'">
                                     <td>'.$i.'</td>
                                     <td>
@@ -324,10 +330,14 @@
                                     <td>'.$row2['code'].'</td>
                                     <td >'.$row2['name'].'</td>
                                     <td>'.$pm['nick_name'].'</td>
+                                    <td  >'.$status['name'].'</td>
                                     <td style="background-color:'.$country['color'].'">'.$country['tag'].'</td>
                                     <td>'.$hours.'</td>
                                     <td>'.$row2['profit'].'%</td>
-                                    <td class="font-weight-bold">'.$row2['avg_rate'].'</td>
+                                    <td  >'.$row2['avg_rate'].'</td>
+                                    
+                                    <td style="background-color:'.$stage1['color'].'">'.$stage1['short_name'].'</td>
+                                    <td  >'.$row2['deadline'].'</td>
                                   ';
                                   $sql2="select * from project_phase";
                                     $result3=mysqli_query($conn,$sql2);
@@ -403,7 +413,7 @@
                             <option>Select Manager</option>
                                 <?php
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from staff;";
+                                        $sql2="select * from staff where status='1' AND role_id='1';";
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
@@ -522,6 +532,22 @@
                                             }
                                         }
                                         mysqli_close($conn);
+                                    ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Deadline</label>
+                            <select class="form-control select2" id="deadline" style="width: 100%;" >
+                            <option>Select Deadline</option>
+                                <?php
+                                        $weeks=getWeeks(date('Y'));
+                                        foreach($weeks as $week)
+                                        {
+                                            echo '<option value="'.$week.'" >'.$week.'</option>';
+                                        }
+                                        
                                     ?>
                             </select>
                         </div>

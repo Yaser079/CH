@@ -29,6 +29,7 @@ $week=$_SESSION['weekly-resource'];
                     $prject=getProject($row['pid']);
                     $country=getCountry($prject['country_id']);
                     $weekStage=getResourceStageWeek($row['pid'],$row['week']);
+                    
                     $stage=getStage($weekStage);
                         echo '<tr>
                                 <td>'.$i.'</td>

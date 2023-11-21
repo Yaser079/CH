@@ -14,6 +14,10 @@ $sql="select * from users where email='".$data->username."' AND password='".$dat
         $_SESSION['admin']=$row['users'];
         $_SESSION['nav']='dashboard';
         $action=$row['name']." Logged in.";
+        $_SESSION['body']="hold-transition sidebar-mini pace-white accent-primary text-sm sidebar-collapse";
+        $time = date('d-M',strtotime('monday this week'));
+        $_SESSION['weekly-resource']=$time;
+        $_SESSION['current-week']=$time;
         create_log($row['ID'],$action);
     	echo "1";
 	}
