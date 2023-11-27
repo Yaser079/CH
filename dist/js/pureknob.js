@@ -349,7 +349,7 @@
 			input.style.width = widthString + 'px';
 
 			const inputMode = document.createAttribute('inputmode');
-			inputMode.value = 'numeric';
+			inputMode.value = 'text';
 			input.setAttributeNode(inputMode);
 
 			const inputDiv = document.createElement('div');
@@ -564,7 +564,7 @@
 					ctx.fillStyle = colorFilling;
 					ctx.textAlign = 'center';
 					ctx.textBaseline = 'middle';
-					ctx.fillText(valueStr, centerX, centerY);
+					ctx.fillText(valueStr+"%", centerX, centerY);
 
 					/*
 					 * Draw the label

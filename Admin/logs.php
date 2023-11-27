@@ -1,4 +1,4 @@
-<?php session_start(); include '../script/islogin.php';  $_SESSION['nav']='logs';?>
+<?php session_start(); include '../script/islogin.php';  $_SESSION['nav']='logs';  include '../script/functions.php';?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,12 +33,12 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-    </section>
+    </section> 
   
     <!-- Main content -->
     <section class="content">
 
-    <div class="card card-info">
+    <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title">Logs List</h3>
             </div>
@@ -50,6 +50,7 @@
                 <tr>
                   <th>ID</th>
                   <th>User</th>
+                  <th>Nick Name</th>
                   <th>Action Description</th>
                   <th>Date</th>
                 </tr>
@@ -57,17 +58,27 @@
                 <tbody>
                 <?php
                     include '../Inc/DBcon.php';
-                    $sql2="select users.name as name, logs.ID as ID, logs.action as action, logs.created_at as date from logs inner join users on users.ID=logs.uid order by logs.ID desc";
+                    if($_SESSION['admin']==1)
+                    {
+                      $sql2="select users.ID as uid, users.name as name, logs.ID as ID, logs.action as action, logs.created_at as date from logs inner join users on users.ID=logs.uid order by logs.ID desc";
+
+                    }
+                    else{
+                      $sql2="select users.ID as uid, users.name as name, logs.ID as ID, logs.action as action, logs.created_at as date from logs inner join users on users.ID=logs.uid where logs.uid='".$_SESSION['uid']."' order by logs.ID desc";
+
+                    }
                     $result=mysqli_query($conn,$sql2);
                     if(mysqli_num_rows($result) > 0 )
                     {
                         $i=1;
+                        
                         while($row = mysqli_fetch_array($result))
                         {
-                        
+                          $staff=getUserStaff($row['uid']);
                             echo '<tr>
                                     <td>'.$i.'</td>
                                     <td>'.$row['name'].'</td>
+                                    <td>'.$staff['nick_name'].'</td>
                                     <td>'.$row['action'].'</td>
                                     <td>'.$row['date'].'</td>
                                 </tr>';

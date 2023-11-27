@@ -80,7 +80,118 @@
               <div id="chartContainer3" class="border shadow"  style="height: 250px; width: 100%;"></div>             
           </div>
           <div class="col-md-3  ">
-          <div id="chartContainer4" class="border shadow"  style="height: 250px; width: 100%; overflow-y:auto;  overflow-x: hidden;"></div>
+          <div class="card card-primary card-tabs" style="height: 250px; width: 100%; overflow-y:auto;  overflow-x: hidden;">
+              <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">AVAILABLE STAFF</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">OVERLOADED STAFF</a>
+                  </li>
+                   
+                </ul>
+              </div>
+              <div class="card-body p-2">
+                <div class="tab-content" id="custom-tabs-one-tabContent">
+                  <div class="tab-pane fade show active p-0" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                  <?php
+                        include '../Inc/DBcon.php';
+                        $sql2="select * from staff where office='4';";
+                        $result=mysqli_query($conn,$sql2);
+                        if(mysqli_num_rows($result) > 0 )
+                        {
+                          $array= array();
+                            while($row2 = mysqli_fetch_array($result))
+                            {
+                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
+                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
+                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $l1=$l2=$l3=$l4=$l5=$l6=0;
+                              $remarks='';
+                              if($otherLeaves!=0)
+                              {
+                                  $l1=$otherLeaves['VACATION'];
+                                  $l2=$otherLeaves['GENERAL'];
+                                  $l3=$otherLeaves['MARKETING'];
+                                  $l4=$otherLeaves['TRAINING'];
+                                  $l5=$otherLeaves['OFFICE'];
+                                  $l6=$otherLeaves['MEDICAL'];
+                                  $remarks=$otherLeaves['REMARKS'];
+                              }
+                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
+                              $array+=[$row2['nick_name']=> (100-((((int)$hours+$total)/40)*100))];
+                            }
+                            arsort($array);
+                            foreach($array as $key => $val)
+                            {
+                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
+                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
+                                        <div class="progress-group" style="width: 100%;padding:0px">
+                                          <div class="progress progress-md">
+                                            <div class="progress-bar bg-secondary" style="width: '.$val.'% ;">'.$val.'% available</div>
+                                          </div>
+                                        </div>
+                                    </div>';
+                            }
+                            
+                        }
+                        mysqli_close($conn);
+                        ?>   
+                </div>
+                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                  <?php
+                        include '../Inc/DBcon.php';
+                        $sql2="select * from staff where office='4';";
+                        $result=mysqli_query($conn,$sql2);
+                        if(mysqli_num_rows($result) > 0 )
+                        {
+                          $array= array();
+                            while($row2 = mysqli_fetch_array($result))
+                            {
+                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
+                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
+                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $l1=$l2=$l3=$l4=$l5=$l6=0;
+                              $remarks='';
+                              if($otherLeaves!=0)
+                              {
+                                  $l1=$otherLeaves['VACATION'];
+                                  $l2=$otherLeaves['GENERAL'];
+                                  $l3=$otherLeaves['MARKETING'];
+                                  $l4=$otherLeaves['TRAINING'];
+                                  $l5=$otherLeaves['OFFICE'];
+                                  $l6=$otherLeaves['MEDICAL'];
+                                  $remarks=$otherLeaves['REMARKS'];
+                              }
+                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
+                              $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
+                            }
+                            arsort($array);
+                            foreach($array as $key => $val)
+                            {
+                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
+                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
+                                        <div class="progress-group" style="width: 100%;padding:0px">
+                                          <div class="progress progress-md">
+                                            <div class="progress-bar bg-danger" style="width: '.$val.'% ;">'.$val.'% Working</div>
+                                          </div>
+                                        </div>
+                                    </div>';
+                            }
+                            
+                        }
+                        mysqli_close($conn);
+                        ?> 
+                       
+                </div>
+                  
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
           </div>
         </div>
         <div class="row mt-2">
@@ -514,74 +625,7 @@ var options3 = {
       }]
     };
 $("#chartContainer3").CanvasJSChart(options3);
-//Better to construct options first and then pass it as a parameter
-var options4 = {
-	animationEnabled: true,
-	title: {
-		text: "Support Workload",                
-		fontColor: "black",
-        fontFamily: "arial"
-	},	
-	axisY: {
-		tickThickness: 1,
-		lineThickness: 1,
-		valueFormatString: " ",
-		includeZero: true,
-		gridThickness: 1                    
-	},
-	axisX: {
-		tickThickness: 1,
-		lineThickness: 1,
-		labelFontSize: 12,
-		labelFontColor: "Peru",
-        barPercentage: 100				
-	},
-	data: [{
-		indexLabelFontSize: 12,
-		toolTipContent: "<span style=\"color:#61C3C3\">{indexLabel}:</span> <span style=\"color:#AD858F\"><strong>{y}</strong></span>",
-		indexLabelPlacement: "inside",
-		indexLabelFontColor: "white",
-		indexLabelFontWeight: 400,
-		indexLabelFontFamily: "Verdana",
-		color: "#62a9C3",
-		type: "bar",
-		dataPoints: [
-      <?php
-            include '../Inc/DBcon.php';
-            $sql2="select * from staff where office='4';";
-            $result=mysqli_query($conn,$sql2);
-            if(mysqli_num_rows($result) > 0 )
-            {
-                
-                while($row2 = mysqli_fetch_array($result))
-                {
-                  $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
-                  $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
-                  $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
-                  $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
-                  $l1=$l2=$l3=$l4=$l5=$l6=0;
-                  $remarks='';
-                  if($otherLeaves!=0)
-                  {
-                      $l1=$otherLeaves['VACATION'];
-                      $l2=$otherLeaves['GENERAL'];
-                      $l3=$otherLeaves['MARKETING'];
-                      $l4=$otherLeaves['TRAINING'];
-                      $l5=$otherLeaves['OFFICE'];
-                      $l6=$otherLeaves['MEDICAL'];
-                      $remarks=$otherLeaves['REMARKS'];
-                  }
-                  $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                    echo '{ y: '.(40-((int)$hours+$total)).', label: "'.((((int)$hours+$total)/40)*100).'%", indexLabel: "'.$row2['nick_name'].'" },';
-                }
-            }
-            mysqli_close($conn);
-            ?>   
-		]
-	}]
-};
-
-$("#chartContainer4").CanvasJSChart(options4);
+ 
 }
 </script>
        

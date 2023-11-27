@@ -171,13 +171,14 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                 <div class="table-responsive">
-                <table id="example1" class="table table-bordered table-hover text-center">
+                <table id="example1" class="table table-bordered table-hover text-center ">
                     <thead>
                     <tr>
-                    <th> </th>
+                    <th  > </th>
                     <th data-orderable="false">Action</th>
                     <th>Code</th>
                     <th data-orderable="false">Name</th>
+                    <th data-orderable="false" class="d-none">Name</th>
                     <th class="rotated" data-orderable="false">Country</th>
                     <th class="rotated" data-orderable="false">Remaining<br>Hours</th>
                     <th class="rotated" data-orderable="false">Hours to Minus</th>
@@ -212,11 +213,12 @@
                                 $budgthour=getbudgetHours($row['ID']);
                                 $remaining=$hours-($budgthour+(int)$row['minus_hours']);
                                 echo '<tr>
-                                            <td   style="vertical-align: middle;" class="bg-green"> </td>
+                                            <td   style="vertical-align: middle; " class="bg-green" > </td>
                                             <td  class="bg-green">
                                                 <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-white"></i></a> &nbsp;
                                             </td>
                                             <td class="bg-green font-weight-bold">'.$row['code'].'</td>
+                                            <td class="bg-green font-weight-bold d-none">'.$row['name'].'</td>
                                             <td class="bg-green font-weight-bold">'.$row['name'].'</td>
                                             <td class="bg-green font-weight-bold">'.$country['tag'].'</td>
                                             <td class="bg-green font-weight-bold">'.$remaining.' </td>
@@ -256,6 +258,7 @@
                                                     <td ></td>
                                                     <td ></td>
                                                     <td >'.$row['code'].' </td>
+                                                    <td class="bg-green font-weight-bold d-none">'.$row['name'].'</td>
                                                     <td ><small>Resource</small> </td>
                                                     <td > </td>
                                                     <td > </td>
@@ -287,6 +290,7 @@
                 
                     </tbody>
                 </table>
+                 
                 </div>
                 </div>
                 

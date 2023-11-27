@@ -90,13 +90,13 @@
                     <table id="example1" class="table table-bordered table-hover text-center pro-list">
                         <thead>
                             <tr>
-                                <th data-orderable="false">ID</th>
-                                <th data-orderable="false">Action</th>
-                                <th data-orderable="false">PM</th>
-                                <th data-orderable="false">Code</th>
-                                <th class="text-left" data-orderable="false">Projects</th>
-                                <th data-orderable="false">Deadline</th>
-                                <th data-orderable="false">Project State</th>
+                                <th data-orderable="false" style="width: 20px !important;">ID</th>
+                                <th data-orderable="false" style="width: 50px !important;">Action</th>
+                                <th data-orderable="false" style="width: 50px !important;">PM</th>
+                                <th data-orderable="false" style="width: 50px !important;">Code</th>
+                                <th class="text-left" data-orderable="false" style="width: 200px !important;">Projects</th>
+                                <th data-orderable="false" style="width: 50px !important;">Deadline</th>
+                                <th data-orderable="false" style="width: 70px !important;">Project State</th>
                                 <th data-orderable="false">Status</th>
                                 <th data-orderable="false" class="text-left">Additional Comments</th>    
                             </tr>
@@ -221,6 +221,10 @@
                             ?>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1"> New Review</label>
+                     <input type="text" class="form-control" id="cr" placeholder="Custome Review">
+                </div> 
                 <div class="form-group">
                     <label for="exampleInputEmail1"> Additional Comments</label>
                     <textarea  id="cmnt" cols="30" rows="10" class="form-control" placeholder="Comments"></textarea>

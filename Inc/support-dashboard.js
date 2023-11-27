@@ -36,14 +36,15 @@ function NewReview()
 {
     var id=document.getElementById('pid').value;
     var rew=document.getElementById('pr').value;
+    var cr=document.getElementById('cr').value;
     var cmnt=document.getElementById('cmnt').value;
-    if(rew==0 && cmnt=="")
+    if(rew==0 && cmnt=="" && cr=="")
     {
-        toastr["error"]("Please select Project Review or add Comments.");
+        toastr["error"]("Please select Project Review, add cutome review or add Comments.");
     }
     else
     {
-        var data = {ID:id,Rew:rew,Cmnt:cmnt};
+        var data = {ID:id,Rew:rew,Cmnt:cmnt,CR:cr};
         var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() 
             {
@@ -53,8 +54,8 @@ function NewReview()
                          {
                             toastr["success"]("Project review added.");
                             Reportinglist();
-                              activty();
-                              $('#project-close').click();
+                            activty();
+                            $('#project-close').click();
                          }
                          else
                          {
