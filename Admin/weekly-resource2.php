@@ -90,7 +90,7 @@ td {
                             </div>
                         </div>
                          
-                        <div class="col-md-2">
+                        <div class="col-md-2 d-none">
                             <div class="form-group">
                             <label>Resource Capacity</label>
                             <select class="form-control form-control-sm select2" id="wcapacity" style="width: 100%;" onchange="SetWFilter(this.id,this.value)">
@@ -198,7 +198,7 @@ td {
                                                 </td>
                                                 <td >'.$row2['nick_name'].'</td>
                                                 <td>'.$office['code'].'</td>
-                                                <td>'.$projectsCount.'</td>s
+                                                <td>'.$projectsCount.'</td>
                                                 <td>'.$hours.'</td>
                                                 <td style="background-color: '.$cp.'">'.(40-((int)$hours+$total)).'</td>
                                                 <td>'.(((int)$hours/40)*100).'% </td>

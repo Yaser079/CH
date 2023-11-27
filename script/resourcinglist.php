@@ -13,6 +13,7 @@
         <th data-orderable="false">Action</th>
         <th>Code</th>
         <th data-orderable="false">Name</th>
+        <th data-orderable="false" class="d-none">Name</th>
         <th class="rotated" data-orderable="false">Country</th>
         <th class="rotated" data-orderable="false">Remaining<br>Hours</th>
         <th class="rotated" data-orderable="false">Hours to Minus</th>
@@ -72,6 +73,7 @@
                     </td>
                     <td class="bg-green font-weight-bold">'.$row['code'].'</td>
                     <td class="bg-green font-weight-bold">'.$row['name'].'</td>
+                    <td class="bg-green font-weight-bold d-none">'.$row['name'].'</td>
                     <td class="bg-green font-weight-bold">'.$country['tag'].'</td>
                     <td class="bg-green font-weight-bold">'.$remaining.' </td>
                     <td class="week  font-weight-bold" onclick="MinusHours('.$row['ID'].')" data-toggle="modal" data-target="#minus-model">'.$row['minus_hours'].'</td>
@@ -108,6 +110,7 @@
                                         <td ></td>
                                         <td ></td>
                                         <td  >'.$row['code'].' </td>
+                                        <td class="bg-green font-weight-bold d-none">'.$row['name'].'</td>
                                         <td  ><small>Resource</small> </td>
                                         <td  > </td>
                                         <td  > </td>

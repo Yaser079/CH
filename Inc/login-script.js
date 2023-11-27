@@ -25,21 +25,29 @@ function login()
             {
                 if (this.readyState == 4 && this.status == 200) 
                 {     
-					     if(this.responseText==1)
-                         {
-                            Toast.fire({
-                                icon: 'success',
-                                title: '&nbsp; Login Successful.'
-                              }) 
-                                window.location.href = "Admin/index.php";
-                         }
-                         else
-                         {
-                            Toast.fire({
-                                icon: 'error',
-                                title: '&nbsp; Login Failed. Invalid Credentials.'
-                              }) 
-                         }
+                  
+                    if(this.responseText==1)
+                      {
+                        Toast.fire({
+                            icon: 'success',
+                            title: '&nbsp; Login Successful.'
+                          }) ;
+                            window.location.href = "Admin/index.php"; 
+                      }
+                      else if(this.responseText==0)
+                      {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '&nbsp; Login Failed. Invalid Credentials.'
+                          }) ;
+                      }
+                      else{
+                        Toast.fire({
+                          icon: 'success',
+                          title: '&nbsp; Login Successful.'
+                        }); 
+                          window.location.href = "Admin/weekly-resource2.php";
+                      }
                 }
             };
  

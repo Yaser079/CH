@@ -45,6 +45,8 @@ function SaveStaff()
 {
     var name=document.getElementById("fname").value;
     var nick=document.getElementById("nname").value;
+    var email=document.getElementById("nemail").value;
+    var phone=document.getElementById("nphone").value;
     var office=document.getElementById("foffice").value;
     var role=document.getElementById("frole").value;
     var type=document.getElementById("ftype").value;
@@ -60,6 +62,12 @@ function SaveStaff()
         toastr["error"]("Please enter nick name.");
           $("#nname").addClass("is-invalid");
     }
+    else if(email=="")
+    {
+        $("#nemail").focus();
+        toastr["error"]("Please enter email.");
+          $("#nemail").addClass("is-invalid");
+    }
     else if(office=="")
     {
         toastr["error"]("Please select staff office.");
@@ -70,7 +78,7 @@ function SaveStaff()
     }
     else
     {
-        var data = {Type:type,Name:name,Nick:nick,Office:office,Role:role};
+        var data = {Type:type,Name:name,Nick:nick,Office:office,Role:role,Email:email,Phone:phone};
      
 		var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() 
@@ -83,7 +91,9 @@ function SaveStaff()
                             $("#fname").removeClass("is-invalid");
                             $("#fname").val("");
                             $("#nname").removeClass("is-invalid");
-                            $("#nname").val("");    
+                            $("#nname").val("");
+                            $("#nemail").removeClass("is-invalid");
+                            $("#nemail").val("");      
                               activty();
                               $("#close-staff").click()
                               LoadStaff();

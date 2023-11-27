@@ -75,7 +75,7 @@
                                 </td>
                                 <td >'.$row2['nick_name'].'</td>
                                 <td>'.$office['code'].'</td>
-                                <td>'.$projectsCount.'</td>s
+                                <td>'.$projectsCount.'</td>
                                 <td>'.$hours.'</td>
                                 <td style="background-color: '.$cp.'">'.(40-((int)$hours+$total)).'</td>
                                 <td>'.(((int)$hours/40)*100).'% </td>

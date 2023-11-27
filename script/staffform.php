@@ -1,9 +1,11 @@
 <?php 
+ include 'functions.php';
 $name="";
 $nick="";
 $office="";
 $role="";
 $type=0;
+$email="";
 if($_GET['id']>0)
 {
     include '../Inc/DBcon.php';
@@ -14,6 +16,7 @@ if($_GET['id']>0)
     $nick=$row['nick_name'];
     $office=$row['office'];
     $role=$row['role_id'];
+    $email=getAuthUser($row['uid'])['email'];
     $type=$row['ID'];
     mysqli_close($conn);
 }
@@ -29,6 +32,18 @@ if($_GET['id']>0)
         <div class="form-group">
             <label for="exampleInputEmail1">Enter Nick Name</label>
             <input type="text" class="form-control" id="nname" placeholder="Enter Name" value="<?= $name; ?>" >
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Enter Email</label>
+            <input type="email" class="form-control" id="nemail" placeholder="Enter Email" value="<?= $email; ?>"   >
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Enter Phone</label>
+            <input type="tel" class="form-control" id="nphone" placeholder="Enter Phone"  >
         </div>
     </div>
     <div class="col-md-6">
@@ -96,7 +111,7 @@ if($_GET['id']>0)
 <?php
     if($type>0)
     {
-        include 'functions.php';
+        
     
     ?>
         <div class="col-md-9">

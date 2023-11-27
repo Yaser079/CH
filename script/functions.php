@@ -1,6 +1,16 @@
 <?php
 $Months = array("January", "February", "March","April","May","June","July","August","September","October","November","December");
+
 ///Staff Functions
+function getUserStaff($id)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff where uid='".$id."'";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
 function getManager($id)
 { 
     include '../Inc/DBcon.php';
@@ -603,5 +613,102 @@ function getResources($office)
      return mysqli_num_rows($result2);
     mysqli_close($conn);
 }
- 
+function getAuthUser($id)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from users where ID='".$id."'";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
+function getProjectWeekHoursOfStaff($pid,$week,$staff)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_weeks where week='".$week."' AND staff_id='".$staff."' and pid='".$pid."' And hours>'0';";
+    $result2=mysqli_query($conn,$sql2);
+    $pro=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return 0;
+    }
+    
+    mysqli_close($conn);
+}
+function getWeekOfficeHoliday($office,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from office_holidays where office_id='".$office."'  AND week='".$week."' ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2['hours'];
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getMonthOfficeHoliday($office,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from office_holidays where office_id='".$office."'  AND week like '%".$week."%' ;";
+    $result2=mysqli_query($conn,$sql2);
+    $pro=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        while($row2 = mysqli_fetch_array($result2))
+       {
+        $pro+=$row2['hours'];
+       }
+    }
+     
+        return $pro;
+    
+    mysqli_close($conn);
+}
+function getProjectWeekHoursOfStaffOfficeOfWeek($week,$office)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_weeks where week='".$week."' AND staff_id in (select ID from staff where office= '".$office."') And hours>'0';";
+    $result2=mysqli_query($conn,$sql2);
+    $pro=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+       while($row2 = mysqli_fetch_array($result2))
+       {
+        $pro+=$row2['hours'];
+       }
+        
+    }
+    return $pro;
+    
+    mysqli_close($conn);
+}
+function getProjectWeekHoursOfStaffOfficeOfMonth($week,$office)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_weeks where week like '%".$week."%' AND staff_id in (select ID from staff where office= '".$office."') And hours>'0';";
+    $result2=mysqli_query($conn,$sql2);
+    $pro=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+       while($row2 = mysqli_fetch_array($result2))
+       {
+        $pro+=$row2['hours'];
+       }
+        
+    }
+    return $pro;
+    
+    mysqli_close($conn);
+}
+
 ?>

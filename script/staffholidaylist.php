@@ -1,3 +1,4 @@
+<?php session_start();?>
 <div class="table-responsive">
     <table id="example1"  class="table table-bordered text-center staff-holiday">
         <thead>
@@ -20,7 +21,7 @@
         <?php
             include '../Inc/DBcon.php';
             
-            $sql2="select * from staff;";
+            $sql2="select * from staff order by CASE WHEN uid = '".$_SESSION['uid']."' THEN 0 ELSE 1 END, office asc;";
             $result=mysqli_query($conn,$sql2);
             if(mysqli_num_rows($result) > 0 )
             {
@@ -37,15 +38,37 @@
                     $weeks=getWeeks(date('Y'));
                     foreach($weeks as $week)
                     {
-                        $Holiday= getStaffHoliday($row['ID'],$week);
-                        if($Holiday)
+                        
+                        if($_SESSION['role']==1)
                         {
-                        echo '<td class="week font-weight-bold" id="'.$row['ID'].'_'.$week.'" onclick="HolidayForm(this.id)" data-toggle="modal" data-target="#holiday-model">'.$Holiday['hours'].'</td>';
+                            $Holiday= getStaffHoliday($row['ID'],$week);
+                            if($Holiday)
+                            {
+                              echo '<td class="week font-weight-bold" id="'.$row['ID'].'_'.$week.'" onclick="HolidayForm(this.id)" data-toggle="modal" data-target="#holiday-model" data-tooltip="tooltip"  title="'.$Holiday['description'].'">'.$Holiday['hours'].'</td>';
+                            }
+                            else
+                            {
+                              echo '<td class="week font-weight-bold" id="'.$row['ID'].'_'.$week.'" onclick="HolidayForm(this.id)" data-toggle="modal" data-target="#holiday-model" >  </td>';
+
+                            }
                         }
                         else
                         {
-                        echo '<td class="week font-weight-bold" id="'.$row['ID'].'_'.$week.'" onclick="HolidayForm(this.id)" data-toggle="modal" data-target="#holiday-model">  </td>';
+                            $Holiday= getStaffHoliday($row['ID'],$week);
+                            $inp=$inp2="";
+                            $inp=$_SESSION['uid']==$row['uid']? 'week':'';
+                            if($Holiday)
+                            {
+                              $inp2=$_SESSION['uid']==$row['uid']? 'onclick="HolidayForm(this.id)" data-toggle="modal" data-target="#holiday-model" data-tooltip="tooltip"  title="'.$Holiday['description'].'"':'';
 
+                              echo '<td class="'.$inp.' font-weight-bold" id="'.$row['ID'].'_'.$week.'"  '.$inp2.' >'.$Holiday['hours'].'</td>';
+                            }
+                            else
+                            {
+                              $inp2=$_SESSION['uid']==$row['uid']? 'onclick="HolidayForm(this.id)" data-toggle="modal" data-target="#holiday-model"':'';
+                              echo '<td class="'.$inp.' font-weight-bold" id="'.$row['ID'].'_'.$week.'"  '.$inp2.' >  </td>';
+
+                            }
                         }
                     }
                     echo '</tr>';

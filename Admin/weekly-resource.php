@@ -88,7 +88,7 @@ td {
                             </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 d-none">
                             <div class="form-group">
                             <label>Project Region</label>
                             <select class="form-control form-control-sm select2" id="wregion" style="width: 100%;" onchange="SetWFilter(this.id,this.value)">
@@ -124,7 +124,7 @@ td {
                             </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 d-none">
                             <div class="form-group">
                             <label>Project Manager</label>
                             <select class="form-control form-control-sm select2" id="wmanager" style="width: 100%;" onchange="SetWFilter(this.id,this.value)">
@@ -160,7 +160,7 @@ td {
                             </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 d-none">
                             <div class="form-group">
                             <label>Resource Capacity</label>
                             <select class="form-control form-control-sm select2" id="wcapacity" style="width: 100%;" onchange="SetWFilter(this.id,this.value)">
@@ -178,17 +178,25 @@ td {
 
         </div>
          
-        <div class="card">
+        <div class="card card-primary">
             <div class="card-header">
                 <div class="d-flex justfiy-content-start">
                     <h3 class="card-title mr-4 d-flex align-self-center ">Project Resourcing for Week</h3>
-                    <select class="form-control form-control-sm select2" id="wweek" style="width: 150px;" >
+                    <select class="form-control form-control-sm select2" id="wweek" style="width: 150px;" onchange="SelectWeeklyResource(this.value)">
                              <option>Select Week</option>
                              <?php
                                 $weeks=getWeeks(date('Y'));
                                 foreach($weeks as $week)
                                 {   
-                                   echo '<option value="'.$week.'">'.$week.'</option>';
+                                    if(isset($_SESSION['weekly-resource']) && $_SESSION['weekly-resource']==$week)
+                                    {
+                                        echo '<option value="'.$week.'" selected>'.$week.'</option>';
+                                    }
+                                    else
+                                    {
+                                        echo '<option value="'.$week.'">'.$week.'</option>';
+                                    }
+                                   
                                 }
                              ?>
                             
@@ -196,162 +204,202 @@ td {
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
+            <div class="card-body" id="weekly-Rlist">
                 <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-hover text-center">
+                    <table id="example1" class="table table-bordered table-hover text-center weekly-table">
                         <thead>
-                            <tr>
-                                <th colspan="15"> </th>
+                            
                             <?php 
                             
                                 include '../Inc/DBcon.php';
-                                $sql2="select * from projects";
-                                $result2=mysqli_query($conn,$sql2);
-                                if(mysqli_num_rows($result) > 0 )
+                                $filter='';
+                                if(isset($_SESSION['woffice']) && $_SESSION['woffice']!='all')
+                                {
+                                    $filter=" And staff.office='".$_SESSION['woffice']."' ";
+                                }
+                                $sqlProjects="select projects.* from projects INNER join resource_weeks on resource_weeks.pid=projects.ID  INNER join staff on resource_weeks.staff_id=staff.ID where resource_weeks.week='".$_SESSION['weekly-resource']."' ".$filter."  group by projects.code;";
+                                $projects=mysqli_query($conn,$sqlProjects);
+                                if(mysqli_num_rows($projects) > 0 )
                                 {
                                     $i=1;
-                                    while($row2 = mysqli_fetch_array($result2))
+                                    echo '<tr>
+                                    <th colspan="16" style="  border: none;"> </th>';
+                                    while($row2 = mysqli_fetch_array($projects))
                                     {
                                         $country=getCountry($row2['country_id']);
                                             echo '<th style="background-color:'.$country['color'].';">'.$country['tag'].'</th>';
                                     }
+                                    echo '</tr>';
                                 }
-                                mysqli_close($conn);
+                                 
+                                 
                             ?>
-                            </tr>
+                            
                             <tr>
-                                <th class="narrow font-weight-bold" rowspan="4">ID</th>
-                                <th class=" small narrow font-weight-bold" rowspan="4">Name</th>
-                                <th class=" small narrow font-weight-bold" rowspan="4">Office</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">Capacity</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">Utilisation</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">Utilisation (including leave)</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">VACATION / HOLIDAY</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">GENERAL OFFICE</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">MARKETING / BD</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">TRAINING/ RESERVIST</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">OFFICE HOLIDAY</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">PUBLIC HOLIDAY</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">MEDICAL LEAVE/<br>HOSPITALIZATION LEAVE</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="4">ANNUAL LEAVE/BIRTHDAY LEAVE<br>/CHILD CARE/UNPAID LEAVE</th>
-                                <th class="rotated small narrow font-weight-bold" rowspan="2">REMARKS</th>
+                                <th class="narrow font-weight-bold" data-orderable="false" rowspan="4"  >ID</th>
+                                <th class="  narrow text-left font-weight-bold" rowspan="4"  >Name</th>
+                                <th class="  narrow font-weight-bold" rowspan="4">Office</th>
+                                <th class="rotated  narrow font-weight-bold" rowspan="4">Projects</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">Capacity</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">Utilisation</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">Utilisation (including leave)</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">VACATION / HOLIDAY</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">GENERAL OFFICE</th>
+                                <th class="rotated  narrow font-weight-bold" rowspan="4">MARKETING / BD</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">TRAINING/ RESERVIST</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">OFFICE HOLIDAY</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">PUBLIC HOLIDAY</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">MEDICAL LEAVE/<br>HOSPITALIZATION LEAVE</th>
+                                <th class="rotated   narrow font-weight-bold" rowspan="4">ANNUAL LEAVE/BIRTHDAY LEAVE<br>/CHILD CARE/UNPAID LEAVE</th>
+                                <th class="  narrow font-weight-bold" rowspan="2">REMARKS</th>
                                     <?php 
                                     
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from projects";
-                                        $result2=mysqli_query($conn,$sql2);
-                                        if(mysqli_num_rows($result) > 0 )
+                                         
+                                        $projects=mysqli_query($conn,$sqlProjects);
+                                        if(mysqli_num_rows($projects) > 0 )
                                         {
                                             $i=1;
-                                            while($row2 = mysqli_fetch_array($result2))
+                                            while($row2 = mysqli_fetch_array($projects))
                                             {
                                                 $country=getCountry($row2['country_id']);
-                                                    echo '<th class="rotated small narrow font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['name'].'</th>';
+                                                    echo '<th class="rotated  narrow font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['name'].'</th>';
                                             }
                                         }
                                         mysqli_close($conn);
                                     ?>
                             </tr>
-                            <tr>
+                            
                              
                                 <?php 
                                     include '../Inc/DBcon.php';
-                                    $sql2="select * from projects";
-                                    $result2=mysqli_query($conn,$sql2);
-                                    if(mysqli_num_rows($result) > 0 )
+                                    $projects=mysqli_query($conn,$sqlProjects);
+                                    if(mysqli_num_rows($projects) > 0 )
                                     {
                                         $i=1;
-                                        while($row2 = mysqli_fetch_array($result2))
+                                        echo '<tr>';
+                                        while($row2 = mysqli_fetch_array($projects))
                                         {
                                             $country=getCountry($row2['country_id']);
-                                                echo '<th class="rotated small font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['code'].'</th>';
+                                                echo '<th class="rotated  font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['code'].'</th>';
                                         }
+                                        echo '</tr>';
                                     }
                                     mysqli_close($conn);
                                 ?>
-                            </tr>
-                            <tr>
+                           
                             
-                            <th class="narrow" >Stage</th>
                                 <?php 
                                     include '../Inc/DBcon.php';
-                                    $sql2="select * from projects";
-                                    $result2=mysqli_query($conn,$sql2);
-                                    if(mysqli_num_rows($result) > 0 )
+                                    $projects=mysqli_query($conn,$sqlProjects);
+                                    if(mysqli_num_rows($projects) > 0 )
                                     {
                                         $i=1;
-                                        while($row2 = mysqli_fetch_array($result2))
+                                        echo '<tr>
+                            
+                                        <th class="narrow" >Stage</th>';
+                                        while($row2 = mysqli_fetch_array($projects))
                                         {
-                                             
-                                                echo '<th class="rotated small"> </th>';
+                                             $stage=getStage($row2['stage']);
+                                                echo '<th class="   font-weight-bold"  style="background-color:'.$stage['color'].';">'.$stage['short_name'].'</th>';
                                         }
+                                        echo '</tr>';
                                     }
                                     mysqli_close($conn);
                                 ?>
-                            </tr>
-                            <tr>
                              
-                            <th class="narrow" >Deadline</th>
+                            
                                 <?php 
                                     include '../Inc/DBcon.php';
-                                    $sql2="select * from projects";
-                                    $result2=mysqli_query($conn,$sql2);
-                                    if(mysqli_num_rows($result) > 0 )
+                                    $projects=mysqli_query($conn,$sqlProjects);
+                                    if(mysqli_num_rows($projects) > 0 )
                                     {
                                         $i=1;
-                                        while($row2 = mysqli_fetch_array($result2))
+                                        echo '<tr> <th class="narrow" data-orderable="false">Deadline</th>';
+                                        while($row2 = mysqli_fetch_array($projects))
                                         {
                                              
-                                                echo '<th class="rotated small"> </th>';
+                                                echo '<th   data-orderable="false"> '.$row2['deadline'].'</th>';
                                         }
+                                        echo '</tr>';
                                     }
                                     mysqli_close($conn);
                                 ?>
-                            </tr>
+                            
                         </thead>
                         <tbody>
                             <?php
                                 include '../Inc/DBcon.php';
                                 $sql2="select * from staff";
                                 $result2=mysqli_query($conn,$sql2);
-                                if(mysqli_num_rows($result) > 0 )
+                                if(mysqli_num_rows($result2) > 0 )
                                 {
-                                    $i=1;
+                                    $ii=1;
                                     while($row2 = mysqli_fetch_array($result2))
                                     {
                                         $office=getOffice($row2['office']);
+                                        $projectsCount=getCurrentWeekProjectsOfStaff($row2['ID'],$_SESSION['weekly-resource']);
+                                        $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['weekly-resource']);
+                                        $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['weekly-resource']);
+                                        $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['weekly-resource']);
+                                        $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['weekly-resource']);
+                                        $l1=$l2=$l3=$l4=$l5=$l6=0;
+                                        $remarks='';
+                                        if($otherLeaves!=0)
+                                        {
+                                            $l1=$otherLeaves['VACATION'];
+                                            $l2=$otherLeaves['GENERAL'];
+                                            $l3=$otherLeaves['MARKETING'];
+                                            $l4=$otherLeaves['TRAINING'];
+                                            $l5=$otherLeaves['OFFICE'];
+                                            $l6=$otherLeaves['MEDICAL'];
+                                            $remarks=$otherLeaves['REMARKS'];
+                                        }
+                                        $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
+                                        $name="'".$row2['nick_name']."'";
+                                        $week="'".$_SESSION['weekly-resource']."'";
+                                        $cp=(40-((int)$hours+$total))>0?"#BDD7EE":"#FFACA7";
                                         echo '<tr>
-                                                <td>'.$i.'</td>
-                                                <td>'.$row2['nick_name'].'</td>
+                                                <td>'.$ii.'</td>
+                                                <td class="text-left ">'.$row2['nick_name'].'</td>
                                                 <td>'.$office['code'].'</td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>
-                                                <td> </td>';
+                                                <td class="font-weight-bold">'.$projectsCount.' </td>
+                                                <td class="font-weight-bold" style="background-color: '.$cp.'">'.(40-((int)$hours+$total)).'</td>
+                                                <td class="font-weight-bold">'.(((int)$hours/40)*100).'% </td>
+                                                <td class="font-weight-bold">'.((((int)$hours+$total)/40)*100).'% </td>
+                                                <td class="week font-weight-bold" id="VACATION_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l1.'</td>
+                                                <td class="week font-weight-bold" id="GENERAL_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l2.'</td>
+                                                <td class="week font-weight-bold" id="MARKETING_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l3.'</td>
+                                                <td class="week font-weight-bold" id="TRAINING_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l4.'</td>
+                                                <td class="week font-weight-bold" id="OFFICE_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l5.'</td>
+                                                <td class="font-weight-bold">'.$publicHlidy.'</td>
+                                                <td class="week font-weight-bold" id="MEDICAL_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l6.'</td>
+                                                <td class="font-weight-bold">'.$anualHolidy.'</td>
+                                                <td class="week" id="REMARKS_'.$_SESSION['weekly-resource'].'" onclick="NewRemakrs('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-remark">'.$remarks.'</td>';
                                                 
                                   
-                                                $sql2="select * from projects";
-                                                $result1=mysqli_query($conn,$sql2);
-                                                if(mysqli_num_rows($result1) > 0 )
+                                                $projects=mysqli_query($conn,$sqlProjects);
+                                                if(mysqli_num_rows($projects) > 0 )
                                                 {
                                                     $i=1;
-                                                    while($row1 = mysqli_fetch_array($result1))
+                                                    while($row1 = mysqli_fetch_array($projects))
                                                     {
+                                                       $staffhours= getProjectWeekHoursOfStaff($row1['ID'],$_SESSION['weekly-resource'],$row2['ID']);
+                                                       if($staffhours>0) 
+                                                       {
+                                                        echo '<td class="font-weight-bold">'.$staffhours.'</td>';
+                                                       }
+                                                       else{
                                                         echo '<td> </td>';
+                                                       }
+                                                      
                                                     }
+                                                     
                                                 }
                                                 echo '</tr>';
                                     
                                
-                                                $i++;
+                                                $ii++;
                                     }
                                 }
                                 mysqli_close($conn);
@@ -369,7 +417,80 @@ td {
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <div class="modal fade" id="modal-weekly">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-title">Projects Working Details of Anna for Week </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body pace-primary" id="weekly-projects">
 
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" id="add-project-close" data-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <div class="modal fade" id="modal-hour">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-title">Other Leves</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body pace-primary">
+                <label for="exampleInputEmail1">Enter Hours</label>
+                <input type="number" class="form-control" id="hours" placeholder="Enter hours" >
+                <input type="hidden" id="staff" value="">
+                <input type="hidden" id="week" value=""> 
+                <input type="hidden" id="column" value="">                  
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" id="add-hours-close" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="updateLeves()">Add Project</button>
+              
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <div class="modal fade" id="modal-remark">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-title">Remarks</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body pace-primary">
+                <label for="exampleInputEmail1">Enter Remarks</label>
+                <textarea class="form-control" id="remarks"></textarea>
+                <input type="hidden" id="rstaff" value="">
+                <input type="hidden" id="rweek" value=""> 
+                <input type="hidden" id="rcolumn" value="">                  
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" id="add-remark-close" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="updateRemarks()">Add Project</button>
+              
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
   <?php include '../Inc/footer.php';?>
+  <script src="../Inc/weekly-resource2.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<?php session_start(); include '../script/islogin.php'; $_SESSION['nav']='resource';?>
+<?php session_start(); include '../script/functions.php'; include '../script/islogin.php'; $_SESSION['nav']='resource';?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +41,7 @@
        <div id="staff-count">
           <div class="row">
                 <?php
-                include '../script/functions.php';
+                
                 include '../Inc/DBcon.php';
                 $sql2="select * from office;";
                 $result=mysqli_query($conn,$sql2);

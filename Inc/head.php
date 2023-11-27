@@ -45,9 +45,11 @@
 
       td {
          padding: 3px !important;
+  
       }
       th{
          padding: 10px 3px !important;
+    
       }
       .rotated {
         writing-mode: tb-rl;
@@ -90,7 +92,8 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #D9D9D9;
     }
- 
+   
+
      
     </style>
   

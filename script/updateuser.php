@@ -13,7 +13,10 @@ $sql="update  users set
     where ID='".$data->ID."' ;";
     if (mysqli_query($conn,$sql))
     {
-        
+
+        $sql="update staff set office='".$data->Country."' ,name='".$data->Name."'  where uid='".$data->ID."';";
+        mysqli_query($conn,$sql);
+
         $action=$_SESSION['name']." update data of user ( ".$data->Name." ).";
         create_log($_SESSION['uid'],$action);
     	echo "1";

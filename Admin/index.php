@@ -68,51 +68,189 @@
 
     <!-- Main content -->
     <section class="content">
-
-       <div class="row">
-        <div class="col-md-3">
-          <div id="chartContainer1" class="border shadow" style="height: 250px; width: 100%;"></div>
-        </div>
-        <div class="col-md-3">
-          <div id="chartContainer2" class="border shadow" style="height: 250px; width: 100%;"></div>
-        </div>
-        <div class="col-md-3">
-          <div id="chartContainer3" class="border shadow" style="height: 250px; width: 100%;"></div>
-        </div>
-        <div class="col-md-3">
-          <div id="chartContainer4" class="border shadow" style="height: 250px; width: 100%;"></div>
-        </div>
-       </div>
-       <div class="row mt-2">
+    <div class="row mt-2">
         <div class="col-md-2 align-self-center">
           <div class="info-box">
               <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
               <div class="info-box-content">
                   <h6 class="info-box-text font-weight-bold">Resource</h6>
-                  <h2 class="info-box-number font-weight-bolder"><?=getResources("1=1")?></h2>
+                  <h2 class="info-box-number font-weight-bolder">
+                    <?php
+                      $filter='1=1';
+                      if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
+                      {
+                        $filter=" office='".$_SESSION['Doffice']."' ";
+                      }
+                    echo getResources($filter)?>
+                  </h2>
               </div>
           </div> 
           <div class="info-box">
               <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
               <div class="info-box-content">
                   <h6 class="info-box-text font-weight-bold">Live Projects</h6>
-                  <h2 class="info-box-number font-weight-bolder"><?=getLiveProjects("1=1")?></h2>
+                  <h2 class="info-box-number font-weight-bolder">
+                    <?php 
+                     $filter='1=1';
+                     if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
+                     {
+                       $filter=" office_id='".$_SESSION['Doffice']."' ";
+                     }
+                    echo getLiveProjects($filter)?>
+                  </h2>
               </div>
           </div>             
         </div>
-        <div class="col-md-3  d-flex justify-content-center  ">
-        <div id="some_element" class="align-self-center"    >
-          <h3 style="text-align: center;">RESOURCE UTILIZATION</h3>
-           
-        </div>
-        
-          <!-- <div id="chartContainer5" class="border shadow" style="height: 250px; width: 100%;"></div> -->
+        <div class="col-md-4   ">
+          <div  class="border shadow p-2  bg-white rounded rounded-sm"  style="height: 300px; width: 100%;  ">
+            <h3 style="text-align: center;">RESOURCE UTILIZATION</h3>
+            <div style="margin-top: 20px;  " class="d-flex justify-content-center">
+              <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u7day" onclick="FilterDays(7,this.id)">7 Days</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u30day" onclick="FilterDays(30,this.id)">30 Days</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u90day" onclick="FilterDays(90,this.id)">90 Days</button>
+           </div>
+            <div class="d-flex justify-content-center">
+                    
+                <div id="some_element" class=" align-items-center " style="margin-top: 10px; "> </div>
+            </div>
+            
+          
+          
+          </div>
         </div>
         <div class="col-md-3">
-        <div id="chartContainer6" class="border shadow"  style="height: 250px; width: 100%; overflow-y:auto;  overflow-x: hidden;"></div>                  
+          <div    >
+           
+            <div class="card card-primary card-tabs" style="height: 300px; width: 100%; overflow-y:auto;  overflow-x: hidden;">
+              <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">AVAILABLE STAFF</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">OVERLOADED STAFF</a>
+                  </li>
+                   
+                </ul>
+              </div>
+              <div class="card-body p-2">
+                <div class="tab-content" id="custom-tabs-one-tabContent">
+                  <div class="tab-pane fade show active p-0" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                  <?php
+                        include '../Inc/DBcon.php';
+                        $filter='1=1';
+                        if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
+                        {
+                          $filter=" office='".$_SESSION['Doffice']."' ";
+                        }
+                        $sql2="select * from staff  where ". $filter.";";
+                        $result=mysqli_query($conn,$sql2);
+                        if(mysqli_num_rows($result) > 0 )
+                        {
+                          $array= array();
+                            while($row2 = mysqli_fetch_array($result))
+                            {
+                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
+                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
+                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $l1=$l2=$l3=$l4=$l5=$l6=0;
+                              $remarks='';
+                              if($otherLeaves!=0)
+                              {
+                                  $l1=$otherLeaves['VACATION'];
+                                  $l2=$otherLeaves['GENERAL'];
+                                  $l3=$otherLeaves['MARKETING'];
+                                  $l4=$otherLeaves['TRAINING'];
+                                  $l5=$otherLeaves['OFFICE'];
+                                  $l6=$otherLeaves['MEDICAL'];
+                                  $remarks=$otherLeaves['REMARKS'];
+                              }
+                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
+                              $array+=[$row2['nick_name']=> (100-((((int)$hours+$total)/40)*100))];
+                            }
+                            arsort($array);
+                            foreach($array as $key => $val)
+                            {
+                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
+                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
+                                        <div class="progress-group" style="width: 100%;padding:0px">
+                                          <div class="progress progress-md">
+                                            <div class="progress-bar bg-success" style="width: '.$val.'% ;">'.$val.'% available</div>
+                                          </div>
+                                        </div>
+                                    </div>';
+                            }
+                            
+                        }
+                        mysqli_close($conn);
+                        ?>   
+                </div>
+                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                  <?php
+                        include '../Inc/DBcon.php';
+                        $filter='1=1';
+                        if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
+                        {
+                          $filter=" office='".$_SESSION['Doffice']."' ";
+                        }
+                        $sql2="select * from staff  where ". $filter.";";
+                        $result=mysqli_query($conn,$sql2);
+                        if(mysqli_num_rows($result) > 0 )
+                        {
+                          $array= array();
+                            while($row2 = mysqli_fetch_array($result))
+                            {
+                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
+                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
+                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
+                              $l1=$l2=$l3=$l4=$l5=$l6=0;
+                              $remarks='';
+                              if($otherLeaves!=0)
+                              {
+                                  $l1=$otherLeaves['VACATION'];
+                                  $l2=$otherLeaves['GENERAL'];
+                                  $l3=$otherLeaves['MARKETING'];
+                                  $l4=$otherLeaves['TRAINING'];
+                                  $l5=$otherLeaves['OFFICE'];
+                                  $l6=$otherLeaves['MEDICAL'];
+                                  $remarks=$otherLeaves['REMARKS'];
+                              }
+                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
+                              $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
+                            }
+                            arsort($array);
+                            foreach($array as $key => $val)
+                            {
+                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
+                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
+                                        <div class="progress-group" style="width: 100%;padding:0px">
+                                          <div class="progress progress-md">
+                                            <div class="progress-bar bg-danger" style="width: '.$val.'% ;">'.$val.'% Working</div>
+                                          </div>
+                                        </div>
+                                    </div>';
+                            }
+                            
+                        }
+                        mysqli_close($conn);
+                        ?> 
+                </div>
+                  
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+                     
+            
+            
+             
+            
+          </div>                  
         </div>
-        <div class="col-md-4">
-            <div class="card card-primary">
+        <div class="col-md-3">
+            <div class="card card-primary" style=" height: 300px;">
               <div class="card-header">
                 <h3 class="card-title">Upcoming Holidays</h3>
                 <div class="card-tools">
@@ -122,11 +260,11 @@
                 <!-- /.card-tools -->
               </div>
               <!-- /.card-header -->
-              <div class="card-body p-1" style="display: block; height: 200px; width: 100%; overflow-y:auto;  overflow-x: hidden;">
+              <div class="card-body p-1" style="display: block;  width: 100%; overflow-y:auto;  overflow-x: hidden;">
                   <table class="table table-bordered table-hover text-center">
                   <thead class="table-primary">
                     <tr>
-                      <th>Name</th>
+                      <th>Event</th>
                       <th>Week</th>
                       <th>Office</th>
                     </tr>
@@ -134,14 +272,18 @@
                   <tbody>
                   <?php
                   include '../Inc/DBcon.php';
-                  
-                  $sql2="select * from office_holidays order by week; ";
+                  $filter='1=1';
+                  if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
+                  {
+                    $filter=" office_id='".$_SESSION['Doffice']."' ";
+                  }
+                  $sql2="select * from office_holidays where ".$filter." order by week; ";
                   $result=mysqli_query($conn,$sql2);
                   if(mysqli_num_rows($result) > 0 )
                   {
                       
                       while($row = mysqli_fetch_array($result))
-                      { $office=getOffice($row['ID']);
+                      { $office=getOffice($row['office_id']);
                           echo '<tr>
                                   <td>'.$row['description'].'</td>
                                   <td>'.$row['week'].'</td>
@@ -150,6 +292,7 @@
                       }
                   }
                   mysqli_close($conn);
+                   
                   ?>
                   </tbody>
                 </table>
@@ -161,7 +304,22 @@
           
                           
         </div>
+       </div>                 
+       <div class="row">
+        <div class="col-md-3">
+          <div id="chartContainer1" class="border shadow rounded" style="height: 250px; width: 100%;"></div>
+        </div>
+        <div class="col-md-3">
+          <div id="chartContainer2" class="border shadow rounded" style="height: 250px; width: 100%;"></div>
+        </div>
+        <div class="col-md-3">
+          <div id="chartContainer3" class="border shadow rounded" style="height: 250px; width: 100%;"></div>
+        </div>
+        <div class="col-md-3">
+          <div id="chartContainer4" class="border shadow rounded" style="height: 250px; width: 100%;"></div>
+        </div>
        </div>
+       
       
     </section>
     <!-- /.content -->
@@ -171,9 +329,9 @@
   <script src="../dist/js/pureknob.js" type="text/javascript"></script>
   <script>
     
-    function demoKnob() {
+    function demoKnob(value) {
 				// Create knob element, 300 x 300 px in size.
-				const knob = pureknob.createKnob(250, 200);
+				const knob = pureknob.createKnob(350, 300);
 				// Set properties.
 				knob.setProperty('angleStart', -0.50 * Math.PI);
 				knob.setProperty('angleEnd', 0.50 * Math.PI);
@@ -184,14 +342,16 @@
 				knob.setProperty('valMax', 100);
 
 				// Set initial value.
-				knob.setValue(30);
+				knob.setValue(value);
 				const node = knob.node();
+        
 				const elem = document.getElementById('some_element');
+        elem.innerHTML='';
 				elem.appendChild(node);
 			}
  
 window.onload = function () {
-  demoKnob();
+   
 			 
     var options1 = {
       animationEnabled: true,
@@ -207,8 +367,8 @@ window.onload = function () {
         dataPoints: [
           <?php
             include '../Inc/DBcon.php';
-            $filter="";
-            if(isset($_SESSION['Dfilter']) && $_SESSION['Dfilter']!='all')
+            $filter=" ";
+            if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
             {
               $filter="and office_id='".$_SESSION['Doffice']."' ";
             }
@@ -218,9 +378,8 @@ window.onload = function () {
             {
                 while($row = mysqli_fetch_array($result))
                 {
-                  $sql2="select * from projects where status='".$row['ID']."'   ;";
+                  $sql2="select * from projects where status='".$row['ID']."' ".$filter." ;";
                   $pro=mysqli_query($conn,$sql2);
-                   
                     echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($pro).' },';
                 }
             }
@@ -245,7 +404,7 @@ var options2 = {
           <?php
             include '../Inc/DBcon.php';
             $filter1="";
-            if(isset($_SESSION['Dfilter']) && $_SESSION['Dfilter']!='all')
+            if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
             {
               $filter1=" AND office_id='".$_SESSION['Doffice']."' ";
             }
@@ -256,7 +415,7 @@ var options2 = {
                 
                 while($row = mysqli_fetch_array($result))
                 {
-                  $sql2="select * from projects where stage='".$row['ID']."'   ; ";
+                  $sql2="select * from projects where stage='".$row['ID']."'  ".$filter."  ; ";
                    
                   $result1=mysqli_query($conn,$sql2);
                     echo '{ label: "'.$row['short_name'].'", y: '.mysqli_num_rows($result1).' },';
@@ -268,7 +427,7 @@ var options2 = {
       }]
     };
 $("#chartContainer2").CanvasJSChart(options2);
-var options3 = {
+  var options3 = {
       animationEnabled: true,
       title: {
         text: "Project By Region",
@@ -283,7 +442,7 @@ var options3 = {
           <?php
             include '../Inc/DBcon.php';
             $filter1="";
-            if(isset($_SESSION['Dfilter']) && $_SESSION['Dfilter']!='all')
+            if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
             {
               $filter1=" AND office_id='".$_SESSION['Doffice']."' ";
             }
@@ -293,7 +452,7 @@ var options3 = {
             {
                 while($row = mysqli_fetch_array($result))
                 {
-                  $sql2="select * from projects where country_id='".$row['ID']."'   ; ";
+                  $sql2="select * from projects where country_id='".$row['ID']."' ".$filter1."  ; ";
                    
                   $result1=mysqli_query($conn,$sql2);
                     echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($result1).' },';
@@ -339,79 +498,13 @@ var options3 = {
     };
  $("#chartContainer4").CanvasJSChart(options4);
  
-// $("#chartContainer5").CanvasJSChart(options1);
-var options6 = {
-	animationEnabled: true,
-	title: {
-		text: "Support Workload",                
-		fontColor: "black",
-        fontFamily: "arial"
-	},	
-	axisY: {
-		tickThickness: 1,
-		lineThickness: 1,
-		valueFormatString: " ",
-		includeZero: true,
-		gridThickness: 1                    
-	},
-	axisX: {
-		tickThickness: 1,
-		lineThickness: 1,
-		labelFontSize: 12,
-		labelFontColor: "Peru",
-        barPercentage: 100				
-	},
-	data: [{
-		indexLabelFontSize: 12,
-		toolTipContent: "<span style=\"color:#61C3C3\">{indexLabel}:</span> <span style=\"color:#AD858F\"><strong>{y}</strong></span>",
-		indexLabelPlacement: "inside",
-		indexLabelFontColor: "white",
-		indexLabelFontWeight: 400,
-		indexLabelFontFamily: "Verdana",
-		color: "#62a9C3",
-		type: "bar",
-		dataPoints: [
-      <?php
-            include '../Inc/DBcon.php';
-            $sql2="select * from staff;";
-            $result=mysqli_query($conn,$sql2);
-            if(mysqli_num_rows($result) > 0 )
-            {
-                
-                while($row2 = mysqli_fetch_array($result))
-                {
-                  $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
-                  $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
-                  $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
-                  $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
-                  $l1=$l2=$l3=$l4=$l5=$l6=0;
-                  $remarks='';
-                  if($otherLeaves!=0)
-                  {
-                      $l1=$otherLeaves['VACATION'];
-                      $l2=$otherLeaves['GENERAL'];
-                      $l3=$otherLeaves['MARKETING'];
-                      $l4=$otherLeaves['TRAINING'];
-                      $l5=$otherLeaves['OFFICE'];
-                      $l6=$otherLeaves['MEDICAL'];
-                      $remarks=$otherLeaves['REMARKS'];
-                  }
-                  $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                    echo '{ y: '.(40-((int)$hours+$total)).', label: "'.((((int)$hours+$total)/40)*100).'%", indexLabel: "'.$row2['nick_name'].'" },';
-                }
-            }
-            mysqli_close($conn);
-            ?>
-		]
-	}]
-};
-
-$("#chartContainer6").CanvasJSChart(options6);
+ 
+ 
   }
   </script>
-  <?php include '../Inc/footer.php';?>
-  <script src="../Inc/dashboard.js"></script>
-  <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<?php include '../Inc/footer.php';?>
+<script src="../Inc/dashboard.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
