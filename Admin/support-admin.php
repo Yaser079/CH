@@ -121,7 +121,11 @@
                                   $remarks=$otherLeaves['REMARKS'];
                               }
                               $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                              $array+=[$row2['nick_name']=> (100-((((int)$hours+$total)/40)*100))];
+                              if(((int)$hours+$total)<40)
+                               {
+                                $array+=[$row2['nick_name']=> (100-((((int)$hours+$total)/40)*100))];
+                               }
+                              
                             }
                             arsort($array);
                             foreach($array as $key => $val)
@@ -130,7 +134,7 @@
                                         <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
                                         <div class="progress-group" style="width: 100%;padding:0px">
                                           <div class="progress progress-md">
-                                            <div class="progress-bar bg-secondary" style="width: '.$val.'% ;">'.$val.'% available</div>
+                                            <div class="progress-bar bg-success" style="width: '.$val.'% ;">'.$val.'% available</div>
                                           </div>
                                         </div>
                                     </div>';
@@ -167,7 +171,11 @@
                                   $remarks=$otherLeaves['REMARKS'];
                               }
                               $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                              $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
+                              if(((int)$hours+$total)>40)
+                               {
+                                $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
+                               }
+                              
                             }
                             arsort($array);
                             foreach($array as $key => $val)

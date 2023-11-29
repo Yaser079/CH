@@ -34,6 +34,8 @@
 <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="../plugins/datatables-fixedcolumns/css/fixedColumns.bootstrap4.min.css"></script>
+<script src="../plugins/datatables-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="../plugins/datatables-fixedcolumns/css/fixedColumns.bootstrap4.css"></script>
 <script src="../plugins/datatables-fixedcolumns/js/fixedColumns.bootstrap4.min.js"></script>
 <script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
@@ -71,11 +73,11 @@
      $('.select2').select2();
       
       
-     $('table').DataTable({
+     $('#example1').DataTable({
       "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-     
-      
+    
+        
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     
   });

@@ -1,3 +1,4 @@
+
 function projectResourcingList()
 {
     var xmlhttp = new XMLHttpRequest();
@@ -5,15 +6,25 @@ function projectResourcingList()
       if (this.readyState == 4 && this.status == 200) {
             document.getElementById('resourcing-list').innerHTML=this.responseText;
             $("#example1").DataTable({
-                "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "responsive": false, "lengthChange": true, "autoWidth": true,"pageLength": 100,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                scrollX:true,
+                fixedColumns: {
+                    leftColumns: 10
+                },
+                columnDefs: [{ width: "100px", targets: 10 }],
+                paging: false,
+                scrollCollapse: true,
+                fixedHeader: true,
               }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            
+             
+              $('.DTFC_LeftBodyWrapper').css('margin-top',"-14px");
         }
     };
     xmlhttp.open("GET","../script/resourcinglist.php",true);
     xmlhttp.send();
 }
+projectResourcingList();
 function ShowM(id,staff,pid)
 {
      

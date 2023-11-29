@@ -84,7 +84,7 @@
             <a href="holiday.php" class="nav-link <?= $_SESSION['nav']=='holiday'? 'active': '';?>"> 
               <i class="nav-icon fas fa-user-friends"></i>
               <p>
-               Staff Anual Leave
+               Staff Annual Leave
               </p>
             </a>
           </li>

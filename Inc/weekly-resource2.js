@@ -15,10 +15,18 @@ function WeeklyResourcingList()
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
             document.getElementById('weekly-Rlist').innerHTML= this.responseText;
-            $(".weekly-table").DataTable({
+            $(".table").DataTable({
                 "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-              }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                // scrollX:true,
+                // fixedColumns: {
+                //     leftColumns: 7
+                // },
+                
+                // paging: false,
+                // scrollCollapse: true,
+                // fixedHeader: true,
+              });
+              //$('.DTFC_LeftBodyWrapper').css('margin-top',"-14px");
         }
     };
     xmlhttp.open("GET","../script/weeklyresource2.php",true);
@@ -158,4 +166,119 @@ function ClearWFilter()
     };
     xmlhttp.open("GET","../script/clearWfilter.php",true);
     xmlhttp.send();
+}
+function StageForm(str)
+{
+    var pro=str.split("_");
+    //document.getElementById('sweek').value=pro[1];
+    //document.getElementById('sproject').value=pro[0];
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         document.getElementById('stage-form').innerHTML=this.responseText;
+            
+        }
+    };
+    xmlhttp.open("GET","../script/stageform.php?id="+pro[0]+"&week="+pro[1],true);
+    xmlhttp.send();
+}
+function UpdateStage()
+{
+    var stage=document.getElementById("prstage").value
+    var pid=document.getElementById("sproject").value
+    var week=document.getElementById("sweek").value
+    if(stage=="")
+    {
+
+        toastr["error"]("Please enter Select Stage.");
+    }
+     else
+     {
+        var data = {Pid:pid,Stage:stage,Week:week};
+     
+		var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {     
+					     if(this.responseText==1)
+                         {
+                            toastr["success"](week+" Stage updated.");
+                            $("#hours").val("");  
+                            $('#prstage').val("").trigger('change.select2');
+                              activty();
+
+                              $("#close-stage").click()
+                              WeeklyResourcingList();
+                         }
+                         else
+                         {
+                            toastr["error"]("Failed to update project stage.");
+                         }
+                }
+            };
+ 
+            xmlhttp.open("POST","../script/updatestage.php",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+			xmlhttp.send(JSON.stringify(data));
+     }
+}
+function ClearStage(id)
+{
+    var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                if(this.responseText==1)
+                {
+                    toastr["success"]("Stage Removed.");
+                   activty();
+                   WeeklyResourcingList();
+                   $("#close-stage").click();
+                }
+                else
+                {
+                  
+                   toastr["error"]("Failed to remove stage.");
+                }
+                }
+            };
+            xmlhttp.open("GET","../script/removestage.php?id="+id,true);
+            xmlhttp.send();
+}
+function FetchDeadline(id)
+{
+    var pro=id.split("-");
+    document.getElementById("pid").value=pro[0];
+}
+function UpdateDeadline()
+{
+    var pid=document.getElementById("pid").value;
+    var deadline=document.getElementById("deadline").value;
+    var data = {Pid:pid,Deadline:deadline};
+     
+		var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {     
+					     if(this.responseText==1)
+                         {
+                            toastr["success"]("Deadline Updated.");
+                            $("#pid").val("");  
+                            $('#deadline').val("").trigger('change.select2');
+                              activty();
+
+                              $("#close-deadline").click()
+                              WeeklyResourcingList();
+                         }
+                         else
+                         {
+                            toastr["error"]("Failed to update project deadline.");
+                         }
+                }
+            };
+ 
+            xmlhttp.open("POST","../script/updatedeadline.php",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+			xmlhttp.send(JSON.stringify(data));
 }

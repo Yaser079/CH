@@ -148,8 +148,10 @@
                         if(mysqli_num_rows($result) > 0 )
                         {
                           $array= array();
+                           
                             while($row2 = mysqli_fetch_array($result))
                             {
+
                               $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
                               $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
                               $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
@@ -167,7 +169,13 @@
                                   $remarks=$otherLeaves['REMARKS'];
                               }
                               $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                              $array+=[$row2['nick_name']=> (100-((((int)$hours+$total)/40)*100))];
+                             if(((int)$hours+$total)<40)
+                             {
+                              $array+=[$row2['nick_name'] => (100-((((int)$hours+$total)/40)*100))];
+                             }
+                                
+                              
+                              
                             }
                             arsort($array);
                             foreach($array as $key => $val)
@@ -218,7 +226,11 @@
                                   $remarks=$otherLeaves['REMARKS'];
                               }
                               $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                              $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
+                               if(((int)$hours+$total)>40)
+                               {
+                                $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
+                               }
+                              
                             }
                             arsort($array);
                             foreach($array as $key => $val)
@@ -284,11 +296,18 @@
                       
                       while($row = mysqli_fetch_array($result))
                       { $office=getOffice($row['office_id']);
+                        $dateTimestamp1 = strtotime($row['week']); 
+                        $dateTimestamp2 = strtotime($_SESSION['current-week']); 
+                          
+                        // Compare the timestamp date  
+                        if ($dateTimestamp1 > $dateTimestamp2) {
                           echo '<tr>
                                   <td>'.$row['description'].'</td>
                                   <td>'.$row['week'].'</td>
                                   <td>'.$office['code'].'</td>
                                 </tr>';
+                        }
+                          
                       }
                   }
                   mysqli_close($conn);
