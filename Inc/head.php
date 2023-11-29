@@ -43,14 +43,20 @@
             scroll-behavior: smooth;
             }
 
-      td {
+      /* td {
          padding: 3px !important;
+         background-color: white;
   
       }
       th{
          padding: 10px 3px !important;
+         background-color: white;
     
-      }
+      } */
+      th,td { white-space: nowrap; padding: 4px !important;background-color: white; }
+    div.dataTables_wrapper {
+        margin: 0 auto;
+    }
       .rotated {
         writing-mode: tb-rl;
         transform: rotate(-180deg);
@@ -93,7 +99,6 @@
         background: #D9D9D9;
     }
    
-
-     
+  
     </style>
   

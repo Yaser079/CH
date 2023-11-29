@@ -2,8 +2,15 @@
 
 include 'script/getsite.php';
 if(isset($_SESSION['uid']))
-{
+{ 
+  if($_SESSION['role']==1)
+  {
     header("Location:Admin/index.php");
+  }
+  else{
+    header("Location:Admin/weekly-resource.php");
+  }
+   
 } ?>
 <!DOCTYPE html>
 <html>
@@ -60,7 +67,9 @@ if(isset($_SESSION['uid']))
         </div>
         <div class="row">
           <div class="col-8">
-            
+          <p class="mt-4">
+            <a href="register.php">Create new Account</a>
+          </p>
           </div>
           <!-- /.col -->
           <div class="col-4">
@@ -70,15 +79,26 @@ if(isset($_SESSION['uid']))
         </div>
       </form>
      
-      <div class="social-auth-links text-center mb-3">
+      <div class="social-auth-links mb-3">
       
-        
+      
       </div>
       <!-- /.social-auth-links -->
-
       <p class="mb-1">
-        <a href="forgot-password.html">I forgot my password</a>
+        <a href="javascript:void(0)" onclick="ForgotBox()">Forgot Password?</a>
       </p>
+      <div id="forgot-box" style="display: none;">
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Email" id="femail" >
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" onclick="SendMail()">Continue</button>
+      </div>
+      
        
     </div>
     <!-- /.login-card-body -->
@@ -104,5 +124,17 @@ if(isset($_SESSION['uid']))
 <script src="Inc/login-script.js"></script>
   <!-- pace-progress -->
   <script src="plugins/pace-progress/pace.min.js"></script>
+
+  <?php
+    if(isset($_SESSION['response']))
+    {
+      if($_SESSION['response']==22)
+      {
+        echo '<script>toastr["success"]("Password Reset Successfully. Now you can login.");</script>';
+      }
+      unset($_SESSION['response']);
+    }
+    
+    ?>
 </body>
 </html>

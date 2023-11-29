@@ -112,6 +112,15 @@ function getProject($id)
     return $row2;
     mysqli_close($conn);
 }
+function getProjectStageOfWeek($pid,$week)
+{ 
+    include '../Inc/DBcon.php';
+    $sql2="select * from resource_stage where pid='".$pid."' And week='".$week."';";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2;
+    mysqli_close($conn);
+}
 ///Role
 function getRole($id)
 { 
@@ -710,5 +719,13 @@ function getProjectWeekHoursOfStaffOfficeOfMonth($week,$office)
     
     mysqli_close($conn);
 }
-
+function getCurrentWeekHoursOfProject($pid,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select SUM(hours) AS hours from resource_weeks where week='".$week."' AND pid='".$pid."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2['hours'];
+    mysqli_close($conn);
+}
 ?>

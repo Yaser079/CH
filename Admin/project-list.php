@@ -540,7 +540,7 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Deadline</label>
                             <select class="form-control select2" id="deadline" style="width: 100%;" >
-                            <option>Select Deadline</option>
+                            <option value="">Select Deadline</option>
                                 <?php
                                         $weeks=getWeeks(date('Y'));
                                         foreach($weeks as $week)

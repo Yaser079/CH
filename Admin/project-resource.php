@@ -5,10 +5,16 @@
  
   <title><?= $_SESSION['site']?> | Project Resourcing</title>
   <?php include '../Inc/head.php';?>
+ <style>
+  th:first-child, td:first-child
+{
+  position:sticky !important;
+  left:0px !important;
  
-
+}
+</style>
 </head>
-<body class="<?= $_SESSION['body'];?>">
+<body class="<?= $_SESSION['body'];?>" >
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -169,16 +175,18 @@
                 <h3 class="card-title">Project Resourcing for All Weeks</h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body">
-                <div class="table-responsive">
-                <table id="example1" class="table table-bordered table-hover text-center ">
+                <div class="card-body"  >
+                 
+                <div class="row">
+                  <div class="col-md-12">
+                  <table class="table table-bordered table-hover text-center d-none"   >
                     <thead>
                     <tr>
-                    <th  > </th>
-                    <th data-orderable="false">Action</th>
+                    <th  style="width: 0px !important;"> </th>
+                    <th data-orderable="false" style="position: relative;" >Action</th>
                     <th>Code</th>
                     <th data-orderable="false">Name</th>
-                    <th data-orderable="false" class="d-none">Name</th>
+                    <th data-orderable="false" class="d-none" style="position:sticky;">Name</th>
                     <th class="rotated" data-orderable="false">Country</th>
                     <th class="rotated" data-orderable="false">Remaining<br>Hours</th>
                     <th class="rotated" data-orderable="false">Hours to Minus</th>
@@ -290,8 +298,10 @@
                 
                     </tbody>
                 </table>
-                 
+                  </div>
                 </div>
+                 
+                 
                 </div>
                 
                 <!-- /.card-body -->

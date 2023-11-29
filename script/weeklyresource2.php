@@ -1,6 +1,6 @@
 <?php session_start(); include 'functions.php';?>
 <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-hover text-center weekly-table">
+                    <table id="example1" class="table table-bordered table-hover text-center weekly-table" style="font-size: 12px !important;">
                         <thead>
                             
                         <?php 
@@ -92,8 +92,17 @@
                                     <th class="narrow" >Stage</th>';
                                     while($row2 = mysqli_fetch_array($projects))
                                     {
-                                         $stage=getStage($row2['stage']);
-                                            echo '<th class="   font-weight-bold"  style="background-color:'.$stage['color'].';">'.$stage['short_name'].'</th>';
+                                        $res=getProjectStageOfWeek($row2['ID'],$_SESSION['weekly-resource']);
+                                        if($res)
+                                        {
+                                            $stage=getStage($res['stage_id']);
+                                            echo '<th class=" week"  id="'.$row2['ID'].'_'.$_SESSION['weekly-resource'].'" onclick="StageForm(this.id)" data-toggle="modal" data-target="#stage-model"  style="background-color:'.$stage['color'].';">'.$stage['short_name'].'</th>';
+                                        }
+                                        else
+                                        {
+                                            echo '<th class=" week"  id="'.$row2['ID'].'_'.$_SESSION['weekly-resource'].'" onclick="StageForm(this.id)" data-toggle="modal" data-target="#stage-model" ></th>';
+                                        }
+                                         
                                     }
                                     echo '</tr>';
                                 }
@@ -110,14 +119,36 @@
                                     echo '<tr> <th class="narrow" data-orderable="false">Deadline</th>';
                                     while($row2 = mysqli_fetch_array($projects))
                                     {
-                                         
-                                            echo '<th   data-orderable="false"> '.$row2['deadline'].'</th>';
+                                            echo '<th class="rotated week" id="'.$row2['ID'].'-D" onclick="FetchDeadline(this.id)"   data-orderable="false" data-toggle="modal" data-target="#deadline-model" > '.$row2['deadline'].'</th>';
                                     }
                                     echo '</tr>';
                                 }
                                 mysqli_close($conn);
                             ?>
-                        
+                        <?php 
+                                include '../Inc/DBcon.php';
+                                $projects=mysqli_query($conn,$sqlProjects);
+                                if(mysqli_num_rows($projects) > 0 )
+                                {
+                                    $i=1;
+                                    echo '<tr> 
+                                     <th class="narrow text-right" data-orderable="false" colspan="16">All Office Total Hours</th>';
+                                    while($row2 = mysqli_fetch_array($projects))
+                                    {
+                                        $hours=getCurrentWeekHoursOfProject($row2["ID"],$_SESSION['weekly-resource']);
+                                        if($hours>0)
+                                        {
+                                            echo '<th    data-orderable="false"> '.$hours.'</th>';
+                                        }
+                                        else{
+                                            echo '<th    data-orderable="false"> 0</th>';
+                                        }
+                                            
+                                    }
+                                    echo '</tr>';
+                                }
+                                mysqli_close($conn);
+                            ?>
                     </thead>
                     <tbody>
                         <?php

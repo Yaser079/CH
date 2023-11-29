@@ -35,13 +35,7 @@ function UpdateHoliday()
     var staff=document.getElementById("staff").value;
     var week=document.getElementById("week").value;
     var type=document.getElementById("type").value;
-    if(des=="")
-    {
-        $("#des").focus();
-        toastr["error"]("Please enter Holiday Description.");
-          $("#des").addClass("is-invalid");
-    }
-    else if(hours=="")
+     if(hours=="")
     {
         $("#hours").focus();
         toastr["error"]("Please enter Holiday hours.");

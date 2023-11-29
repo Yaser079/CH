@@ -15,7 +15,7 @@ td {
       .narrow{width: 20px !important;}
 </style>
 </head>
-<body class="<?= $_SESSION['body'];?>">
+<body class="<?= $_SESSION['body'];?>" onload="WeeklyResourcingList()">
 <!-- Site wrapper -->
 <div class="wrapper">
   
@@ -200,12 +200,14 @@ td {
                                 }
                              ?>
                             
-                    </select>                             
+                    </select>  
+                    <button class="btn btn-light btn-sm float-right ml-2" onclick="PrintDiv()">Print</button>                           
                 </div>
             </div>
+            
             <!-- /.card-header -->
             <div class="card-body" id="weekly-Rlist">
-                <div class="table-responsive">
+                <div class="table-responsive d-none">
                     <table id="example1" class="table table-bordered table-hover text-center weekly-table">
                         <thead>
                             
@@ -490,6 +492,74 @@ td {
         </div>
         <!-- /.modal-dialog -->
       </div>
+
+      <div class="modal fade" id="stage-model">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Project Stage</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="stage-form">
+            
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" id="close-stage" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="UpdateStage()">Update</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="deadline-model">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Project DeadLine</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body"  >
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Deadline</label>
+                    <select class="form-control select2" id="deadline" style="width: 100%;" >
+                    <option value="">Select Deadline</option>
+                        <?php
+                                $weeks=getWeeks(date('Y'));
+                                foreach($weeks as $week)
+                                {
+                                    echo '<option value="'.$week.'" >'.$week.'</option>';
+                                }
+                                
+                            ?>
+                    </select>
+                </div>
+                <input type="hidden" id="pid">
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" id="close-deadline" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="UpdateDeadline()">Update</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+      <script>
+        function PrintDiv()
+        {
+            var restorepage = $('body').html();
+            var printcontent = $('#example1').clone();
+            $('body').empty().html(printcontent);
+            window.print();
+            window.location.href = "weekly-resource.php";
+        }
+        
+      </script>
   <?php include '../Inc/footer.php';?>
   <script src="../Inc/weekly-resource2.js"></script>
 </body>

@@ -3,7 +3,7 @@
 <html>
 <head>
  
-  <title><?= $_SESSION['site']?> | Staff Anual Leave</title>
+  <title><?= $_SESSION['site']?> | Staff Annual Leave</title>
   <?php include '../Inc/head.php';?>
 
 </head>
@@ -23,12 +23,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="text-dark">Staff Anual Leave</h1>
+            <h1 class="text-dark">Staff Annual Leave</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active"> Staff Anual Leave</li>
+              <li class="breadcrumb-item active"> Staff Annual Leave</li>
             </ol>
           </div>
         </div>
@@ -110,7 +110,7 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header ">
-                        <h3 class="card-title d-flex align-self-center">Anual Leaves</h3>
+                        <h3 class="card-title d-flex align-self-center">Annual Leaves</h3>
                     </div>
                     <div class="card-body" id="staff-holiday-list">
                         <div class="table-responsive">
