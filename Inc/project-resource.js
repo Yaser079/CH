@@ -128,7 +128,7 @@ function UpdateHourse()
                               activty();
                               document.getElementById(pid+"_"+sid+"_"+week).innerHTML=hours;
                               $("#close-hours").click()
-                              projectResourcingList();
+                              //projectResourcingList();
                          }
                          else
                          {
@@ -148,7 +148,7 @@ function ResourceForm(id)
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          document.getElementById('resource-form').innerHTML=this.responseText;
-         
+            $("#resource").select2();
         }
     };
     xmlhttp.open("GET","../script/resourcemanage.php?id="+id,true);

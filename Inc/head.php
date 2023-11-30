@@ -98,7 +98,9 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #D9D9D9;
     }
-   
+   .res-row{
+    background-color: lightgray;
+   }
   
     </style>
   

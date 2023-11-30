@@ -67,18 +67,18 @@
                     $budgthour=getbudgetHours($row['ID']);
                     $remaining=$hours-($budgthour+(int)$row['minus_hours']);
                     echo '<tr>
-                    <td   style="vertical-align: middle;" class="bg-green"> </td>
-                    <td  class="bg-green">
-                        <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-white"></i></a> &nbsp;
+                    <td   style="vertical-align: middle;" class="res-row"> </td>
+                    <td  class="res-row">
+                        <a href="javascript:void(0)" onclick="ResourceForm('.$row['ID'].')"  data-toggle="modal" data-target="#modal-new-resource"> <i class="nav-icon fas fa-edit text-dark"></i></a> &nbsp;
                     </td>
-                    <td class="bg-green font-weight-bold">'.$row['code'].'</td>
-                    <td class="bg-green font-weight-bold">'.$row['name'].'</td>
-                    <td class="bg-green font-weight-bold d-none">'.$row['name'].'</td>
-                    <td class="bg-green font-weight-bold">'.$country['tag'].'</td>
-                    <td class="bg-green font-weight-bold">'.$remaining.' </td>
+                    <td class="res-row font-weight-bold">'.$row['code'].'</td>
+                    <td class="res-row font-weight-bold">'.$row['name'].'</td>
+                    <td class="res-row font-weight-bold d-none">'.$row['name'].'</td>
+                    <td class="res-row font-weight-bold">'.$country['tag'].'</td>
+                    <td class="res-row font-weight-bold">'.$remaining.' </td>
                     <td class="week  font-weight-bold" onclick="MinusHours('.$row['ID'].')" data-toggle="modal" data-target="#minus-model">'.$row['minus_hours'].'</td>
-                    <td class="bg-green font-weight-bold">'.$budgthour.'</td>
-                    <td class="font-weight-bold" class="bg-green"> '.$resource.' </td>
+                    <td class="res-row font-weight-bold">'.$budgthour.'</td>
+                    <td class="font-weight-bold" class="res-row"> '.$resource.' </td>
                     ';
                                     $weeks=getWeeks(date('Y'));
                                     foreach($weeks as $week)
@@ -109,9 +109,9 @@
                                         echo '<tr>
                                         <td ></td>
                                         <td ></td>
-                                        <td  >'.$row['code'].' </td>
-                                        <td class="bg-green font-weight-bold d-none">'.$row['name'].'</td>
-                                        <td  ><small>Resource</small> </td>
+                                        <td  ><span style="visibility:hidden;">'.$row['code'].'</span> </td>
+                                        <td class=" d-none">'.$row['name'].'</td>
+                                        <td  >  </td>
                                         <td  > </td>
                                         <td  > </td>
                                         <td  > </td>

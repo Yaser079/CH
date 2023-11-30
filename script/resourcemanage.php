@@ -15,7 +15,7 @@
                                             while($row = mysqli_fetch_array($result))
                                             {
                                             
-                                                echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                                echo '<option value="'.$row['ID'].'">'.$row['nick_name'].'</option>';
                                             }
                                         }
                                         mysqli_close($conn);
@@ -38,7 +38,7 @@
                                     while($row = mysqli_fetch_array($result))
                                     {
                                         $res=getManager($row['staff_id']);
-                                            echo '<span class=" border border-1 rounded m-1 pl-2 pr-2 pt-1 pb-1 mb-1" style="font-size: 20px;"> '.$res['nick_name'].' &nbsp; &nbsp; <a href="javascript:void(0)" id="'.$res['nick_name'].'" onclick="deleteResource('.$row['ID'].',this.id,'.$_GET['id'].','.$res['ID'].')"><i class="nav-icon fas fa-trash text-danger"></i></a>
+                                            echo '<span class=" border border-1 rounded m-1 pl-2 pr-2 pt-1 pb-1 mb-1" style="font-size: 15px;"> '.$res['nick_name'].' &nbsp; &nbsp; <a href="javascript:void(0)" id="'.$res['nick_name'].'" onclick="deleteResource('.$row['ID'].',this.id,'.$_GET['id'].','.$res['ID'].')"><i class="nav-icon fas fa-trash text-danger"></i></a>
                                                 </span>';
                                     }
                                 }
