@@ -407,51 +407,102 @@
                                                         while($row0 = mysqli_fetch_array($result0))
                                                         {
                                                           $resor=getManager($row0['staff_id']);
-                                                          if($resor['office']==4)
+                                                          $res="";
+                                                          if(isset($_SESSION['Aoffice']) && $_SESSION['Aoffice']!='all')
                                                           {
-                                                            $prject=getProject($row['ID']);
-                                                            $country=getCountry($prject['country_id']);
-                                                            $stage=getStage($prject['stage']);
-                                                            $pm=getManager($prject['manager_id']);
-                                                            
-                                                            echo '<tr>
-                                                              <td>'.$i.'</td>
-                                                              <td>'.$pm['nick_name'].'</td>
-                                                              <td>'.$prject['code'].'</td>
-                                                              <td class="text-left">'.$prject['name'].'</td>
-                                                              <td>'.$resor['nick_name'].'</td>';
                                                              
-                                                              $weeks=getWeeks(date('Y'));
-                                                              foreach($weeks as $week)
-                                                              {
-                                                                  
-                                                                  $weekly=getResourceWeek($row['ID'],$row0['staff_id'],$week);
-                                                                  $total=$weekly>0?$weekly:0;
-                                                                  $color="";
-                                                                  $status="No Work";
-                                                                  $textColor="text-muted small";
-                                                                  if($total<40 && $total>0)
-                                                                  {
-                                                                      $color="#BDD7EE";
-                                                                      $status="Needs Work";
-                                                                      $textColor="";
-                                                                  }
-                                                                  else if($total==40)
-                                                                  {
-                                                                      $color="#A9D08E";
-                                                                      $status="Good Fully Work";
-                                                                      $textColor="";
-                                                                  }
-                                                                  else if($total>40)
-                                                                  {
-                                                                      $color="#FFACA7";
-                                                                      $status="Overloaded";
-                                                                      $textColor="";
-                                                                  }
-                                                                  echo '<td class=" font-weight-bold '.$textColor.'" style="background-color:'.$color.'" data-tooltip="tooltip" data-placement="top" title="'.$status.'">'.$total.'</td>';
-                                                              }
-                                                              echo'</tr>';
+                                                            if($resor['office']==$_SESSION['Aoffice'])
+                                                            {
+                                                              $prject=getProject($row['ID']);
+                                                              $country=getCountry($prject['country_id']);
+                                                              $stage=getStage($prject['stage']);
+                                                              $pm=getManager($prject['manager_id']);
+                                                              
+                                                              echo '<tr>
+                                                                <td>'.$i.'</td>
+                                                                <td>'.$pm['nick_name'].'</td>
+                                                                <td>'.$prject['code'].'</td>
+                                                                <td class="text-left">'.$prject['name'].'</td>
+                                                                <td>'.$resor['nick_name'].'</td>';
+                                                              
+                                                                $weeks=getWeeks(date('Y'));
+                                                                foreach($weeks as $week)
+                                                                {
+                                                                    
+                                                                    $weekly=getResourceWeek($row['ID'],$row0['staff_id'],$week);
+                                                                    $total=$weekly>0?$weekly:0;
+                                                                    $color="";
+                                                                    $status="No Work";
+                                                                    $textColor="text-muted small";
+                                                                    if($total<40 && $total>0)
+                                                                    {
+                                                                        $color="#BDD7EE";
+                                                                        $status="Needs Work";
+                                                                        $textColor="";
+                                                                    }
+                                                                    else if($total==40)
+                                                                    {
+                                                                        $color="#A9D08E";
+                                                                        $status="Good Fully Work";
+                                                                        $textColor="";
+                                                                    }
+                                                                    else if($total>40)
+                                                                    {
+                                                                        $color="#FFACA7";
+                                                                        $status="Overloaded";
+                                                                        $textColor="";
+                                                                    }
+                                                                    echo '<td class=" font-weight-bold '.$textColor.'" style="background-color:'.$color.'" data-tooltip="tooltip" data-placement="top" title="'.$status.'">'.$total.'</td>';
+                                                                }
+                                                                echo'</tr>';
+                                                            }
+                                                            else if($resor['office']==2 || $resor['office']==4)
+                                                            {
+                                                              $prject=getProject($row['ID']);
+                                                              $country=getCountry($prject['country_id']);
+                                                              $stage=getStage($prject['stage']);
+                                                              $pm=getManager($prject['manager_id']);
+                                                              
+                                                              echo '<tr>
+                                                                <td>'.$i.'</td>
+                                                                <td>'.$pm['nick_name'].'</td>
+                                                                <td>'.$prject['code'].'</td>
+                                                                <td class="text-left">'.$prject['name'].'</td>
+                                                                <td>'.$resor['nick_name'].'</td>';
+                                                              
+                                                                $weeks=getWeeks(date('Y'));
+                                                                foreach($weeks as $week)
+                                                                {
+                                                                    
+                                                                    $weekly=getResourceWeek($row['ID'],$row0['staff_id'],$week);
+                                                                    $total=$weekly>0?$weekly:0;
+                                                                    $color="";
+                                                                    $status="No Work";
+                                                                    $textColor="text-muted small";
+                                                                    if($total<40 && $total>0)
+                                                                    {
+                                                                        $color="#BDD7EE";
+                                                                        $status="Needs Work";
+                                                                        $textColor="";
+                                                                    }
+                                                                    else if($total==40)
+                                                                    {
+                                                                        $color="#A9D08E";
+                                                                        $status="Good Fully Work";
+                                                                        $textColor="";
+                                                                    }
+                                                                    else if($total>40)
+                                                                    {
+                                                                        $color="#FFACA7";
+                                                                        $status="Overloaded";
+                                                                        $textColor="";
+                                                                    }
+                                                                    echo '<td class=" font-weight-bold '.$textColor.'" style="background-color:'.$color.'" data-tooltip="tooltip" data-placement="top" title="'.$status.'">'.$total.'</td>';
+                                                                }
+                                                                echo'</tr>';
+                                                            }
                                                           }
+                                                          
                                                           
                                                         }
                                                     }
