@@ -6,14 +6,23 @@ function projectslist()
             document.getElementById('project-list').innerHTML=this.responseText;
             $("#example1").DataTable({
                 "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                scrollX:true,
+                fixedColumns: {
+                    leftColumns: 12
+                },
+          
+                paging: false,
+                scrollCollapse: true,
+                fixedHeader: true,
               }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            
+              $('.DTFC_LeftBodyWrapper').css('margin-top',"-14px");
         }
     };
     xmlhttp.open("GET","../script/projectlist.php",true);
     xmlhttp.send();
 }
+projectslist();
 function clearform()
 {
     $("#code").removeClass("is-invalid");
@@ -24,13 +33,14 @@ function clearform()
 function NewProject()
 {
     clearform();
+    var a = $(".stcheck:checkbox").filter(":checked");
     var code=document.getElementById("code").value;
     var name=document.getElementById("name").value;
     var manager=document.getElementById("manager").value;
     var country=document.getElementById("country").value;
     var profit=document.getElementById("profit").value;
     var rate=document.getElementById("rate").value;
-    var stage=document.getElementById("stage").value;
+    var stage=a.val();
     var status=document.getElementById("status").value;
     var office=document.getElementById("office").value;
     var deadline=document.getElementById("deadline").value;
@@ -68,7 +78,7 @@ function NewProject()
         toastr["error"]("Please enter project AVG Rate.");
           $("#rate").addClass("is-invalid");
      }
-     else if(stage==""){
+     else if(stage==undefined){
         
         toastr["error"]("Please select project stage");
        
@@ -165,13 +175,14 @@ function getproject(id){
 function UpdateProject()
 {
     clearform();
+    var a = $(".stcheck:checkbox").filter(":checked");
     var code=document.getElementById("code1").value;
     var name=document.getElementById("name1").value;
     var manager=document.getElementById("manager1").value;
     var country=document.getElementById("country1").value;
     var profit=document.getElementById("profit1").value;
     var rate=document.getElementById("rate1").value;
-    var stage=document.getElementById("stage1").value;
+    var stage=a.val();
     var status=document.getElementById("status1").value;
     var office=document.getElementById("office1").value;
     var id=document.getElementById("id").value;
@@ -210,7 +221,7 @@ function UpdateProject()
         toastr["error"]("Please enter project AVG Rate.");
           $("#rate").addClass("is-invalid");
      }
-     else if(stage==""){
+     else if(stage==undefined){
         
         toastr["error"]("Please select project stage");
        
@@ -353,4 +364,8 @@ function ClearAVG()
 
     });
     $('#avgrate').val('');
+}
+function StageBoxes(id)
+{
+  $('.stcheck').not('#'+id).prop('checked', false);
 }

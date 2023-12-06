@@ -17,10 +17,16 @@ $sql="select * from users where email='".$data->username."' AND password='".$dat
         $_SESSION['nav']='dashboard';
         $action=$row['name']." Logged in.";
         $_SESSION['body']="hold-transition sidebar-mini pace-white accent-primary text-sm sidebar-collapse";
-        $time = date('d-M',strtotime('monday this week'));
+        $time = date('d-M-Y',strtotime('monday this week'));
         $_SESSION['weekly-resource']=$time;
         $_SESSION['current-week']=$time;
         $_SESSION['role']=getUserStaff($row['ID'])['role_id'];
+        if(CheckYear(date('Y'))==0)
+        {
+            InsertNewYear(date('Y'));
+        }
+        
+       $_SESSION['hyear']=date('Y');
         create_log($row['ID'],$action);
         
     	echo $_SESSION['role'];

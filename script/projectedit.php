@@ -20,22 +20,23 @@
             <div class="card-body">
             <div class="tab-content" id="custom-tabs-three-tabContent">
                 <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
-                    <div class="row">
+                <p class="text-danger text-right">* is required field</p>   
+                <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Project Code</label>
+                                <label for="exampleInputEmail1" class="required">Project Code</label>
                                 <input type="text" class="form-control" id="code1" placeholder="Enter Project Code" value="<?= $project['code'];?>" >
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Project Name</label>
+                                <label for="exampleInputEmail1" class="required">Project Name</label>
                                 <input type="text" class="form-control" id="name1" placeholder="Enter Project Name"  value="<?= $project['name'];?>">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Project Manager</label>
+                                <label for="exampleInputEmail1" class="required">Project Manager</label>
                                 <select class="form-control select2" id="manager1" style="width: 100%;" >
                                     <?php
                                            include '../Inc/DBcon.php';
@@ -63,7 +64,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Project Country</label>
+                                <label for="exampleInputEmail1" class="required">Project Country</label>
                                 <select class="form-control select2" id="country1" style="width: 100%;" >
                                     <?php
                                             include '../Inc/DBcon.php';
@@ -91,20 +92,20 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1"> % Profit</label>
+                                <label for="exampleInputEmail1" class="required"> % Profit</label>
                                 <input type="number" class="form-control" id="profit1" placeholder="Enter %Profit" value="<?= $project['profit'];?>">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1"> AVG Rate</label>
+                                <label for="exampleInputEmail1" class="required"> AVG Rate</label>
                                 <input type="number" class="form-control" id="rate1" placeholder="Enter AVG Rate" value="<?= $project['avg_rate'];?>">
                                 <input type="hidden" class="form-control" id="id"  value="<?= $project['ID'];?>">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 d-none">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Project Stage</label>
+                                <label for="exampleInputEmail1" class="required">Project Stage</label>
                                 <select class="form-control select2" id="stage1" style="width: 100%;" >
                                     <?php
                                            include '../Inc/DBcon.php';
@@ -131,7 +132,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Project Status</label>
+                                <label for="exampleInputEmail1" class="required">Project Status</label>
                                 <select class="form-control select2" id="status1" style="width: 100%;" >
                                     <?php
                                             include '../Inc/DBcon.php';
@@ -159,7 +160,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Office</label>
+                                <label for="exampleInputEmail1" class="required">Office</label>
                                 <select class="form-control select2" id="office1" style="width: 100%;" >
                                     <?php
                                            include '../Inc/DBcon.php';
@@ -208,6 +209,43 @@
                             </select>
                         </div>
                     </div>
+                    </div>
+                    <label for="exampleInputEmail1 " class="required">Project Stage</label>
+                <div class="row">
+                
+                            <?php
+                                include '../Inc/DBcon.php';
+                                $sql2="select * from project_phase;";
+                                $result=mysqli_query($conn,$sql2);
+                                if(mysqli_num_rows($result) > 0 )
+                                {   $i=1;
+                                    while($row = mysqli_fetch_array($result))
+                                    {
+                                        if($project['stage']==$row['ID'])
+                                        {
+                                            echo '<div class="col-md-2"  >
+                                            <div class="form-check">
+                                                <input class="form-check-input stcheck" type="checkbox" value="'.$row['ID'].'" id="customCheckbox'.$row['ID'].'" checked onchange="StageBoxes(this.id)">
+                                                <label class="form-check-label">'.$row['short_name'].'</label>
+                                            </div>
+                                        </div> ';
+                                        }
+                                        else
+                                        {
+                                            echo '<div class="col-md-2"  >
+                                            <div class="form-check">
+                                                <input class="form-check-input stcheck" type="checkbox" value="'.$row['ID'].'" id="customCheckbox'.$row['ID'].'" onchange="StageBoxes(this.id)">
+                                                <label class="form-check-label">'.$row['short_name'].'</label>
+                                            </div>
+                                        </div> ';
+                                        }
+                                       
+                                        $i++;
+                                    }
+                                }
+                                mysqli_close($conn);
+                            ?>
+                           
                     </div>
                     <button type="button" class="btn btn-primary float-right" onclick="UpdateProject()">Update Project</button>
                 </div>

@@ -18,8 +18,8 @@ $type=0;
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-        <label for="exampleInputEmail1" class="d-none">Holiday Description</label>
-            <input type="text" class="form-control d-none" id="des" placeholder="Enter Description" value="<?= $desc;?>" >
+        <label for="exampleInputEmail1"  >Exact Dates of Leave</label>
+            <input type="text" class="form-control  " id="des" placeholder="Enter Description" value="<?= $desc;?>" >
             <label for="exampleInputEmail1">Enter Hours</label>
             <input type="number" class="form-control" id="hours" placeholder="Enter hours" value="<?= $hours;?>" >
             <input type="hidden" id="staff" value="<?= $_GET['id'];?>">

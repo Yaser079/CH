@@ -120,8 +120,8 @@
         </div>
         <div class="col-md-3">
           <div    >
-           
-            <div class="card card-primary card-tabs" style="height: 300px; width: 100%; overflow-y:auto;  overflow-x: hidden;">
+          
+            <div class="card card-primary card-tabs" style="height: 300px; width: 100%;">
               <div class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                   <li class="nav-item">
@@ -134,121 +134,13 @@
                 </ul>
               </div>
               <div class="card-body p-2">
+              <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 sb" id="s7day" onclick="FilterDaysS(7,this.id)">7 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 sb" id="s30day" onclick="FilterDaysS(30,this.id)">30 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 sb" id="s90day" onclick="FilterDaysS(90,this.id)">90 Days</button>
+                </div>
                 <div class="tab-content" id="custom-tabs-one-tabContent">
-                  <div class="tab-pane fade show active p-0" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                  <?php
-                        include '../Inc/DBcon.php';
-                        $filter='1=1';
-                        if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
-                        {
-                          $filter=" office='".$_SESSION['Doffice']."' ";
-                        }
-                        $sql2="select * from staff  where ". $filter.";";
-                        $result=mysqli_query($conn,$sql2);
-                        if(mysqli_num_rows($result) > 0 )
-                        {
-                          $array= array();
-                           
-                            while($row2 = mysqli_fetch_array($result))
-                            {
-
-                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
-                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
-                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $l1=$l2=$l3=$l4=$l5=$l6=0;
-                              $remarks='';
-                              if($otherLeaves!=0)
-                              {
-                                  $l1=$otherLeaves['VACATION'];
-                                  $l2=$otherLeaves['GENERAL'];
-                                  $l3=$otherLeaves['MARKETING'];
-                                  $l4=$otherLeaves['TRAINING'];
-                                  $l5=$otherLeaves['OFFICE'];
-                                  $l6=$otherLeaves['MEDICAL'];
-                                  $remarks=$otherLeaves['REMARKS'];
-                              }
-                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                             if(((int)$hours+$total)<40)
-                             {
-                              $array+=[$row2['nick_name'] => (100-((((int)$hours+$total)/40)*100))];
-                             }
-                                
-                              
-                              
-                            }
-                            arsort($array);
-                            foreach($array as $key => $val)
-                            {
-                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
-                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
-                                        <div class="progress-group" style="width: 100%;padding:0px">
-                                          <div class="progress progress-md">
-                                            <div class="progress-bar bg-success" style="width: '.$val.'% ;">'.$val.'% available</div>
-                                          </div>
-                                        </div>
-                                    </div>';
-                            }
-                            
-                        }
-                        mysqli_close($conn);
-                        ?>   
-                </div>
-                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                  <?php
-                        include '../Inc/DBcon.php';
-                        $filter='1=1';
-                        if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
-                        {
-                          $filter=" office='".$_SESSION['Doffice']."' ";
-                        }
-                        $sql2="select * from staff  where ". $filter.";";
-                        $result=mysqli_query($conn,$sql2);
-                        if(mysqli_num_rows($result) > 0 )
-                        {
-                          $array= array();
-                            while($row2 = mysqli_fetch_array($result))
-                            {
-                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
-                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
-                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $l1=$l2=$l3=$l4=$l5=$l6=0;
-                              $remarks='';
-                              if($otherLeaves!=0)
-                              {
-                                  $l1=$otherLeaves['VACATION'];
-                                  $l2=$otherLeaves['GENERAL'];
-                                  $l3=$otherLeaves['MARKETING'];
-                                  $l4=$otherLeaves['TRAINING'];
-                                  $l5=$otherLeaves['OFFICE'];
-                                  $l6=$otherLeaves['MEDICAL'];
-                                  $remarks=$otherLeaves['REMARKS'];
-                              }
-                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                               if(((int)$hours+$total)>40)
-                               {
-                                $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
-                               }
-                              
-                            }
-                            arsort($array);
-                            foreach($array as $key => $val)
-                            {
-                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
-                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
-                                        <div class="progress-group" style="width: 100%;padding:0px">
-                                          <div class="progress progress-md">
-                                            <div class="progress-bar bg-danger" style="width: '.$val.'% ;">'.$val.'% Working</div>
-                                          </div>
-                                        </div>
-                                    </div>';
-                            }
-                            
-                        }
-                        mysqli_close($conn);
-                        ?> 
-                </div>
+                
                   
                 </div>
               </div>
@@ -393,14 +285,24 @@ window.onload = function () {
             }
             $sql2="select * from project_status ;";
             $result=mysqli_query($conn,$sql2);
+            $array2= array();
             if(mysqli_num_rows($result) > 0 )
-            {
+            { 
                 while($row = mysqli_fetch_array($result))
                 {
                   $sql2="select * from projects where status='".$row['ID']."' ".$filter." ;";
                   $pro=mysqli_query($conn,$sql2);
-                    echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($pro).' },';
+                  if(mysqli_num_rows($pro)>0)
+                  {
+                    $array2+=[$row['name']=> mysqli_num_rows($pro)];
+                  }
+                  
+                   // echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($pro).' },';
                 }
+            }
+            foreach($array2 as $key => $val)
+            {
+              echo '{ label: "'.$key.'", y: '.$val.' },';
             }
             mysqli_close($conn);
           ?> 
@@ -429,6 +331,7 @@ var options2 = {
             }
             $sql2="select * from project_phase ;";
             $result=mysqli_query($conn,$sql2);
+            $array2= array();
             if(mysqli_num_rows($result) > 0 )
             {
                 
@@ -437,8 +340,16 @@ var options2 = {
                   $sql2="select * from projects where stage='".$row['ID']."'  ".$filter."  ; ";
                    
                   $result1=mysqli_query($conn,$sql2);
-                    echo '{ label: "'.$row['short_name'].'", y: '.mysqli_num_rows($result1).' },';
+                  if(mysqli_num_rows($result1)>0)
+                  {
+                    $array2+=[$row['short_name']=> mysqli_num_rows($result1)];
+                  }
+                   // echo '{ label: "'.$row['short_name'].'", y: '.mysqli_num_rows($result1).' },';
                 }
+            }
+            foreach($array2 as $key => $val)
+            {
+              echo '{ label: "'.$key.'", y: '.$val.' },';
             }
             mysqli_close($conn);
           ?> 
@@ -467,6 +378,7 @@ $("#chartContainer2").CanvasJSChart(options2);
             }
             $sql2="select * from country ;";
             $result=mysqli_query($conn,$sql2);
+            $array2= array();
             if(mysqli_num_rows($result) > 0 )
             {
                 while($row = mysqli_fetch_array($result))
@@ -474,8 +386,16 @@ $("#chartContainer2").CanvasJSChart(options2);
                   $sql2="select * from projects where country_id='".$row['ID']."' ".$filter1."  ; ";
                    
                   $result1=mysqli_query($conn,$sql2);
-                    echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($result1).' },';
+                  if(mysqli_num_rows($result1)>0)
+                  {
+                    $array2+=[$row['name']=> mysqli_num_rows($result1)];
+                  }
+                  //  echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($result1).' },';
                 }
+            }
+            foreach($array2 as $key => $val)
+            {
+              echo '{ label: "'.$key.'", y: '.$val.' },';
             }
             mysqli_close($conn);
           ?> 
@@ -500,6 +420,7 @@ $("#chartContainer2").CanvasJSChart(options2);
              
             $sql2="select * from office ;";
             $result=mysqli_query($conn,$sql2);
+            $array2= array();
             if(mysqli_num_rows($result) > 0 )
             {
                 while($row = mysqli_fetch_array($result))
@@ -507,8 +428,16 @@ $("#chartContainer2").CanvasJSChart(options2);
                   $sql2="select * from staff where office='".$row['ID']."'   ; ";
                    
                   $result1=mysqli_query($conn,$sql2);
-                    echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($result1).' },';
+                  if(mysqli_num_rows($result1)>0)
+                  {
+                    $array2+=[$row['name']=> mysqli_num_rows($result1)];
+                  }
+                   // echo '{ label: "'.$row['name'].'", y: '.mysqli_num_rows($result1).' },';
                 }
+            }
+            foreach($array2 as $key => $val)
+            {
+              echo '{ label: "'.$key.'", y: '.$val.' },';
             }
             mysqli_close($conn);
           ?> 

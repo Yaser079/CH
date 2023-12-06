@@ -15,18 +15,18 @@ function WeeklyResourcingList()
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
             document.getElementById('weekly-Rlist').innerHTML= this.responseText;
-            $(".table").DataTable({
-                "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
-                // scrollX:true,
-                // fixedColumns: {
-                //     leftColumns: 7
-                // },
+            // $(".table").DataTable({
+            //     "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
+            //     // scrollX:true,
+            //     // fixedColumns: {
+            //     //     leftColumns: 7
+            //     // },
                 
-                // paging: false,
-                // scrollCollapse: true,
-                // fixedHeader: true,
-              });
-              //$('.DTFC_LeftBodyWrapper').css('margin-top',"-14px");
+            //     // paging: false,
+            //     // scrollCollapse: true,
+            //     // fixedHeader: true,
+            //   });
+             
         }
     };
     xmlhttp.open("GET","../script/weeklyresource2.php",true);
@@ -37,8 +37,8 @@ function WeeklyProjectList(id)
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('weekly-Rlist').innerHTML= this.responseText;
-            $(".weekly-table").DataTable({
+            document.getElementById('weekly-projects').innerHTML= this.responseText;
+            $(".weekly-table2").DataTable({
                 "responsive": false, "lengthChange": true, "autoWidth": false,"pageLength": 100,
               });
         }

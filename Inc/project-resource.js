@@ -12,7 +12,7 @@ function projectResourcingList()
                 fixedColumns: {
                     leftColumns: 10
                 },
-                columnDefs: [{ width: "100px", targets: 10 }],
+                columnDefs: [{ width: "30", targets: 9 }],
                 paging: false,
                 scrollCollapse: true,
                 fixedHeader: true,

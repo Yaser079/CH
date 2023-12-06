@@ -9,6 +9,48 @@
  
       .narrow{width: 20px !important;}
       .name{ cursor: pointer;}
+      thead
+{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: white;
+}
+  .stiky {
+  position: sticky;
+ left: 0;
+  z-index: 1;
+  background-color: white;
+ 
+}
+  
+td.stiky:nth-child(1), th.stiky:nth-child(1) {
+  left: 0px  ;
+}
+td.stiky:nth-child(2) , th.stiky:nth-child(2){
+  left: 20px;  
+}
+td.stiky:nth-child(3) , th.stiky:nth-child(3){
+  left: 135px;  
+}
+td.stiky:nth-child(4) , th.stiky:nth-child(4){
+  left: 253px;  
+}
+td.stiky:nth-child(5) , th.stiky:nth-child(5){
+  left: 290px;  
+}
+ 
+ 
+.table-responsive1 {
+  width: 100%;
+  overflow-x: scroll;
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+table {
+  width: 200%;
+}
 </style>
 </head>
 <body class="<?= $_SESSION['body'];?>">
@@ -63,20 +105,23 @@
                                 mysqli_close($conn);
                             ?>
                             
-                    </select>                             
+                    </select> 
+                    <button class="btn btn-light btn-sm  ml-2 mr-2" onclick="PrintDiv()">Print</button> 
+                    <input id="myInput" onkeyup="FilterSearch()" type="text" class="form-control form-control-sm d-flex align-self-center mr-2" style="width: 200px;" placeholder="Search..">                          
+                                            
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body " id="staff-list">
-                <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-hover text-center staff-list">
+                <div class="table-responsive1">
+                    <table id="wtable" class="table table-bordered table-hover text-center staff-list">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Nick Name</th>
-                                <th class="rotated">Office</th>
-                                <th class="rotated">Projects</th>
+                                <th class="stiky">ID</th>
+                                <th class="stiky" style="width: 120px !important;">Name</th>
+                                <th class="stiky" style="width: 120px !important;">Nick Name</th>
+                                <th class="rotated stiky">Office</th>
+                                <th class="rotated stiky">Projects</th>
                                 <?php 
                                 
                                 $weeks=getWeeks(date('Y'));
@@ -87,7 +132,7 @@
                                 ?>   
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="myTable">
                             <?php
                                 include '../Inc/DBcon.php';
                                 $sql2="select * from staff";
@@ -101,11 +146,11 @@
                                         $projects=getStaffProjectsCount($row2['ID']);
                                         $name="'".$row2['nick_name']."'";
                                         echo '<tr class="name"  onclick="AllProjects('.$row2['ID'].','.$name.')"  data-toggle="modal" data-target="#modal-all-projects">
-                                                <td>'.$i.'</td>
-                                                <td >'.$row2['name'].'</td>
-                                                <td>'.$row2['nick_name'].' </td>
-                                                <td>'.$office['code'].'</td>
-                                                <td class="font-weight-bold">'.$projects.'</td>
+                                                <td class="stiky">'.$i.'</td>
+                                                <td class="stiky" style="width: 120px !important;">'.$row2['name'].'</td>
+                                                <td class="stiky" style="width: 120px !important;">'.$row2['nick_name'].' </td>
+                                                <td class="stiky">'.$office['code'].'</td>
+                                                <td class="stiky font-weight-bold">'.$projects.'</td>
                                                  ';
                                                  $weeks=getWeeks(date('Y'));
                                                 foreach($weeks as $week)
@@ -178,6 +223,25 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
+      <script>
+        function PrintDiv()
+        {
+            var restorepage = $('body').html();
+            var printcontent = $('#wtable').clone();
+            $('body').empty().html(printcontent);
+            window.print();
+            window.location.href = "resource-workload.php";
+        }
+        function FilterSearch(value)
+        {
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        }
+      </script>
   <?php include '../Inc/footer.php';?>
   <script src="../Inc/resource-workload.js"></script>
 </body>

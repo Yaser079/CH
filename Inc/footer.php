@@ -64,6 +64,7 @@
 <script src="../plugins/toastr/toastr.min.js"></script>
   <!-- pace-progress -->
   <script src="../plugins/pace-progress/pace.min.js"></script>
+  
 <script>
     $(function () {
       
@@ -80,5 +81,7 @@
         
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     
+   
+  
   });
 </script>

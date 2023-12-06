@@ -1,9 +1,9 @@
-<?php session_start(); include '../script/islogin.php';  $_SESSION['nav']='project-resource';?>
+<?php session_start(); include '../script/islogin.php';  $_SESSION['nav']='project-resource2'; ?>
 <!DOCTYPE html>
 <html>
 <head>
  
-  <title><?= $_SESSION['site']?> | Project Resourcing</title>
+  <title><?= $_SESSION['site']?> | Project Resourcing History</title>
   <?php include '../Inc/head.php';?>
  <style>
        thead
@@ -80,12 +80,12 @@ table {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="text-dark">Project Resourcing</h1>
+            <h1 class="text-dark">Project Resourcing History</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Project Resourcing</li>
+              <li class="breadcrumb-item active">Project Resourcing History</li>
             </ol>
           </div>
         </div>
@@ -210,7 +210,43 @@ table {
                             </select>
                             </div>
                         </div>
-                        
+                        <div class="col-md-2">
+                            <div class="form-group">
+                            <label>Year</label>
+                            <select class="form-control form-control-sm select2" id="hyear" style="width: 100%;" onchange="SetRFilter(this.id,this.value)">
+                                     
+                                    <?php
+                                            include '../Inc/DBcon.php';
+                                            $sql2="select * from year where status='1'";
+                                            $result=mysqli_query($conn,$sql2);
+                                            if(mysqli_num_rows($result) > 0 )
+                                            {
+                                                
+                                                while($row = mysqli_fetch_array($result))
+                                                {
+                                                    if(isset($_SESSION['hyear']))
+                                                    {
+                                                            if($_SESSION['hyear']==$row['ID'])
+                                                            {
+                                                                echo '<option value="'.$row['year'].'" selected>'.$row['year'].'</option>';
+                                                            }
+                                                            else
+                                                            {
+                                                                echo '<option value="'.$row['year'].'">'.$row['year'].'</option>';
+                                                            }
+                                                    }else
+                                                    {
+                                                        echo '<option value="'.$row['year'].'">'.$row['year'].'</option>';
+                                                    }
+                                                    
+                                                }
+                                            }
+                                            mysqli_close($conn);
+                                        ?>
+
+                            </select>
+                            </div>
+                        </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-danger btn-sm btn-block " style="margin-top: 31px;" onclick="ClearRFilter()"><i class="fa fa-trash" ></i> Clear</button>
                         </div>
@@ -364,93 +400,7 @@ table {
    
   </div>
   <!-- /.content-wrapper -->
-  <div class="modal fade show" id="modal-new-resource">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Manage Project Resource</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" id="resource-form">
-               
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" id="add-project-close" data-dismiss="modal">Close</button>
-              
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    
-    <div class="modal fade" id="hors-model">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Enter Hours</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" id="hour-form">
-               
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" id="close-hours" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onclick="UpdateHourse()">Update</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-      <!-- /.modal -->
-      <div class="modal fade" id="stage-model">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Project Stage</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" id="stage-form">
-                
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" id="close-stage" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onclick="UpdateStage()">Update</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-      <!-- /.modal --> 
-      <div class="modal fade" id="minus-model">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Hours to Minus</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" id="minus-form">
-                
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" id="close-minus" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onclick="UpdateMinus()">Update</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>            
+            
     <script>
     function FilterSearch(value)
     {
@@ -471,7 +421,7 @@ table {
         }
 </script>         
   <?php include '../Inc/footer.php';?>
-  <script src="../Inc/project-resource.js"></script>
+  <script src="../Inc/project-resource-history.js"></script>
  
 </body>
 </html>

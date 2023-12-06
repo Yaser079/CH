@@ -5,14 +5,57 @@
  
   <title><?= $_SESSION['site']?> | Weekly Resource</title>
   <?php include '../Inc/head.php';?>
-<style>
-td {
-         padding: 5px !important;
-      }
-      th{
-         padding: 5px  !important;
-      }
-      .narrow{width: 20px !important;}
+  <style>
+  thead
+{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: white;
+}
+  .stiky {
+  position: sticky;
+ left: 0;
+  z-index: 1;
+  background-color: white;
+ 
+}
+ td{width:50px !important;}
+td.stiky:nth-child(1), th.stiky:nth-child(1) {
+  left: 0px  ;
+}
+td.stiky:nth-child(2) , th.stiky:nth-child(2){
+  left: 20px;  
+}
+td.stiky:nth-child(3) , th.stiky:nth-child(3){
+  left: 55px;  
+}
+td.stiky:nth-child(4) , th.stiky:nth-child(4){
+  left: 155px;  
+}
+td.stiky:nth-child(5) , th.stiky:nth-child(5){
+  left: 190px;  
+}
+td.stiky:nth-child(6) , th.stiky:nth-child(6){
+  left: 215px;  
+}
+td.stiky:nth-child(7) , th.stiky:nth-child(7){
+  left: 240px;  
+}
+td.stiky:nth-child(8) , th.stiky:nth-child(8){
+  left: 270px;  
+}
+ 
+.table-responsive1 {
+  width: 100%;
+  overflow-x: scroll;
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+table {
+  width: 200%;
+}
 </style>
 </head>
 <body class="<?= $_SESSION['body'];?>" onload="WeeklyResourcingList()">
@@ -182,7 +225,7 @@ td {
             <div class="card-header">
                 <div class="d-flex justfiy-content-start">
                     <h3 class="card-title mr-4 d-flex align-self-center ">Project Resourcing for Week</h3>
-                    <select class="form-control form-control-sm select2" id="wweek" style="width: 150px;" onchange="SelectWeeklyResource(this.value)">
+                    <select class="form-control form-control-sm select2 " id="wweek" style="width: 150px;" onchange="SelectWeeklyResource(this.value)">
                              <option>Select Week</option>
                              <?php
                                 $weeks=getWeeks(date('Y'));
@@ -201,7 +244,8 @@ td {
                              ?>
                             
                     </select>  
-                    <button class="btn btn-light btn-sm float-right ml-2" onclick="PrintDiv()">Print</button>                           
+                    <button class="btn btn-light btn-sm  ml-2 mr-2" onclick="PrintDiv()">Print</button> 
+                    <input id="myInput" onkeyup="FilterSearch()" type="text" class="form-control form-control-sm d-flex align-self-center mr-2" style="width: 200px;" placeholder="Search..">                          
                 </div>
             </div>
             
@@ -553,12 +597,20 @@ td {
         function PrintDiv()
         {
             var restorepage = $('body').html();
-            var printcontent = $('#example1').clone();
+            var printcontent = $('#rtable').clone();
             $('body').empty().html(printcontent);
             window.print();
             window.location.href = "weekly-resource.php";
         }
-        
+        function FilterSearch(value)
+        {
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        }
       </script>
   <?php include '../Inc/footer.php';?>
   <script src="../Inc/weekly-resource2.js"></script>

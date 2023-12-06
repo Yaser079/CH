@@ -179,7 +179,7 @@ function getWeeks($year)
 {
     $weeks=array();
 
-$d=date("d-M", strtotime("first Monday of ".$year."-01"));
+$d=date("d-M-Y", strtotime("first Monday of ".$year."-01"));
   for($i=1; $i<=12;$i++)
   {
       $number = cal_days_in_month(CAL_GREGORIAN, $i, 2023);
@@ -193,7 +193,31 @@ $d=date("d-M", strtotime("first Monday of ".$year."-01"));
            array_push($weeks,$d);
 
            }
-            $d=date("d-M",strtotime("+1 day", strtotime($d)));
+            $d=date("d-M-Y",strtotime("+1 day", strtotime($d)));
+
+       }
+  }
+  return $weeks;
+}
+function getWeeks2()
+{
+    $weeks=array();
+    $d = date('d-M-Y', strtotime('first Monday of -1 month-01'));
+//$d=date("d-M", strtotime("first Monday of ".$year."-01"));
+  for($i=1; $i<=12;$i++)
+  {
+      $number = cal_days_in_month(CAL_GREGORIAN, $i, 2023);
+      $j=1;
+      for($j=1; $j<=$number;$j++)
+          {
+              $timestamp = strtotime($d);
+              $a=date("D", $timestamp);
+          if($a=="Mon" )
+          {
+           array_push($weeks,$d);
+
+           }
+            $d=date("d-M-Y",strtotime("+1 day", strtotime($d)));
 
        }
   }
@@ -430,6 +454,26 @@ function getStaffWeeklyHoliday($staff,$week)
     }
     mysqli_close($conn);
 }
+function getStaffMonthlyHoliday($staff,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from staff_holiday where staff_id='".$staff."' AND week like '%".$week."%' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    $hours=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        while($row2 = mysqli_fetch_array($result2))
+        {
+            $hours= $hours+$row2['hours'];
+        }
+        return $hours;
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
 function getOfficeWeeklyHoliday($office,$week)
 {
     include '../Inc/DBcon.php';
@@ -439,6 +483,42 @@ function getOfficeWeeklyHoliday($office,$week)
     {
         $row2 = mysqli_fetch_array($result2);
         return $row2['hours'];
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getOfficeMonthlyHoliday($office,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from office_holidays where office_id='".$office."' AND week like '%".$week."%' ; ";
+    $result2=mysqli_query($conn,$sql2);
+    $hours=0;
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        while($row2 = mysqli_fetch_array($result2))
+        {
+            $hours= $hours+$row2['hours'];
+        }
+        return $hours;
+    }
+    else
+    {
+        return '0';
+    }
+    mysqli_close($conn);
+}
+function getCurrentMonthLeavesOfStaff($sid,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select IFNULL(SUM(VACATION),0) as VACATION, IFNULL(SUM(GENERAL),0) AS GENERAL, IFNULL(SUM(MARKETING),0) AS MARKETING, IFNULL(SUM(TRAINING),0) AS TRAINING, IFNULL(SUM(OFFICE),0) AS OFFICE, IFNULL(SUM(MEDICAL),0) AS MEDICAL  from other_leave where week like '%".$week."%' AND staff_id='".$sid."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    if(mysqli_num_rows($result2) > 0 )
+    {
+        $row2 = mysqli_fetch_array($result2);
+        return $row2;
     }
     else
     {
@@ -490,6 +570,15 @@ function getCurrentWeekHoursOfStaff($sid,$week)
     return $row2['hours'];
     mysqli_close($conn);
 }
+function getCurrentmonthHoursOfStaff($sid,$week)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select IFNULL(SUM(hours),0) AS hours from resource_weeks where week like '%".$week."%' AND staff_id='".$sid."'; ";
+    $result2=mysqli_query($conn,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    return $row2['hours'];
+    mysqli_close($conn);
+}
 function getCurrentWeekLeavesOfStaff($sid,$week)
 {
     include '../Inc/DBcon.php';
@@ -509,7 +598,15 @@ function getCurrentWeekLeavesOfStaff($sid,$week)
 function getBaliResourceProject($pid)
 {
     include '../Inc/DBcon.php';
-    $sql2="select * from project_resource where pid='".$pid."' AND staff_id in ( select ID from staff where office='4'); ";
+    $sql2="select * from project_resource where pid='".$pid."' AND staff_id in ( select ID from staff where office='4')  ; ";
+    $result2=mysqli_query($conn,$sql2);
+     return mysqli_num_rows($result2);
+    mysqli_close($conn);
+}
+function getBaliAndHResourceProject($pid,$office)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from project_resource where pid='".$pid."' AND staff_id in ( select ID from staff where ".$office.")  ; ";
     $result2=mysqli_query($conn,$sql2);
      return mysqli_num_rows($result2);
     mysqli_close($conn);
@@ -726,6 +823,23 @@ function getCurrentWeekHoursOfProject($pid,$week)
     $result2=mysqli_query($conn,$sql2);
     $row2 = mysqli_fetch_array($result2);
     return $row2['hours'];
+    mysqli_close($conn);
+}
+function CheckYear($year)
+{
+    include '../Inc/DBcon.php';
+    $sql2="select * from year where year='".$year."' ;";
+    $result2=mysqli_query($conn,$sql2);
+  
+    return mysqli_num_rows($result2);
+    
+    mysqli_close($conn);
+}
+function InsertNewYear($year)
+{
+    include '../Inc/DBcon.php';
+    $sql2="insert into year (year,status) values ('".$year."','1') ;";
+    mysqli_query($conn,$sql2);
     mysqli_close($conn);
 }
 ?>
