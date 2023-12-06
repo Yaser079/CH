@@ -27,7 +27,7 @@
         <th class="stiky " data-orderable="false">Resource</th>
         <?php 
         
-        $weeks=getWeeks2();
+        $weeks=getWeeks($_SESSION['hyear']);
             foreach($weeks as $week)
             {
                 echo '<th class="rotated text-left" data-orderable="false"> '.$week.' </th>';
@@ -98,7 +98,7 @@
                     <td class="stiky res-row font-weight-bold">'.$budgthour.'</td>
                     <td class="stiky font-weight-bold" class="res-row"> '.$resource.' </td>
                     ';
-                                    $weeks=getWeeks2();
+                                    $weeks=getWeeks($_SESSION['hyear']);
                                     foreach($weeks as $week)
                                     {
                                         if(getResourceStageWeek($row['ID'],$week)!="")
@@ -135,7 +135,7 @@
                                         <td  class="stiky"> </td>
                                         <td class="stiky">'.$staffHours.'</td>
                                         <td  class="stiky"> '.$res['nick_name'].' </td>';
-                                        $weeks=getWeeks2();
+                                        $weeks=getWeeks($_SESSION['hyear']);
                                         foreach($weeks as $week)
                                         {
                                             $wheekHours=getResourceWeek($row['ID'],$res['ID'],$week);

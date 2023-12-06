@@ -3,7 +3,7 @@
 <html>
 <head>
  
-  <title><?= $_SESSION['site']?> | Support Dashboard</title>
+  <title><?= $_SESSION['site']?> | Support Admin</title>
   <?php include '../Inc/head.php';?>
 
 </head>
@@ -23,12 +23,45 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="text-dark">Support Dashboard</h1>
+          <div class="d-flex justfiy-content-start">
+            <h1 class="text-dark mr-2">Support Admin</h1>
+            <select class="form-control form-control-sm select2" id="soffice" style="width: 150px;" onchange="SelectSFilter(this.id,this.value)">
+                    <option value="all">All Office</option>
+                    <?php
+                        include '../Inc/DBcon.php';
+                        $sql2="select * from office where status='1' and ID in (2,4)";
+                        $result=mysqli_query($conn,$sql2);
+                        if(mysqli_num_rows($result) > 0 )
+                        {
+                            
+                            while($row = mysqli_fetch_array($result))
+                            {
+                                if(isset($_SESSION['soffice']))
+                                {
+                                        if($_SESSION['soffice']==$row['ID'])
+                                        {
+                                            echo '<option value="'.$row['ID'].'" selected>'.$row['name'].'</option>';
+                                        }
+                                        else
+                                        {
+                                            echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                        }
+                                }else
+                                {
+                                    echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                }
+                                
+                            }
+                        }
+                        mysqli_close($conn);
+                    ?>
+            </select>
+          </div>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active"> Support Dashboard</li>
+              <li class="breadcrumb-item active"> Support Admin</li>
             </ol>
           </div>
         </div>

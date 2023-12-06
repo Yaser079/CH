@@ -60,6 +60,8 @@
       .rotated {
         writing-mode: tb-rl;
         transform: rotate(-180deg);
+        padding: 0;
+        margin: 0;
     }
     .week:hover{
         cursor: pointer;
@@ -101,6 +103,13 @@
    .res-row{
     background-color: lightgray;
    }
-  
+   label.required:after {
+	content: ' *';
+	color: red;
+    font-size:16px;
+  }
+  .narrow{
+    width: fit-content !important;
+  }
     </style>
   

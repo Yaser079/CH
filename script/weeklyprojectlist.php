@@ -3,7 +3,7 @@ $id=$_GET['id'];
 $week=$_SESSION['weekly-resource'];
 ?>
 <div class="table-responsive">
-    <table id="exmaple1" class="table table-bordered table-hover text-center weekly-table">
+    <table id="exmaple1" class="table table-bordered table-hover text-center weekly-table2">
             <thead>
             <tr>
                 <th>ID</th>

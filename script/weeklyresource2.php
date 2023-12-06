@@ -1,6 +1,6 @@
 <?php session_start(); include 'functions.php';?>
-<div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-hover text-center weekly-table" style="font-size: 12px !important;">
+<div class="table-responsive1">
+                    <table id="rtable" class="table table-bordered table-hover text-center weekly-table" style="font-size: 12px !important;">
                         <thead>
                             
                         <?php 
@@ -17,7 +17,7 @@
                             {
                                 $i=1;
                                 echo '<tr>
-                                <th colspan="16" style="  border: none;"> </th>';
+                                <th colspan="15" style="  border: none;"> </th>';
                                 while($row2 = mysqli_fetch_array($projects))
                                 {
                                     $country=getCountry($row2['country_id']);
@@ -28,21 +28,20 @@
                         ?>
                         
                         <tr>
-                            <th class="narrow font-weight-bold" data-orderable="false" rowspan="4"  >ID</th>
-                            <th class="  narrow text-left font-weight-bold" rowspan="4"  >Name</th>
-                            <th class="  narrow font-weight-bold" rowspan="4">Office</th>
-                            <th class="rotated  narrow font-weight-bold" rowspan="4">Projects</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">Capacity</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">Utilisation</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">Utilisation (including leave)</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">VACATION / HOLIDAY</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">GENERAL OFFICE</th>
-                            <th class="rotated  narrow font-weight-bold" rowspan="4">MARKETING / BD</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">TRAINING/ RESERVIST</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">OFFICE HOLIDAY</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">PUBLIC HOLIDAY</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">MEDICAL LEAVE/<br>HOSPITALIZATION LEAVE</th>
-                            <th class="rotated   narrow font-weight-bold" rowspan="4">ANNUAL LEAVE/BIRTHDAY LEAVE<br>/CHILD CARE/UNPAID LEAVE</th>
+                            <th class="narrow font-weight-bold stiky" data-orderable="false" rowspan="4"  >ID</th>
+                            <th class="narrow font-weight-bold stiky" data-orderable="false" rowspan="4"  >View</th>
+                            <th class="  narrow text-left font-weight-bold stiky" rowspan="4"  >Name</th>
+                            <th class="  narrow font-weight-bold stiky" rowspan="4">Office</th>
+                            <th class="rotated text-left stiky narrow font-weight-bold" rowspan="4">Projects</th>
+                            <th class="rotated text-left stiky  narrow font-weight-bold" rowspan="4">Capacity</th>
+                            <th class="rotated text-left stiky  narrow font-weight-bold" rowspan="4">Utilisation</th>
+                            <th class="rotated text-left stiky  narrow font-weight-bold" rowspan="4">Utilisation (including leave)</th>
+                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">VACATION / HOLIDAY</th>
+                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">GENERAL OFFICE</th>
+                            <th class="rotated text-left  narrow font-weight-bold" rowspan="4">MARKETING / BD</th>
+                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">PUBLIC HOLIDAY</th>
+                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">MEDICAL LEAVE/<br>HOSPITALIZATION LEAVE</th>
+                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">ANNUAL LEAVE/BIRTHDAY LEAVE<br>/CHILD CARE/UNPAID LEAVE</th>
                             <th class="  narrow font-weight-bold" rowspan="2">REMARKS</th>
                                 <?php 
                                 
@@ -55,7 +54,7 @@
                                         while($row2 = mysqli_fetch_array($projects))
                                         {
                                             $country=getCountry($row2['country_id']);
-                                                echo '<th class="rotated  narrow font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['name'].'</th>';
+                                                echo '<th class="rotated text-left  narrow font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['name'].'</th>';
                                         }
                                     }
                                     mysqli_close($conn);
@@ -132,7 +131,7 @@
                                 {
                                     $i=1;
                                     echo '<tr> 
-                                     <th class="narrow text-right" data-orderable="false" colspan="16">All Office Total Hours</th>';
+                                     <th class="narrow text-right" data-orderable="false" colspan="15">All Office Total Hours</th>';
                                     while($row2 = mysqli_fetch_array($projects))
                                     {
                                         $hours=getCurrentWeekHoursOfProject($row2["ID"],$_SESSION['weekly-resource']);
@@ -150,7 +149,7 @@
                                 mysqli_close($conn);
                             ?>
                     </thead>
-                    <tbody>
+                    <tbody id="myTable">
                         <?php
                             include '../Inc/DBcon.php';
                              $filter='';
@@ -188,18 +187,18 @@
                                     $week="'".$_SESSION['weekly-resource']."'";
                                     $cp=(40-((int)$hours+$total))>0?"#BDD7EE":"#FFACA7";
                                     echo '<tr>
-                                                <td>'.$ii.'</td>
-                                                <td class="text-left ">'.$row2['nick_name'].'</td>
-                                                <td>'.$office['code'].'</td>
-                                                <td class="font-weight-bold">'.$projectsCount.' </td>
-                                                <td class="font-weight-bold" style="background-color: '.$cp.'">'.(40-((int)$hours+$total)).'</td>
-                                                <td class="font-weight-bold">'.(((int)$hours/40)*100).'% </td>
-                                                <td class="font-weight-bold">'.((((int)$hours+$total)/40)*100).'% </td>
+                                                <td class="stiky">'.$ii.'</td>
+                                                <td class="stiky"> <a href="javascript:void(0)" class="name" onclick="WeeklyReport('.$row2['ID'].','.$name.','.$week.')"  data-toggle="modal" data-target="#modal-weekly">
+                                                    <i class="nav-icon fas fa-eye"></i></a></td>
+                                                <td class="text-left stiky">'.$row2['nick_name'].'</td>
+                                                <td class="stiky">'.$office['code'].'</td>
+                                                <td class="stiky font-weight-bold ">'.$projectsCount.' </td>
+                                                <td class="stiky font-weight-bold" style="background-color: '.$cp.'">'.(40-((int)$hours+$total)).'</td>
+                                                <td class="stiky font-weight-bold">'.(((int)$hours/40)*100).'% </td>
+                                                <td class="stiky font-weight-bold">'.((((int)$hours+$total)/40)*100).'% </td>
                                                 <td class="week font-weight-bold" id="VACATION_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l1.'</td>
                                                 <td class="week font-weight-bold" id="GENERAL_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l2.'</td>
                                                 <td class="week font-weight-bold" id="MARKETING_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l3.'</td>
-                                                <td class="week font-weight-bold" id="TRAINING_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l4.'</td>
-                                                <td class="week font-weight-bold" id="OFFICE_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l5.'</td>
                                                 <td class="font-weight-bold">'.$publicHlidy.'</td>
                                                 <td class="week font-weight-bold" id="MEDICAL_'.$_SESSION['weekly-resource'].'" onclick="NewLeves('.$row2['ID'].',this.id)"  data-toggle="modal" data-target="#modal-hour">'.$l6.'</td>
                                                 <td class="font-weight-bold">'.$anualHolidy.'</td>

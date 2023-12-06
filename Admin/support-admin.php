@@ -3,7 +3,7 @@
 <html>
 <head>
  
-  <title><?= $_SESSION['site']?> | Support Admin</title>
+  <title><?= $_SESSION['site']?> | Support Dashboard</title>
   <?php include '../Inc/head.php';?>
 
 </head>
@@ -23,13 +23,49 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6 d-flex justify-content start">
-            <h1 class="text-dark mr-2">Support Admin</h1>
+            <h1 class="text-dark mr-2">Support Dashboard</h1>
+            <select class="form-control form-control-sm select2 mr-2" id="Aoffice" style="width: 150px;" onchange="SelectMFilter(this.id,this.value)">
+                    <option value="all">All Office</option>
+                    <?php
+                        include '../Inc/DBcon.php';
+                        $sql2="select * from office where status='1' and ID in (2,4)";
+                        $result=mysqli_query($conn,$sql2);
+                        if(mysqli_num_rows($result) > 0 )
+                        {
+                            
+                            while($row = mysqli_fetch_array($result))
+                            {
+                                if(isset($_SESSION['Aoffice']))
+                                {
+                                        if($_SESSION['Aoffice']==$row['ID'])
+                                        {
+                                            echo '<option value="'.$row['ID'].'" selected>'.$row['name'].'</option>';
+                                        }
+                                        else
+                                        {
+                                            echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                        }
+                                }else
+                                {
+                                    echo '<option value="'.$row['ID'].'">'.$row['name'].'</option>';
+                                }
+                                
+                            }
+                        }
+                        mysqli_close($conn);
+                    ?>
+            </select>
             <select class="form-control form-control-sm select2" id="Amanager" style="width: 150px;" onchange="SelectMFilter(this.id,this.value)">
                               
                              <option value="all">All Manager</option>
                              <?php
                                         include '../Inc/DBcon.php';
-                                        $sql2="select * from staff where status='1' AND role_id='1';";
+                                        $filter=" AND office in (2,4)";
+                                        if(isset($_SESSION['Aoffice']) && $_SESSION['Aoffice']!="all")
+                                        {
+                                          $filter=" AND  office='".$_SESSION['Aoffice']."' ";
+                                        }
+                                        $sql2="select * from staff where status='1' AND role_id='1' ".$filter.";";
                                         $result=mysqli_query($conn,$sql2);
                                         if(mysqli_num_rows($result) > 0 )
                                         {
@@ -60,7 +96,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Support Admin</li>
+              <li class="breadcrumb-item active">Support Dashboard</li>
             </ol>
           </div>
         </div>
@@ -80,7 +116,7 @@
               <div id="chartContainer3" class="border shadow"  style="height: 250px; width: 100%;"></div>             
           </div>
           <div class="col-md-3  ">
-          <div class="card card-primary card-tabs" style="height: 250px; width: 100%; overflow-y:auto;  overflow-x: hidden;">
+          <div class="card card-primary card-tabs" style="height: 250px; width: 100%;">
               <div class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                   <li class="nav-item">
@@ -93,108 +129,13 @@
                 </ul>
               </div>
               <div class="card-body p-2">
+              <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 sb" id="s7day" onclick="FilterDaysS(7,this.id)">7 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 sb" id="s30day" onclick="FilterDaysS(30,this.id)">30 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 sb" id="s90day" onclick="FilterDaysS(90,this.id)">90 Days</button>
+                </div>
                 <div class="tab-content" id="custom-tabs-one-tabContent">
-                  <div class="tab-pane fade show active p-0" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                  <?php
-                        include '../Inc/DBcon.php';
-                        $sql2="select * from staff where office='4';";
-                        $result=mysqli_query($conn,$sql2);
-                        if(mysqli_num_rows($result) > 0 )
-                        {
-                          $array= array();
-                            while($row2 = mysqli_fetch_array($result))
-                            {
-                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
-                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
-                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $l1=$l2=$l3=$l4=$l5=$l6=0;
-                              $remarks='';
-                              if($otherLeaves!=0)
-                              {
-                                  $l1=$otherLeaves['VACATION'];
-                                  $l2=$otherLeaves['GENERAL'];
-                                  $l3=$otherLeaves['MARKETING'];
-                                  $l4=$otherLeaves['TRAINING'];
-                                  $l5=$otherLeaves['OFFICE'];
-                                  $l6=$otherLeaves['MEDICAL'];
-                                  $remarks=$otherLeaves['REMARKS'];
-                              }
-                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                              if(((int)$hours+$total)<40)
-                               {
-                                $array+=[$row2['nick_name']=> (100-((((int)$hours+$total)/40)*100))];
-                               }
-                              
-                            }
-                            arsort($array);
-                            foreach($array as $key => $val)
-                            {
-                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
-                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
-                                        <div class="progress-group" style="width: 100%;padding:0px">
-                                          <div class="progress progress-md">
-                                            <div class="progress-bar bg-success" style="width: '.$val.'% ;">'.$val.'% available</div>
-                                          </div>
-                                        </div>
-                                    </div>';
-                            }
-                            
-                        }
-                        mysqli_close($conn);
-                        ?>   
-                </div>
-                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                  <?php
-                        include '../Inc/DBcon.php';
-                        $sql2="select * from staff where office='4';";
-                        $result=mysqli_query($conn,$sql2);
-                        if(mysqli_num_rows($result) > 0 )
-                        {
-                          $array= array();
-                            while($row2 = mysqli_fetch_array($result))
-                            {
-                              $hours= getCurrentWeekHoursOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $publicHlidy=getOfficeWeeklyHoliday($row2['office'],$_SESSION['current-week']);
-                              $anualHolidy=getStaffWeeklyHoliday($row2['ID'],$_SESSION['current-week']);
-                              $otherLeaves=getCurrentWeekLeavesOfStaff($row2['ID'],$_SESSION['current-week']);
-                              $l1=$l2=$l3=$l4=$l5=$l6=0;
-                              $remarks='';
-                              if($otherLeaves!=0)
-                              {
-                                  $l1=$otherLeaves['VACATION'];
-                                  $l2=$otherLeaves['GENERAL'];
-                                  $l3=$otherLeaves['MARKETING'];
-                                  $l4=$otherLeaves['TRAINING'];
-                                  $l5=$otherLeaves['OFFICE'];
-                                  $l6=$otherLeaves['MEDICAL'];
-                                  $remarks=$otherLeaves['REMARKS'];
-                              }
-                              $total=$l1+$l2+$l3+$l4+$l5+$l6+$publicHlidy+$anualHolidy;
-                              if(((int)$hours+$total)>40)
-                               {
-                                $array+=[$row2['nick_name']=> (((((int)$hours+$total)/40)*100))];
-                               }
-                              
-                            }
-                            arsort($array);
-                            foreach($array as $key => $val)
-                            {
-                              echo '<div class="d-flex justify-content-start" style="height: 20px;">
-                                        <p style="width: 100px; text-align:right;margin-right:10px; padding:0px">'.$key.'</p>
-                                        <div class="progress-group" style="width: 100%;padding:0px">
-                                          <div class="progress progress-md">
-                                            <div class="progress-bar bg-danger" style="width: '.$val.'% ;">'.$val.'% Working</div>
-                                          </div>
-                                        </div>
-                                    </div>';
-                            }
-                            
-                        }
-                        mysqli_close($conn);
-                        ?> 
-                       
-                </div>
+                
                   
                 </div>
               </div>
@@ -373,7 +314,12 @@
             {
               $filter=" AND ID='".$_SESSION['Amanager']."' ";
             }
-            $sql2="select * from staff where role_id='1' ".$filter." ;";
+            $filter3=" office in (2,4) ";
+            if( isset($_SESSION['Aoffice']) && $_SESSION['Aoffice']!='all')
+            {
+              $filter3=" office='".$_SESSION['Aoffice']."' ";
+            }
+            $sql2="select * from staff where role_id='1' ".$filter." AND ".$filter3." ;";
             $staffresult=mysqli_query($conn,$sql2);
             if(mysqli_num_rows($staffresult) > 0 )
             {
@@ -387,7 +333,7 @@
                      
                     while($prorow = mysqli_fetch_array($proresult))
                       {
-                         if(getBaliResourceProject($prorow['ID']))
+                         if(getBaliAndHResourceProject($prorow['ID'],$filter3))
                          {
                            $pro=$pro+1;
                          }
@@ -429,6 +375,11 @@
                                         <tbody>
                                         <?php
                                             include '../Inc/DBcon.php';
+                                            $filter3=" office in (2,4) ";
+                                            if( isset($_SESSION['Aoffice']) && $_SESSION['Aoffice']!='all')
+                                            {
+                                              $filter3=" office='".$_SESSION['Aoffice']."' ";
+                                            }
                                             $sql2="select * from projects where manager_id='".$staffrow['ID']."' ;";
                                             $result=mysqli_query($conn,$sql2);
                                             if(mysqli_num_rows($result) > 0 )
@@ -436,7 +387,7 @@
                                                     $i=1;
                                                 while($row = mysqli_fetch_array($result))
                                                 {  
-                                                  if(getBaliResourceProject($row['ID']))
+                                                  if(getBaliAndHResourceProject($row['ID'],$filter3))
                                                   {
                                                     $sql2="select * from project_resource where pid='".$row['ID']."';";
                                                     $result0=mysqli_query($conn,$sql2);
@@ -547,12 +498,21 @@ window.onload = function () {
             }
             $sql2="select * from country where status='1'";
             $result=mysqli_query($conn,$sql2);
+            $array2= array();
             if(mysqli_num_rows($result) > 0 )
             {
                 
                 while($row = mysqli_fetch_array($result))
                 {
-                    echo '{ label: "'.$row['name'].'", y: '.getProjectsByCountry($row['ID'],$filter).' },';
+                  if(getProjectsByCountry($row['ID'],$filter)>0)
+                  {
+                    $array2+=[$row['name']=> getProjectsByCountry($row['ID'],$filter)];
+                  }
+                    //echo '{ label: "'.$row['name'].'", y: '.getProjectsByCountry($row['ID'],$filter).' },';
+                }
+                foreach($array2 as $key => $val)
+                {
+                  echo '{ label: "'.$key.'", y: '.$val.' },';
                 }
             }
             mysqli_close($conn);
@@ -583,12 +543,21 @@ var options2 = {
             }
             $sql2="select * from staff where role_id='1' ".$filter."";
             $result=mysqli_query($conn,$sql2);
+            $array2= array();
             if(mysqli_num_rows($result) > 0 )
             {
                 
                 while($row = mysqli_fetch_array($result))
                 {
-                    echo '{ label: "'.$row['nick_name'].'", y: '.getBaliProjects($row['ID']).' },';
+                  if(getBaliProjects($row['ID'])>0)
+                  {
+                    $array2+=[$row['nick_name']=> getBaliProjects($row['ID'])];
+                  }
+                  //  echo '{ label: "'.$row['nick_name'].'", y: '.getBaliProjects($row['ID']).' },';
+                }
+                foreach($array2 as $key => $val)
+                {
+                  echo '{ label: "'.$key.'", y: '.$val.' },';
                 }
             }
             mysqli_close($conn);
@@ -619,12 +588,21 @@ var options3 = {
             }
             $sql2="select * from project_phase ;";
             $result=mysqli_query($conn,$sql2);
+            $array2= array();
             if(mysqli_num_rows($result) > 0 )
             {
                 
                 while($row = mysqli_fetch_array($result))
                 {
-                    echo '{ label: "'.$row['short_name'].'", y: '.getBaliProjectsByStage($row['ID'],$filter).' },';
+                  if(getBaliProjectsByStage($row['ID'],$filter)>0)
+                  {
+                    $array2+=[$row['short_name']=> getBaliProjectsByStage($row['ID'],$filter)];
+                  }
+                  //  echo '{ label: "'.$row['short_name'].'", y: '.getBaliProjectsByStage($row['ID'],$filter).' },';
+                }
+                foreach($array2 as $key => $val)
+                {
+                  echo '{ label: "'.$key.'", y: '.$val.' },';
                 }
             }
             mysqli_close($conn);

@@ -1,18 +1,36 @@
 <?php session_start(); include 'functions.php'; ?>
 <div class="card secondary" style="min-height:100%;">
-            <div class="card-header">
-              <h3 class="card-title ">Projects List</h3>
+<div class="card-header">
+                <div class="d-flex justify-content-between">
+                <h3 class="card-title d-flex align-self-center ">Projects List</h3>
+                  <div class="d-flex justify-content-end align-self-center">
+                    <input id="myInput" onkeyup="FilterSearch()" type="text" class="form-control form-control-sm d-flex align-self-center mr-2" style="width: 200px;" placeholder="Search..">
+                    <button class="btn btn-secondary btn-sm mt-2 mb-2 mr-2" onclick="PrintDiv()">Print</button>
+                    <button class="btn btn-primary btn-sm mt-2 mb-2" data-toggle="modal" data-target="#modal-avg">AVG Rate Calculator</button>
+                  </div>
+                </div>
+              
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 
-            <div class="table-responsive">
-              <table id="example1" class="table table-head-fixed table-bordered table-hover text-center" style="font-size: 14px;">
+            <div class="table-responsive1">
+              <table id="plist" class="table table-bordered table-hover text-center" style="font-size: 12px;">
               
                 <thead>
                 <tr>
-                  <th colspan="12"></th>
-                  
+                  <th class="stiky">ID</th>
+                  <th class=" stiky" data-orderable="false">Action</th>
+                  <th class="  stiky">Code</th>
+                  <th class="text-left stiky ">Project Name</th>
+                  <th class=" stiky">PM</th>
+                  <th class="  stiky">Status</th>
+                  <th class="rotated  stiky">Country</th>
+                  <th class="rotated  stiky">Hours</th>
+                  <th class="rotated  stiky">%Profit</th>
+                  <th class="rotated stiky ">AVG Rate</th>
+                  <th class="rotated  ">Current Stage</th>
+                  <th class="rotated  ">Deadline Week</th>
                   <?php
                     include '../Inc/DBcon.php';
                     $sql2="select * from project_phase";
@@ -22,38 +40,9 @@
                         
                         while($row = mysqli_fetch_array($result))
                         {
-                            echo ' <th  colspan="2" style="background-color:'.$row['color'].'">'.$row['short_name'].'</th>';
-                             
-                             
-                        }
-                    }
-                    mysqli_close($conn);
-                ?>
-              </tr>
-                <tr>
-                  <th >ID</th>
-                  <th  data-orderable="false">Action</th>
-                  <th>Project Number</th>
-                  <th >Project Name</th>
-                  <th>PM</th>
-                  <th class=" ">Status</th>
-                  <th class="rotated">Country</th>
-                  <th class="rotated">Hours</th>
-                  <th class="rotated">%Profit</th>
-                  <th class="rotated">AVG Rate</th>
-                  <th class="rotated">Current Stage</th>
-                  <th class="rotated">Deadline</th>
-                  <?php
-                    include '../Inc/DBcon.php';
-                    $sql2="select * from project_phase";
-                    $result=mysqli_query($conn,$sql2);
-                    if(mysqli_num_rows($result) > 0 )
-                    {
-                        
-                        while($row = mysqli_fetch_array($result))
-                        {
-                            echo ' <th  class="rotated"  data-orderable="false"> Hours</th>';
-                            echo ' <th  class="rotated "  data-orderable="false">Budget</th>';
+                         // echo ' <th  colspan="2" style="background-color:'.$row['color'].'">'.$row['short_name'].'</th>';
+                            echo ' <th  class="rotated" style="background-color:'.$row['color'].'"  data-orderable="false">'.$row['short_name'].' Hours</th>';
+                            echo ' <th  class="rotated " style="background-color:'.$row['color'].'" data-orderable="false">'.$row['short_name'].' Budget</th>';
                              
                         }
                     }
@@ -61,7 +50,7 @@
                 ?>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
                 <?php
                     include '../Inc/DBcon.php';
                     $filter="";
@@ -101,23 +90,23 @@
                             $hours=gethours($row2['ID']);
                             $status=getStatus($row2['status']);
                             $stage1=getStage($row2['stage']);
-                            echo'<tr style="background-color:'.$status['color'].'">
-                                    <td>'.$i.'</td>
-                                    <td>
+                            echo'<tr style="background-color: ">
+                                    <td class="stiky">'.$i.'</td>
+                                    <td class=" stiky">
                                     <a href="javascript:void(0)"   onclick="getproject('.$row2['ID'].')" data-toggle="modal" data-target="#modal-lg-edit"> <i class="nav-icon fas fa-edit text-secondary"></i></a> &nbsp;
                                     <a href="javascript:void(0)"   onclick="deleteProject('.$row2['ID'].')"><i class="nav-icon fas fa-trash text-danger"></i> </a> 
                                     </td>
-                                    <td>'.$row2['code'].'</td>
-                                    <td >'.$row2['name'].'</td>
-                                    <td>'.$pm['nick_name'].'</td>
-                                    <td  >'.$status['name'].'</td>
-                                    <td style="background-color:'.$country['color'].'">'.$country['tag'].'</td>
-                                    <td>'.$hours.'</td>
-                                    <td>'.$row2['profit'].'%</td>
-                                    <td  >'.$row2['avg_rate'].'</td>
+                                    <td class="  stiky">'.$row2['code'].'</td>
+                                    <td class=" stiky  text-left "><p style="width:170px !important; margin:0px;font-size:11px;font-weight:bold;">'.$row2['name'].'</p></td>
+                                    <td class=" stiky">'.$pm['nick_name'].'</td>
+                                    <td class=" stiky" style="font-size:10px;font-weight:bold;">'.$status['name'].'</td>
+                                    <td class=" stiky" style="background-color:'.$country['color'].'">'.$country['tag'].'</td>
+                                    <td class=" stiky">'.$hours.'</td>
+                                    <td class=" stiky"> '.$row2['profit'].'%</td>
+                                    <td class=" stiky" >'.$row2['avg_rate'].'</td>
                                     
-                                    <td style="background-color:'.$stage1['color'].'">'.$stage1['short_name'].'</td>
-                                    <td  >'.$row2['deadline'].'</td> 
+                                    <td class=" " style="background-color:'.$stage1['color'].'">'.$stage1['short_name'].'</td>
+                                    <td class=" " >'.$row2['deadline'].'</td> 
                                   ';
                                   $sql2="select * from project_phase";
                                     $result3=mysqli_query($conn,$sql2);

@@ -52,6 +52,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item ">
+            <a href="resorcing-history.php" class="nav-link <?= $_SESSION['nav']=='project-resource2'? 'active': '';?>"> 
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Project Resourcing History
+              </p>
+            </a>
+          </li>
           <?php } if($_SESSION['role']>=1){ ?>
           <li class="nav-item ">
             <a href="weekly-resource.php" class="nav-link <?= $_SESSION['nav']=='weekly'? 'active': '';?>"> 
@@ -100,18 +108,18 @@
           <?php } if($_SESSION['role']==1){ ?>
           <li class="nav-item ">
             <a href="support-dashboard.php" class="nav-link <?= $_SESSION['nav']=='support'? 'active': '';?>"> 
-              <i class="nav-icon fas fa-project-diagram"></i>
+              <i class="nav-icon fas fa-user-tie"></i>
               <p>
-                Support Dashboard
+                Support Admin
               </p>
             </a>
           </li>
           <?php } if($_SESSION['role']==1){ ?>
           <li class="nav-item ">
             <a href="support-admin.php" class="nav-link <?= $_SESSION['nav']=='support-admin'? 'active': '';?>"> 
-              <i class="nav-icon fas fa-user-tie"></i>
+              <i class="nav-icon fas fa-project-diagram"></i>
               <p>
-                Support Admin
+                Support Dashboard
               </p>
             </a>
           </li>

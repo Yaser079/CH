@@ -1,12 +1,12 @@
-<div class="table-responsive">
-    <table id="example1" class="table table-bordered table-hover text-center staff-list">
+<div class="table-responsive1">
+    <table id="wtable" class="table table-bordered table-hover text-center staff-list">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Nick Name</th>
-                <th class="rotated">Office</th>
-                <th class="rotated">Projects</th>
+                <th class="stiky">ID</th>
+                <th class="stiky" style="width: 120px !important;">Name</th>
+                <th class="stiky" style="width: 120px !important;">Nick Name</th>
+                <th class="rotated stiky">Office</th>
+                <th class="rotated stiky">Projects</th>
                 <?php 
                 include 'functions.php';
                 $weeks=getWeeks(date('Y'));
@@ -17,7 +17,7 @@
                 ?>   
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             <?php
                 $filter="";
                 if($_GET['id']>0)
@@ -36,11 +36,11 @@
                         $projects=getStaffProjectsCount($row2['ID']);
                         $name="'".$row2['nick_name']."'";
                         echo '<tr class="name"  onclick="AllProjects('.$row2['ID'].','.$name.')"  data-toggle="modal" data-target="#modal-all-projects">
-                                <td>'.$i.'</td>
-                                <td >'.$row2['name'].'</td>
-                                <td>'.$row2['nick_name'].' </td>
-                                <td>'.$office['code'].'</td>
-                                <td class="font-weight-bold">'.$projects.'</td>
+                                <td class="stiky">'.$i.'</td>
+                                <td class="stiky" style="width: 120px !important;">'.$row2['name'].'</td>
+                                <td class="stiky" style="width: 120px !important;">'.$row2['nick_name'].' </td>
+                                <td class="stiky">'.$office['code'].'</td>
+                                <td class="stiky font-weight-bold">'.$projects.'</td>
                                     ';
                                     $weeks=getWeeks(date('Y'));
                                 foreach($weeks as $week)

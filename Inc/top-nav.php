@@ -9,7 +9,7 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="javascript:void(0)" class="nav-link">Welcome back! <?= $_SESSION['name']?></a>
       </li>
-     
+       
     </ul>
 
     

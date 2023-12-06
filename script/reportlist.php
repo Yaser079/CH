@@ -19,6 +19,7 @@
                     include '../Inc/DBcon.php';
                     $filter="";
                     $filter2="";
+                    $filter3="1=1";
                     if(isset($_SESSION['SUfilter']) )
                     {
                         if( isset($_SESSION['smanager']) && $_SESSION['smanager']!='all')
@@ -28,6 +29,10 @@
                         if( isset($_SESSION['sregion']) && $_SESSION['sregion']!='all')
                         {
                           $filter2.=" AND country_id='".$_SESSION['sregion']."' ";
+                        }
+                        if( isset($_SESSION['soffice']) && $_SESSION['soffice']!='all')
+                        {
+                          $filter3=" office='".$_SESSION['soffice']."' ";
                         }
                     }
                     $sql2="select * from staff where role_id='1' ".$filter." ;";
@@ -43,7 +48,7 @@
                         {
                             while($row2 = mysqli_fetch_array($result2))
                             {
-                                if(getBaliResourceProject($row2['ID']))
+                                if(getBaliAndHResourceProject($row2['ID'],$filter3))
                                 {
                                 $pm=getManager($row2['manager_id']);
                                 $review=getProjectLatestReview($row2['ID']);
