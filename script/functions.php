@@ -636,7 +636,7 @@ function getProjectLatestReview($pid)
     }
     mysqli_close($conn);
 }
-function getBaliProjects($pmid)
+function getBaliProjects($pmid,$office)
 {
     include '../Inc/DBcon.php';
     $sql2="select * from projects where manager_id='".$pmid."'; ";
@@ -646,7 +646,7 @@ function getBaliProjects($pmid)
             $i=0;
         while($row2 = mysqli_fetch_array($result2))
         {
-            $sql2="select * from project_resource where pid='".$row2['ID']."' AND staff_id in ( select ID from staff where office='4'); ";
+            $sql2="select * from project_resource where pid='".$row2['ID']."' AND staff_id in ( select ID from staff where ".$office."); ";
             $result3=mysqli_query($conn,$sql2);
             if(mysqli_num_rows($result3))
             {
@@ -659,7 +659,7 @@ function getBaliProjects($pmid)
      return $i;
     mysqli_close($conn);
 }
-function getBaliProjectsByStage($sid,$manager)
+function getBaliProjectsByStage($sid,$manager,$office)
 {
     include '../Inc/DBcon.php';
     $sql2="select * from projects where stage='".$sid."' AND ".$manager."; ";
@@ -670,7 +670,7 @@ function getBaliProjectsByStage($sid,$manager)
             
         while($row2 = mysqli_fetch_array($result2))
         {
-            $sql2="select * from project_resource where pid='".$row2['ID']."' AND staff_id in ( select ID from staff where office='4'); ";
+            $sql2="select * from project_resource where pid='".$row2['ID']."' AND staff_id in ( select ID from staff where ".$office."); ";
             $result3=mysqli_query($conn,$sql2);
             if(mysqli_num_rows($result3))
             {
@@ -682,7 +682,7 @@ function getBaliProjectsByStage($sid,$manager)
      return $i;
     mysqli_close($conn);
 }
-function getProjectsByCountry($cid,$manger)
+function getProjectsByCountry($cid,$manger,$office)
 {
     include '../Inc/DBcon.php';
     $sql2="select * from projects where country_id='".$cid."' AND ".$manger." ";
@@ -693,7 +693,7 @@ function getProjectsByCountry($cid,$manger)
            
         while($row2 = mysqli_fetch_array($result2))
         {
-             if(getBaliResourceProject($row2['ID']))
+             if(getBaliAndHResourceProject($row2['ID'],$office))
              {
                 $pro++;
              }

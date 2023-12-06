@@ -13,6 +13,7 @@ function Reportinglist()
     xmlhttp.open("GET","../script/reportlist.php",true);
     xmlhttp.send();
 }
+Reportinglist();
 function Report(id)
 {
     var xmlhttp = new XMLHttpRequest();
