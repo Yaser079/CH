@@ -74,7 +74,7 @@
     <div class="card card-primary">
             <div class="card-header">
                 <div class="d-flex justfiy-content-start">
-                    <h3 class="card-title mr-4 d-flex align-self-center ">Projects under Bali Resource</h3>
+                    <h3 class="card-title mr-4 d-flex align-self-center ">Projects under Support Office</h3>
                     <select class="form-control form-control-sm select2  " id="smanager" style="width: 150px;" onchange="SelectSFilter(this.id,this.value)">
                               
                              <option value="all">All Manager</option>

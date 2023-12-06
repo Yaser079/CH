@@ -6,7 +6,7 @@ $time="";
 $array= array();
 $array2= array();
 ?>
-<div class="tab-pane fade show active p-0 " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab" style="height:200px ;overflow-y: auto; overflow-y:hidden;">
+<div class="tab-pane fade show active p-0 " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab" style="height:200px ;overflow-y: auto; overflow-y:auto;">
                   <?php
                         include '../Inc/DBcon.php';
                         $filter='1=1';
@@ -24,7 +24,7 @@ $array2= array();
                             {
                                 if($days==7)
                                 {
-                                    $time = date('d-M',strtotime('monday this week'));
+                                    $time = date('d-M-Y',strtotime('monday this week'));
                                     $hours= getCurrentWeekHoursOfStaff($row2['ID'], $time);
                                     $publicHlidy=getOfficeWeeklyHoliday($row2['office'], $time);
                                     $anualHolidy=getStaffWeeklyHoliday($row2['ID'], $time);
@@ -51,7 +51,7 @@ $array2= array();
                                 }
                                 else if($days==30)
                                 {
-                                    $time = date('M');
+                                    $time = date('M-Y');
                                     $hours= getCurrentmonthHoursOfStaff($row2['ID'], $time);
                                     $publicHlidy=getOfficeMonthlyHoliday($row2['office'], $time);
                                     $anualHolidy=getStaffMonthlyHoliday($row2['ID'], $time);
@@ -78,7 +78,7 @@ $array2= array();
                                    
                                 }
                                 else{
-                                    $time = date('M', strtotime('-1 month'));
+                                    $time = date('M-Y', strtotime('-1 month'));
                                     $hours= getCurrentmonthHoursOfStaff($row2['ID'], $time);
                                     $publicHlidy=getOfficeMonthlyHoliday($row2['office'], $time);
                                     $anualHolidy=getStaffMonthlyHoliday($row2['ID'], $time);
@@ -95,7 +95,7 @@ $array2= array();
                                        
                                     }
                                    
-                                    $time = date('M', strtotime('-2 month'));
+                                    $time = date('M-Y', strtotime('-2 month'));
                                     $hours=$hours+ getCurrentmonthHoursOfStaff($row2['ID'], $time);
                                     $publicHlidy=$publicHlidy+getOfficeMonthlyHoliday($row2['office'], $time);
                                     $anualHolidy=$anualHolidy+getStaffMonthlyHoliday($row2['ID'], $time);
@@ -110,7 +110,7 @@ $array2= array();
                                         $l6= $l6+$otherLeaves['MEDICAL'];
                                        
                                     }
-                                    $time = date('M', strtotime('-3 month'));
+                                    $time = date('M-Y', strtotime('-3 month'));
                                     $hours=$hours+ getCurrentmonthHoursOfStaff($row2['ID'], $time);
                                     $publicHlidy=$publicHlidy+getOfficeMonthlyHoliday($row2['office'], $time);
                                     $anualHolidy=$anualHolidy+getStaffMonthlyHoliday($row2['ID'], $time);
@@ -155,7 +155,7 @@ $array2= array();
                         
                         
                 </div>
-                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab" style="height:200px ;overflow-y: auto; overflow-y:auto;">
                   <?php
                         arsort($array2);
                             foreach($array2 as $key => $val)

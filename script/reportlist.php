@@ -19,7 +19,7 @@
                     include '../Inc/DBcon.php';
                     $filter="";
                     $filter2="";
-                    $filter3="1=1";
+                    $filter3="office in (2,4)";
                     if(isset($_SESSION['SUfilter']) )
                     {
                         if( isset($_SESSION['smanager']) && $_SESSION['smanager']!='all')

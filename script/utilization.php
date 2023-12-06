@@ -27,26 +27,26 @@ if(mysqli_num_rows($result2) > 0 )
         $totalManHours=0;
         if($days==7)
         {
-            $time = date('d-M',strtotime('monday this week'));
+            $time = date('d-M-Y',strtotime('monday this week'));
             $Officeholidays=getWeekOfficeHoliday($row2['ID'],$time);
             $weekHours=getProjectWeekHoursOfStaffOfficeOfWeek($time,$row2['ID']);
             $ActualManHours= $staffCount*40;
         }
         else if($days==30)
         {
-            $time = date('M');
+            $time = date('M-Y');
             $Officeholidays=getMonthOfficeHoliday($row2['ID'],$time);
             $weekHours=getProjectWeekHoursOfStaffOfficeOfMonth($time,$row2['ID']);
             $ActualManHours= $staffCount*160;
         }
         else{
-            $time = date('M', strtotime('-1 month'));
+            $time = date('M-Y', strtotime('-1 month'));
             $Officeholidays+=getMonthOfficeHoliday($row2['ID'],$time);
             $weekHours+=getProjectWeekHoursOfStaffOfficeOfMonth($time,$row2['ID']);
-            $time = date('M', strtotime('-2 month'));
+            $time = date('M-Y', strtotime('-2 month'));
             $Officeholidays+=getMonthOfficeHoliday($row2['ID'],$time);
             $weekHours+=getProjectWeekHoursOfStaffOfficeOfMonth($time,$row2['ID']);
-            $time = date('M', strtotime('-3 month'));
+            $time = date('M-Y', strtotime('-3 month'));
             $Officeholidays+=getMonthOfficeHoliday($row2['ID'],$time);
             $weekHours+=getProjectWeekHoursOfStaffOfficeOfMonth($time,$row2['ID']);
             $ActualManHours= $staffCount*480;
