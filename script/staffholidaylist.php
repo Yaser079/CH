@@ -4,15 +4,15 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th class="rotated">Name</th>
-            <th class="rotated">Office</th>
-            <th class="rotated">Total</th>
+            <th  >Name</th>
+            <th class="rotated"><div class="rotated" > Office </div></th>
+            <th class="rotated"><div class="rotated" > Total </div></th>
             <?php 
                 include 'functions.php';
                 $weeks=getWeeks(date('Y'));
                     foreach($weeks as $week)
                     {
-                        echo '<th class="rotated" data-orderable="false"> '.$week.' </th>';
+                        echo '<th  data-orderable="false"><div class="rotated" > '.$week.' </div></th>';
                     }
                 ?>
         </tr>

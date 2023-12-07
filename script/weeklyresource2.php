@@ -32,16 +32,16 @@
                             <th class="narrow font-weight-bold stiky" data-orderable="false" rowspan="4"  >View</th>
                             <th class="  narrow text-left font-weight-bold stiky" rowspan="4"  >Name</th>
                             <th class="  narrow font-weight-bold stiky" rowspan="4">Office</th>
-                            <th class="rotated text-left stiky narrow font-weight-bold" rowspan="4">Projects</th>
-                            <th class="rotated text-left stiky  narrow font-weight-bold" rowspan="4">Capacity</th>
-                            <th class="rotated text-left stiky  narrow font-weight-bold" rowspan="4">Utilisation</th>
-                            <th class="rotated text-left stiky  narrow font-weight-bold" rowspan="4">Utilisation (including leave)</th>
-                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">VACATION / HOLIDAY</th>
-                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">GENERAL OFFICE</th>
-                            <th class="rotated text-left  narrow font-weight-bold" rowspan="4">MARKETING / BD</th>
-                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">PUBLIC HOLIDAY</th>
-                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">MEDICAL LEAVE/<br>HOSPITALIZATION LEAVE</th>
-                            <th class="rotated text-left   narrow font-weight-bold" rowspan="4">ANNUAL LEAVE/BIRTHDAY LEAVE<br>/CHILD CARE/UNPAID LEAVE</th>
+                            <th class=" text-left stiky narrow font-weight-bold" rowspan="4"><div class="rotated">Projects</div></th>
+                            <th class=" text-left stiky  narrow font-weight-bold" rowspan="4"><div class="rotated">Capacity</div></th>
+                            <th class=" text-left stiky  narrow font-weight-bold" rowspan="4"><div class="rotated">Utilisation</div></th>
+                            <th class=" text-left stiky  narrow font-weight-bold" rowspan="4"><div class="rotated">Utilisation (including leave)</div></th>
+                            <th class=" text-left   narrow font-weight-bold" rowspan="4"><div class="rotated">VACATION / HOLIDAY</div></th>
+                            <th class=" text-left   narrow font-weight-bold" rowspan="4"><div class="rotated">GENERAL OFFICE</div></th>
+                            <th class=" text-left  narrow font-weight-bold" rowspan="4"><div class="rotated">MARKETING / BD</div></th>
+                            <th class=" text-left   narrow font-weight-bold" rowspan="4"><div class="rotated">PUBLIC HOLIDAY</div></th>
+                            <th class=" text-left   narrow font-weight-bold" rowspan="4"><div class="rotated">MEDICAL LEAVE/<br>HOSPITALIZATION LEAVE</div></th>
+                            <th class=" text-left   narrow font-weight-bold" rowspan="4"><div class="rotated">ANNUAL LEAVE/BIRTHDAY LEAVE<br>/CHILD CARE/UNPAID LEAVE</div></th>
                             <th class="  narrow font-weight-bold" rowspan="2">REMARKS</th>
                                 <?php 
                                 
@@ -54,7 +54,7 @@
                                         while($row2 = mysqli_fetch_array($projects))
                                         {
                                             $country=getCountry($row2['country_id']);
-                                                echo '<th class="rotated text-left  narrow font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['name'].'</th>';
+                                                echo '<th class=" narrow font-weight-bold" style="background-color:'.$country['color'].';"><div class="rotated">'.$row2['name'].'</div></th>';
                                         }
                                     }
                                     mysqli_close($conn);
@@ -72,7 +72,7 @@
                                     while($row2 = mysqli_fetch_array($projects))
                                     {
                                         $country=getCountry($row2['country_id']);
-                                            echo '<th class="rotated  font-weight-bold" style="background-color:'.$country['color'].';">'.$row2['code'].'</th>';
+                                            echo '<th class="  font-weight-bold" style="background-color:'.$country['color'].';"><div class="rotated">'.$row2['code'].'</div></th>';
                                     }
                                     echo '</tr>';
                                 }
@@ -95,7 +95,7 @@
                                         if($res)
                                         {
                                             $stage=getStage($res['stage_id']);
-                                            echo '<th class=" week"  id="'.$row2['ID'].'_'.$_SESSION['weekly-resource'].'" onclick="StageForm(this.id)" data-toggle="modal" data-target="#stage-model"  style="background-color:'.$stage['color'].';">'.$stage['short_name'].'</th>';
+                                            echo '<th class=" week"  id="'.$row2['ID'].'_'.$_SESSION['weekly-resource'].'" onclick="StageForm(this.id)" data-toggle="modal" data-target="#stage-model"  style="background-color:'.$stage['color'].';"><div class="rotated">'.$stage['short_name'].'</div></th>';
                                         }
                                         else
                                         {
@@ -118,7 +118,7 @@
                                     echo '<tr> <th class="narrow" data-orderable="false">Deadline</th>';
                                     while($row2 = mysqli_fetch_array($projects))
                                     {
-                                            echo '<th class="rotated week" id="'.$row2['ID'].'-D" onclick="FetchDeadline(this.id)"   data-orderable="false" data-toggle="modal" data-target="#deadline-model" > '.$row2['deadline'].'</th>';
+                                            echo '<th class=" week" id="'.$row2['ID'].'-D" onclick="FetchDeadline(this.id)"   data-orderable="false" data-toggle="modal" data-target="#deadline-model" ><div class="rotated"> '.$row2['deadline'].'</div></th>';
                                     }
                                     echo '</tr>';
                                 }

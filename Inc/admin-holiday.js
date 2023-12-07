@@ -98,3 +98,64 @@ function ClearHoliday(id)
             xmlhttp.open("GET","../script/removeholiday.php?id="+id,true);
             xmlhttp.send();
 }
+function AddHoliday()
+{
+    var date=document.getElementById("reservation").value;
+    var desc=document.getElementById("adesc").value;
+    var olist="";
+    var checkboxes = document.getElementsByClassName("stcheck");
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked == true) {
+               
+                olist+=checkboxes[i].value+" ";
+            }
+        }
+        
+    if(desc=="")
+    {
+        $("#adesc").focus();
+        toastr["error"]("Please enter Holiday Description.");
+          $("#adesc").addClass("is-invalid");
+    }
+ 
+    else if(date=="")
+    {
+        $("#reservation").focus();
+        toastr["error"]("Please select date.");
+          $("#reservation").addClass("is-invalid");
+    }
+    else if(olist=="")
+    {
+        
+        toastr["error"]("Please select office.");
+    }
+    else
+    {
+        var data = {Date:date,Des:desc,Office:olist};
+     
+		var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {     
+					     if(this.responseText==1)
+                         {
+                            toastr["success"]("New Holidays Added.");
+                            $("#adesc").removeClass("is-invalid");
+                            $("#adesc").val("");  
+                              activty();
+                              $("#close-holiday").click()
+                              window.location.href="admin-holiday.php";
+                         }
+                         else
+                         {
+                            toastr["error"]("Failed to add Holidays.");
+                         }
+                }
+            };
+ 
+            xmlhttp.open("POST","../script/Newholiday.php",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+			xmlhttp.send(JSON.stringify(data));
+    }
+}

@@ -374,10 +374,10 @@
                                             <th class="text-left">Name</th>
                                             <th>Resource</th>
                                             <?php 
-                                            $weeks=getWeeks(date('Y'));
+                                            $weeks=getWeeks2();
                                                 foreach($weeks as $week)
                                                 {
-                                                    echo '<th class="rotated"> '.$week.' </th>';
+                                                    echo '<th  ><div class="rotated" > '.$week.' </div></th>';
                                                 }
                                             ?>
                                         </tr>
@@ -425,7 +425,7 @@
                                                                 <td class="text-left">'.$prject['name'].'</td>
                                                                 <td>'.$resor['nick_name'].'</td>';
                                                               
-                                                                $weeks=getWeeks(date('Y'));
+                                                                $weeks=getWeeks2();
                                                                 foreach($weeks as $week)
                                                                 {
                                                                     
@@ -456,7 +456,9 @@
                                                                 }
                                                                 echo'</tr>';
                                                             }
-                                                            else if($resor['office']==2 || $resor['office']==4)
+                                                            
+                                                          }
+                                                          else if($resor['office']==2 || $resor['office']==4)
                                                             {
                                                               $prject=getProject($row['ID']);
                                                               $country=getCountry($prject['country_id']);
@@ -470,7 +472,7 @@
                                                                 <td class="text-left">'.$prject['name'].'</td>
                                                                 <td>'.$resor['nick_name'].'</td>';
                                                               
-                                                                $weeks=getWeeks(date('Y'));
+                                                                $weeks=getWeeks2();
                                                                 foreach($weeks as $week)
                                                                 {
                                                                     
@@ -501,7 +503,6 @@
                                                                 }
                                                                 echo'</tr>';
                                                             }
-                                                          }
                                                           
                                                           
                                                         }

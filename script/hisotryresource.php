@@ -20,17 +20,17 @@
         <th class="stiky">Code</th>
         <th data-orderable="false" class="stiky">Name</th>
         <th data-orderable="false" class="d-none">Name</th>
-        <th class="stiky rotated text-left" data-orderable="false">Country</th>
-        <th class="stiky rotated text-left" data-orderable="false">Remaining<br>Hours</th>
-        <th class="stiky rotated text-left" data-orderable="false">Hours to Minus</th>
-        <th class="stiky rotated text-left" data-orderable="false">Budget<br>Hours</th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Country</div></th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Remaining<br>Hours</div></th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Hours to Minus</div></th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Budget<br>Hours</div></th>
         <th class="stiky " data-orderable="false">Resource</th>
         <?php 
         
         $weeks=getWeeks($_SESSION['hyear']);
             foreach($weeks as $week)
             {
-                echo '<th class="rotated text-left" data-orderable="false"> '.$week.' </th>';
+                echo '<th class=" text-left" data-orderable="false"><div class="rotated"> '.$week.' </div></th>';
             }
         ?>
         </tr>

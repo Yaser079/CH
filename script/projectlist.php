@@ -20,17 +20,17 @@
                 <thead>
                 <tr>
                   <th class="stiky">ID</th>
-                  <th class=" stiky" data-orderable="false">Action</th>
+                  <th class=" stiky">Action</th>
                   <th class="  stiky">Code</th>
-                  <th class="text-left stiky ">Project Name</th>
+                  <th class="text-left stiky">Project Name</th>
                   <th class=" stiky">PM</th>
                   <th class="  stiky">Status</th>
-                  <th class="rotated  stiky">Country</th>
-                  <th class="rotated  stiky">Hours</th>
-                  <th class="rotated  stiky">%Profit</th>
-                  <th class="rotated stiky ">AVG Rate</th>
-                  <th class="rotated  ">Current Stage</th>
-                  <th class="rotated  ">Deadline Week</th>
+                  <th class="  stiky"><div class="rotated">Country</div></th>
+                  <th class="  stiky"><div class="rotated">Hours</div></th>
+                  <th class="  stiky"><div class="rotated">%Profit</div></th>
+                  <th class=" stiky "><div class="rotated">AVG Rate</div></th>
+                  <th class="  "><div class="rotated">Current Stage</div></th>
+                  <th class="  "><div class="rotated">Deadline Week</div></th>
                   <?php
                     include '../Inc/DBcon.php';
                     $sql2="select * from project_phase";
@@ -41,8 +41,8 @@
                         while($row = mysqli_fetch_array($result))
                         {
                          // echo ' <th  colspan="2" style="background-color:'.$row['color'].'">'.$row['short_name'].'</th>';
-                            echo ' <th  class="rotated" style="background-color:'.$row['color'].'"  data-orderable="false">'.$row['short_name'].' Hours</th>';
-                            echo ' <th  class="rotated " style="background-color:'.$row['color'].'" data-orderable="false">'.$row['short_name'].' Budget</th>';
+                            echo ' <th  style="background-color:'.$row['color'].'"  ><div class="rotated">'.$row['short_name'].' Hours</div></th>';
+                            echo ' <th   style="background-color:'.$row['color'].'" ><div class="rotated">'.$row['short_name'].' Budget</div></th>';
                              
                         }
                     }

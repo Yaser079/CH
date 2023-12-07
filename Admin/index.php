@@ -69,59 +69,64 @@
     <!-- Main content -->
     <section class="content">
     <div class="row mt-2">
-        <div class="col-md-2 align-self-center">
-          <div class="info-box">
-              <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
-              <div class="info-box-content">
-                  <h6 class="info-box-text font-weight-bold">Resource</h6>
-                  <h2 class="info-box-number font-weight-bolder">
-                    <?php
-                      $filter='1=1';
-                      if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
-                      {
-                        $filter=" office='".$_SESSION['Doffice']."' ";
-                      }
-                    echo getResources($filter)?>
-                  </h2>
+        <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="info-box">
+                    <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
+                    <div class="info-box-content">
+                        <h6 class="info-box-text font-weight-bold">Resource</h6>
+                        <h4 class="info-box-number font-weight-bolder">
+                          <?php
+                            $filter='1=1';
+                            if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
+                            {
+                              $filter=" office='".$_SESSION['Doffice']."' ";
+                            }
+                          echo getResources($filter)?>
+                        </h4>
+                    </div>
+                </div> 
+                            
               </div>
-          </div> 
-          <div class="info-box">
-              <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
-              <div class="info-box-content">
-                  <h6 class="info-box-text font-weight-bold">Live Projects</h6>
-                  <h2 class="info-box-number font-weight-bolder">
-                    <?php 
-                     $filter='1=1';
-                     if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
-                     {
-                       $filter=" office_id='".$_SESSION['Doffice']."' ";
-                     }
-                    echo getLiveProjects($filter)?>
-                  </h2>
+              <div class="col-md-6">
+                <div class="info-box">
+                    <span class="info-box-icon bg-primary"><i class="far fa-building"></i></span>
+                    <div class="info-box-content">
+                        <h6 class="info-box-text font-weight-bold">Live Projects</h6>
+                        <h4 class="info-box-number font-weight-bolder">
+                          <?php 
+                          $filter='1=1';
+                          if(isset($_SESSION['Doffice']) && $_SESSION['Doffice']!='all')
+                          {
+                            $filter=" office_id='".$_SESSION['Doffice']."' ";
+                          }
+                          echo getLiveProjects($filter)?>
+                        </h4>
+                    </div>
+                </div> 
               </div>
-          </div>             
-        </div>
-        <div class="col-md-4   ">
-          <div  class="border shadow p-2  bg-white rounded rounded-sm"  style="height: 300px; width: 100%;  ">
-            <h3 style="text-align: center;">RESOURCE UTILIZATION</h3>
-            <div style="margin-top: 20px;  " class="d-flex justify-content-center">
-              <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u7day" onclick="FilterDays(7,this.id)">7 Days</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u30day" onclick="FilterDays(30,this.id)">30 Days</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u90day" onclick="FilterDays(90,this.id)">90 Days</button>
-           </div>
-            <div class="d-flex justify-content-center">
-                    
-                <div id="some_element" class=" align-items-center " style="margin-top: 10px; "> </div>
+              <div class="col-md-12   mb-2">
+                <div  class="border shadow p-2  bg-white rounded rounded-sm"  style="height: 300px; width: 100%;  ">
+                  <h3 style="text-align: center;">RESOURCE UTILIZATION</h3>
+                  <div style="margin-top: 20px;  " class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u7day" onclick="FilterDays(7,this.id)">7 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u30day" onclick="FilterDays(30,this.id)">30 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary m-1 ub" id="u90day" onclick="FilterDays(90,this.id)">90 Days</button>
+                </div>
+                  <div class="d-flex justify-content-center">
+                          
+                      <div id="some_element" class=" align-items-center " style="margin-top: 10px; "> </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-          
-          
-          </div>
         </div>
-        <div class="col-md-3">
+        
+        <div class="col-md-4">
           <div    >
           
-            <div class="card card-primary card-tabs" style="height: 300px; width: 100%;">
+            <div class="card card-primary card-tabs" style="height: 405px; width: 100%;">
               <div class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                   <li class="nav-item">
@@ -153,8 +158,8 @@
             
           </div>                  
         </div>
-        <div class="col-md-3">
-            <div class="card card-primary" style=" height: 300px;">
+        <div class="col-md-4">
+            <div class="card card-primary" style=" height: 405px;">
               <div class="card-header">
                 <h3 class="card-title">Upcoming Holidays</h3>
                 <div class="card-tools">
@@ -181,27 +186,31 @@
                   {
                     $filter=" office_id='".$_SESSION['Doffice']."' ";
                   }
-                  $sql2="select * from office_holidays where ".$filter." order by week; ";
+                  $sql2="select * from office_holidays where ".$filter." order by date_des; ";
+                  
+                  $sql2="select * from holiday;";
                   $result=mysqli_query($conn,$sql2);
                   if(mysqli_num_rows($result) > 0 )
                   {
-                      
+                      $i=1;
                       while($row = mysqli_fetch_array($result))
-                      { $office=getOffice($row['office_id']);
-                        $dateTimestamp1 = strtotime($row['week']); 
-                        $dateTimestamp2 = strtotime($_SESSION['current-week']); 
-                          
-                        // Compare the timestamp date  
-                        if ($dateTimestamp1 > $dateTimestamp2) {
-                          echo '<tr>
-                                  <td>'.$row['description'].'</td>
-                                  <td>'.$row['week'].'</td>
-                                  <td>'.$office['code'].'</td>
-                                </tr>';
-                        }
-                          
+                      {
+                          $office=getOffice($row['office_id']);
+                          $dt=explode(" - ",$row['date_des']);
+                          $dateTimestamp1 = strtotime( $dt[0]); 
+                          $dateTimestamp2 = strtotime($_SESSION['current-week']); 
+                          if ($dateTimestamp1 > $dateTimestamp2) 
+                            {
+                              echo '<tr>
+                              <td>'.$row['description'].'</td>
+                              <td>'.$row['date_des'].'</td>
+                              <td>'.$office['code'].'</td>
+                               </tr>';
+                            }
+                        
                       }
                   }
+              
                   mysqli_close($conn);
                    
                   ?>

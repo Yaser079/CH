@@ -59,9 +59,10 @@
     }
       .rotated {
         writing-mode: tb-rl;
-        transform: rotate(-180deg);
+        transform: rotate(180deg);
         padding: 0;
         margin: 0;
+          
     }
     .week:hover{
         cursor: pointer;
