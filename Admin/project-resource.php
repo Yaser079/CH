@@ -21,7 +21,7 @@
  
 }
   
-td{width: fit-content !important;}
+td{min-width: 30px !important;}
  
 td.stiky:nth-child(2) , th.stiky:nth-child(2){
   left: 0px;  

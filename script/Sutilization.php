@@ -6,7 +6,7 @@ $time="";
 $array= array();
 $array2= array();
 ?>
-<div class="tab-pane fade show active p-0 " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab" style="height:200px ;overflow-y: auto; overflow-y:auto;">
+<div class="tab-pane fade show active p-0 " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab" style="height:300px ;overflow-y: auto; overflow-y:auto;">
                   <?php
                         include '../Inc/DBcon.php';
                         $filter='1=1';
@@ -155,7 +155,7 @@ $array2= array();
                         
                         
                 </div>
-                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab" style="height:200px ;overflow-y: auto; overflow-y:auto;">
+                  <div class="tab-pane fade p-0" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab" style="height:300px ;overflow-y: auto; overflow-y:auto;">
                   <?php
                         arsort($array2);
                             foreach($array2 as $key => $val)

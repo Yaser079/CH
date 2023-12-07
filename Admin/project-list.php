@@ -22,7 +22,7 @@
   background-color: white;
  
 }
- td{width: fit-content !important;}
+ td{min-width: 30px !important;}
 td.stiky:nth-child(1), th.stiky:nth-child(1) {
   left: 0px  ;
 }

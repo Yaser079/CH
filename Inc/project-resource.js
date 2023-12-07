@@ -120,7 +120,7 @@ function UpdateHourse()
             {
                 if (this.readyState == 4 && this.status == 200) 
                 {     
-					     if(this.responseText==1)
+					     if(this.responseText!=0)
                          {
                             toastr["success"](week+" Hours updated.");
                             $("#hours").removeClass("is-invalid");
@@ -128,7 +128,11 @@ function UpdateHourse()
                               activty();
                               document.getElementById(pid+"_"+sid+"_"+week).innerHTML=hours;
                               $("#close-hours").click()
-                              //projectResourcingList();
+                              const myArr = JSON.parse(this.responseText);
+                              console.log(myArr);
+                              $("#rh-"+pid).text(myArr['rh']);
+                              $("#bh-"+pid).text(myArr['bh']);
+                              $("#sh-"+pid+"-"+sid).text(myArr['sh']);
                          }
                          else
                          {

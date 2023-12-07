@@ -5,14 +5,14 @@
                 <th class="stiky">ID</th>
                 <th class="stiky" style="width: 120px !important;">Name</th>
                 <th class="stiky" style="width: 120px !important;">Nick Name</th>
-                <th class="rotated stiky">Office</th>
-                <th class="rotated stiky">Projects</th>
+                <th class=" stiky"  ><div class="rotated" >Office</div></th>
+                <th class=" stiky"  ><div class="rotated"  >Projects</div></th>
                 <?php 
                 include 'functions.php';
                 $weeks=getWeeks(date('Y'));
                     foreach($weeks as $week)
                     {
-                        echo '<th class="rotated"> '.$week.' </th>';
+                        echo '<th  data-orderable="false"><div class="rotated"> '.$week.' </div></th>';
                     }
                 ?>   
             </tr>

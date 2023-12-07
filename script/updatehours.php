@@ -21,7 +21,14 @@ else{
         
         $action=$_SESSION['name']." add ".$data->Hours." hours of ".$staff['nick_name']." in week ".$data->Week." in project ( ".$project['code']." -".$project['name']." ) .";
         create_log($_SESSION['uid'],$action);
-    	echo "1";
+        $project=getProject($data->Pid);
+        $staffHours=getStaffHours($data->Pid,$data->Sid);
+        $hours=gethours($data->Pid);
+        $budgthour=getbudgetHours($data->Pid);
+        $remaining=$hours-($budgthour+(int)$project['minus_hours']);
+        $data = [ 'rh' => $remaining, 'bh' => $budgthour ,'sh'=>$staffHours];
+        header('Content-type: application/json');
+        echo json_encode( $data );
 	}
     else
     {

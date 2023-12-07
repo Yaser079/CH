@@ -81,7 +81,16 @@
         
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     
-   
-  
+    
+    $('#reservation').daterangepicker({
+     
+      minDate:moment().startOf('isoWeek') ,
+      maxDate:  moment().clone().weekday(5), 
+        startDate: moment().startOf('isoWeek'),
+        endDate:  moment().clone().weekday(5),  
+    }) ;
+     
+     
   });
+ 
 </script>

@@ -20,17 +20,17 @@
         <th class="stiky">Code</th>
         <th data-orderable="false" class="stiky">Name</th>
         <th data-orderable="false" class="d-none">Name</th>
-        <th class="stiky rotated text-left" data-orderable="false">Country</th>
-        <th class="stiky rotated text-left" data-orderable="false">Remaining<br>Hours</th>
-        <th class="stiky rotated text-left" data-orderable="false">Hours to Minus</th>
-        <th class="stiky rotated text-left" data-orderable="false">Budget<br>Hours</th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Country</div></th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Remaining<br>Hours</div></th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Hours to Minus</div></th>
+        <th class="stiky  text-left" data-orderable="false"><div class="rotated">Budget<br>Hours</div></th>
         <th class="stiky " data-orderable="false">Resource</th>
         <?php 
         
         $weeks=getWeeks2();
             foreach($weeks as $week)
             {
-                echo '<th class="rotated text-left" data-orderable="false"> '.$week.' </th>';
+                echo '<th class=" text-left" data-orderable="false"><div class="rotated"> '.$week.' </div></th>';
             }
         ?>
         </tr>
@@ -93,9 +93,9 @@
                     <td class="stiky res-row font-weight-bold text-left"><div style="width:170px !important; margin:0px;font-size:11px;font-weight:bold;">'.$row['name'].'</div></td>
                      <td class="res-row font-weight-bold d-none">'.$row['name'].' '.$res.'</td>
                     <td class="stiky res-row font-weight-bold">'.$country['tag'].'</td>
-                    <td class="stiky res-row font-weight-bold">'.$remaining.' </td>
+                    <td class="stiky res-row font-weight-bold" id="rh-'.$row['ID'].'" >'.$remaining.' </td>
                     <td class="stiky week  font-weight-bold" onclick="MinusHours('.$row['ID'].')" data-toggle="modal" data-target="#minus-model">'.$row['minus_hours'].'</td>
-                    <td class="stiky res-row font-weight-bold">'.$budgthour.'</td>
+                    <td class="stiky res-row font-weight-bold" id="bh-'.$row['ID'].'" >'.$budgthour.'</td>
                     <td class="stiky font-weight-bold" class="res-row"> '.$resource.' </td>
                     ';
                                     $weeks=getWeeks2();
@@ -133,7 +133,7 @@
                                         <td  class="stiky"> </td>
                                         <td class="stiky" > </td>
                                         <td  class="stiky"> </td>
-                                        <td class="stiky">'.$staffHours.'</td>
+                                        <td class="stiky" id="sh-'.$row['ID'].'-'.$row2['staff_id'].'" sh="'.$staffHours.'">'.$staffHours.'</td>
                                         <td  class="stiky"> '.$res['nick_name'].' </td>';
                                         $weeks=getWeeks2();
                                         foreach($weeks as $week)
